@@ -36,4 +36,4 @@ Visit `/resume` and choose Backend Engineer, Software Engineer, or Full Stack En
 
 ## Deployment
 
-Set your production domain in `src/app/layout.tsx`, `src/app/sitemap.ts`, and `src/app/robots.ts`. Deploy to Vercel by importing the Git repository; no environment variables are required. Do not publish until placeholder contact links and `TODO:` content are replaced.
+Pushes to `main` are built as a static Next.js export and deployed automatically through GitHub Actions. The production site is available at [dannyportfolio.github.io](https://dannyportfolio.github.io).

@@ -2,10 +2,11 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://dannyportfolio.github.io"),
   title: { default: "Danny Fachrudin — Software Engineer", template: "%s | Danny Fachrudin" },
-  description: "Backend-focused software engineering portfolio for Danny Fachrudin.",
-  metadataBase: new URL("https://TODO-add-production-domain.example"),
-  openGraph: { title: "Danny Fachrudin — Software Engineer", description: "Reliable backend systems, scalable APIs, and production-ready software.", type: "website" },
+  description: "Portfolio of Danny Fachrudin, a Software Engineer focused on backend systems, product development, performance, and scalable software.",
+  openGraph: { title: "Danny Fachrudin — Software Engineer", description: "Backend systems, product development, performance, and scalable software.", type: "website" },
+  twitter: { card: "summary", title: "Danny Fachrudin — Software Engineer", description: "Backend systems, product development, performance, and scalable software." },
   robots: { index: true, follow: true },
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#050505" };

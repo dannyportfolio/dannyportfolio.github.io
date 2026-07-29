@@ -34,6 +34,12 @@ export function SiteHeader() {
     };
   }, []);
 
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
   function toggleTheme() {
     const next = !dark;
     setDark(next);
@@ -55,13 +61,13 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="nav-actions">
-          <button className="icon-button" onClick={toggleTheme} aria-label="Switch color theme">
+          <button className="icon-button" onClick={toggleTheme} aria-label={`Switch to ${dark ? "light" : "dark"} color theme`}>
             {dark ? "L" : "D"}
           </button>
           <Link href="/resume" className="resume-link">
             CV
           </Link>
-          <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="mobile-menu">
+          <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="mobile-menu" aria-label={`${open ? "Close" : "Open"} navigation menu`}>
             {open ? "Close" : "Menu"}
           </button>
         </div>

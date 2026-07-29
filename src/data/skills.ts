@@ -1,7 +1,7 @@
 export type SkillGroup = { title: string; skills: string[] };
 
 export const skillGroups: SkillGroup[] = [
-  { title: "Backend", skills: ["Node.js", "TypeScript", "Next.js Server", "NestJS", "ASP.NET (TODO: confirm)", "Golang (TODO: confirm)"] },
+  { title: "Backend", skills: ["Node.js", "TypeScript", "Next.js Server", "NestJS"] },
   { title: "Database", skills: ["PostgreSQL", "Prisma", "Supabase", "Redis", "Database indexing", "Query optimization"] },
   { title: "Infrastructure", skills: ["Vercel", "Railway", "GitHub Actions", "CI/CD", "Logging", "Monitoring", "Production debugging"] },
   { title: "Engineering", skills: ["API Design", "System Design", "Authentication & Authorization", "Performance Optimization", "Background Jobs", "Caching", "Testing", "Secure Data Handling"] },
