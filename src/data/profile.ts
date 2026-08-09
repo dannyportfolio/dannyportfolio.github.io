@@ -1,5 +1,5 @@
 export const profile = {
-  name: "Danny Fachrudin",
+  name: "Danial Fachrudin",
   role: "Software Engineer — Backend & Performance Focused",
   headline: "I build reliable backend systems, scalable APIs, and production-ready software with a strong focus on performance, maintainability, and real-world product impact.",
   shortBio: "Software Engineer focused on designing thoughtful server-side systems and making the operational details of software easier to reason about.",

@@ -1,4 +1,4 @@
-# Danny Fachrudin Portfolio
+# Danial Fachrudin Portfolio
 
 A fast, data-driven Next.js portfolio and ATS-friendly resume generator for a backend-focused software engineer.
 

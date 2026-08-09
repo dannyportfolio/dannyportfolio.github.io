@@ -3,10 +3,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dannyportfolio.github.io"),
-  title: { default: "Danny Fachrudin — Software Engineer", template: "%s | Danny Fachrudin" },
-  description: "Portfolio of Danny Fachrudin, a Software Engineer focused on backend systems, product development, performance, and scalable software.",
-  openGraph: { title: "Danny Fachrudin — Software Engineer", description: "Backend systems, product development, performance, and scalable software.", type: "website" },
-  twitter: { card: "summary", title: "Danny Fachrudin — Software Engineer", description: "Backend systems, product development, performance, and scalable software." },
+  title: { default: "Danial Fachrudin — Software Engineer", template: "%s | Danial Fachrudin" },
+  description: "Portfolio of Danial Fachrudin, a Software Engineer focused on backend systems, product development, performance, and scalable software.",
+  openGraph: { title: "Danial Fachrudin — Software Engineer", description: "Backend systems, product development, performance, and scalable software.", type: "website" },
+  twitter: { card: "summary", title: "Danial Fachrudin — Software Engineer", description: "Backend systems, product development, performance, and scalable software." },
   robots: { index: true, follow: true },
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#050505" };

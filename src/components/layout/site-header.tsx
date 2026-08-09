@@ -50,7 +50,7 @@ export function SiteHeader() {
   return (
     <header className={`site-header ${scrolled || open ? "is-scrolled" : ""}`}>
       <div className="container nav">
-        <Link href="/" className="brand" aria-label="DF. - Danny Fachrudin home">
+        <Link href="/" className="brand" aria-label="DF. - Danial Fachrudin home">
           DF<span>.</span>
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">

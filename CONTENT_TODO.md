@@ -1,4 +1,4 @@
-# Content checklist for Danny Fachrudin
+# Content checklist for Danial Fachrudin
 
 No professional facts are inferred in this project. Replace every `TODO:` value before publishing.
 
