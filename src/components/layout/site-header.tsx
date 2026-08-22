@@ -35,8 +35,14 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
     window.addEventListener("keydown", closeOnEscape);
+
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, []);
 
@@ -55,19 +61,33 @@ export function SiteHeader() {
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className={activeSection === link.section ? "is-active" : ""}>
+            <Link
+              key={link.href}
+              href={link.href}
+              className={activeSection === link.section ? "is-active" : ""}
+            >
               {link.label}
             </Link>
           ))}
         </nav>
         <div className="nav-actions">
-          <button className="icon-button" onClick={toggleTheme} aria-label={`Switch to ${dark ? "light" : "dark"} color theme`}>
+          <button
+            className="icon-button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${dark ? "light" : "dark"} color theme`}
+          >
             {dark ? "L" : "D"}
           </button>
           <Link href="/resume" className="resume-link">
             CV
           </Link>
-          <button className="menu-button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="mobile-menu" aria-label={`${open ? "Close" : "Open"} navigation menu`}>
+          <button
+            className="menu-button"
+            onClick={() => setOpen((current) => !current)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={`${open ? "Close" : "Open"} navigation menu`}
+          >
             {open ? "Close" : "Menu"}
           </button>
         </div>

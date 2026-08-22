@@ -16,7 +16,9 @@ export function ResumePrintContent() {
   return (
     <main className="print-page">
       <div className="print-toolbar">
-        <a className="button button-secondary" href={`/resume?role=${role}`}>Back to customizer</a>
+        <a className="button button-secondary" href={`/resume?role=${role}`}>
+          Back to customizer
+        </a>
         <PrintButton />
       </div>
       <ResumeDocument role={role} detailed={searchParams.get("mode") === "detailed"} />

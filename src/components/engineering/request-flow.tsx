@@ -1,4 +1,45 @@
 import { ScrollReveal } from "@/components/motion/scroll-reveal";
 
-const stages = ["Client", "API Gateway", "Authentication", "Business Logic", "Cache", "Database", "Queue", "Workers", "Observability"];
-export function RequestFlow() { return <section className="pipeline-section" id="philosophy"><div className="container"><div className="pipeline-heading"><p className="eyebrow">02 / Engineering philosophy</p><h2>How I think about<br /><em>backend systems.</em></h2><p>Good backend work makes complex flows understandable, observable, and safe to evolve.</p></div><div className="request-flow" aria-label="Illustrative backend request pipeline">{stages.map((stage, index) => <ScrollReveal key={stage} delay={index * 45} className="flow-stage"><span className="flow-number">{String(index + 1).padStart(2, "0")}</span><span>{stage}</span>{index < stages.length - 1 && <i aria-hidden>↓</i>}</ScrollReveal>)}</div><p className="illustrative-note">Illustrative system flow — a framework for explaining technical decisions, not a claim about a specific project.</p></div></section>; }
+const stages = [
+  "Client",
+  "API Gateway",
+  "Authentication",
+  "Business Logic",
+  "Cache",
+  "Database",
+  "Queue",
+  "Workers",
+  "Observability",
+];
+export function RequestFlow() {
+  return (
+    <section className="pipeline-section" id="philosophy">
+      <div className="container">
+        <div className="pipeline-heading">
+          <p className="eyebrow">02 / Engineering philosophy</p>
+          <h2>
+            How I think about
+            <br />
+            <em>backend systems.</em>
+          </h2>
+          <p>
+            Good backend work makes complex flows understandable, observable, and safe to evolve.
+          </p>
+        </div>
+        <div className="request-flow" aria-label="Illustrative backend request pipeline">
+          {stages.map((stage, index) => (
+            <ScrollReveal key={stage} delay={index * 45} className="flow-stage">
+              <span className="flow-number">{String(index + 1).padStart(2, "0")}</span>
+              <span>{stage}</span>
+              {index < stages.length - 1 && <i aria-hidden>↓</i>}
+            </ScrollReveal>
+          ))}
+        </div>
+        <p className="illustrative-note">
+          Illustrative system flow — a framework for explaining technical decisions, not a claim
+          about a specific project.
+        </p>
+      </div>
+    </section>
+  );
+}

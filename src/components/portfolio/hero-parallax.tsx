@@ -9,12 +9,25 @@ export function HeroParallax() {
       <div className="hero-glow" aria-hidden="true" />
       <div className="container hero-layout">
         <div className="hero-content">
-          <p className="eyebrow">Danial Fachrudin <span>—</span> Software Engineer</p>
-          <h1>Building Systems<br /><em>That Perform.</em></h1>
-          <p className="hero-parallax-copy">Software Engineer focused on backend architecture, scalable APIs, database performance, and reliable production systems.</p>
+          <p className="eyebrow">
+            Danial Fachrudin <span>—</span> Software Engineer
+          </p>
+          <h1>
+            Building Systems
+            <br />
+            <em>That Perform.</em>
+          </h1>
+          <p className="hero-parallax-copy">
+            Software Engineer focused on backend architecture, scalable APIs, database performance,
+            and reliable production systems.
+          </p>
           <div className="hero-actions">
-            <ButtonLink href="#projects">Explore projects <span aria-hidden="true">↓</span></ButtonLink>
-            <ButtonLink href="/resume/print" variant="secondary">Open CV <span aria-hidden="true">↗</span></ButtonLink>
+            <ButtonLink href="#projects">
+              Explore projects <span aria-hidden="true">↓</span>
+            </ButtonLink>
+            <ButtonLink href="/resume/print" variant="secondary">
+              Open CV <span aria-hidden="true">↗</span>
+            </ButtonLink>
           </div>
           <div className="hero-meta">
             <span>Backend Engineering · Product Development · Performance</span>
@@ -23,7 +36,13 @@ export function HeroParallax() {
         </div>
         <div className="hero-visual">
           <figure className="hero-portrait">
-            <Image src="/danny-fachrudin-profile.avif" alt="Danial Fachrudin, Software Engineer" fill priority sizes="(max-width: 800px) 86vw, 34vw" />
+            <Image
+              src="/danny-fachrudin-profile.avif"
+              alt="Danial Fachrudin, Software Engineer"
+              fill
+              priority
+              sizes="(max-width: 800px) 86vw, 34vw"
+            />
           </figure>
           <div className="hero-visual-caption">
             <span className="mono">Based in Indonesia</span>

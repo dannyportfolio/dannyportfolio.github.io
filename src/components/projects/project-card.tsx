@@ -1,7 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/data/projects";
 
-export function ProjectCard({ project, headingLevel = "h2" }: { project: Project; headingLevel?: "h2" | "h3" }) {
+export function ProjectCard({
+  project,
+  headingLevel = "h2",
+}: {
+  project: Project;
+  headingLevel?: "h2" | "h3";
+}) {
   const Heading = headingLevel;
   return (
     <article className={`project-card project-card--${project.slug}`}>
@@ -16,13 +22,27 @@ export function ProjectCard({ project, headingLevel = "h2" }: { project: Project
         <Heading>{project.name}</Heading>
         <p>{project.summary}</p>
         <ul className="project-highlights" aria-label={`${project.name} contribution highlights`}>
-          {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
+          {project.highlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
+          ))}
         </ul>
-        {project.technologies.length > 0 && <div className="badge-row">{project.technologies.map((technology) => <Badge key={technology}>{technology}</Badge>)}</div>}
+        {project.technologies.length > 0 && (
+          <div className="badge-row">
+            {project.technologies.map((technology) => (
+              <Badge key={technology}>{technology}</Badge>
+            ))}
+          </div>
+        )}
       </div>
       <div className="card-footer">
         <span>{project.category}</span>
-        <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-link" aria-label={`View ${project.name} project (opens in a new tab)`}>
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-link"
+          aria-label={`View ${project.name} project (opens in a new tab)`}
+        >
           View Project <span aria-hidden="true">↗</span>
         </a>
       </div>

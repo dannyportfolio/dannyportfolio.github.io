@@ -1,1 +1,24 @@
-export function ArchitectureDiagram() { return <div className="architecture" role="img" aria-label="Conceptual architecture diagram from client to API, services, data, cache and observability"><div className="architecture-row"><span>Client</span><i>→</i><span>API / Server</span><i>→</i><span>Domain services</span></div><div className="architecture-down">↓</div><div className="architecture-row lower"><span>Database</span><span>Cache</span><span>Observability</span></div><p>Conceptual system map — replace with project-specific architecture in each case study.</p></div>; }
+export function ArchitectureDiagram() {
+  return (
+    <div
+      className="architecture"
+      role="img"
+      aria-label="Conceptual architecture diagram from client to API, services, data, cache and observability"
+    >
+      <div className="architecture-row">
+        <span>Client</span>
+        <i>→</i>
+        <span>API / Server</span>
+        <i>→</i>
+        <span>Domain services</span>
+      </div>
+      <div className="architecture-down">↓</div>
+      <div className="architecture-row lower">
+        <span>Database</span>
+        <span>Cache</span>
+        <span>Observability</span>
+      </div>
+      <p>Conceptual system map — replace with project-specific architecture in each case study.</p>
+    </div>
+  );
+}
