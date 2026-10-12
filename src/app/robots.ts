@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
     "",
   );
   return {
-    rules: { userAgent: "*", allow: "/", disallow: ["/resume/print"] },
+    rules: { userAgent: "*", allow: "/", disallow: ["/resume/print/"] },
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

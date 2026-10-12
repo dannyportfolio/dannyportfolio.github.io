@@ -1,4 +1,5 @@
-import type { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ComponentProps, ReactNode } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const styles = {
@@ -27,14 +28,15 @@ export function ButtonLink({
   variant = "primary",
   className,
   children,
+  href,
   ...props
-}: AnchorHTMLAttributes<HTMLAnchorElement> & {
+}: ComponentProps<typeof Link> & {
   variant?: keyof typeof styles;
   children: ReactNode;
 }) {
   return (
-    <a className={cn(styles[variant], className)} {...props}>
+    <Link href={href} className={cn(styles[variant], className)} {...props}>
       {children}
-    </a>
+    </Link>
   );
 }

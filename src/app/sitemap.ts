@@ -10,15 +10,15 @@ const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://dannyportfolio.git
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    "",
-    "/projects",
-    "/engineering",
-    "/resume",
-    ...projects.map((project) => `/case-studies/${project.slug}`),
+    "/",
+    "/projects/",
+    "/engineering/",
+    "/resume/",
+    ...projects.map((project) => `/case-studies/${project.slug}/`),
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
-    priority: path === "" ? 1 : 0.7,
+    priority: path === "/" ? 1 : 0.7,
   }));
 }

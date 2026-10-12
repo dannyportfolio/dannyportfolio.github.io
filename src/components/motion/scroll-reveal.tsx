@@ -16,10 +16,16 @@ export function ScrollReveal({
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const reducedMotion = useReducedMotion();
+
   useEffect(() => {
     if (reducedMotion) return;
+    if (typeof IntersectionObserver === "undefined") {
+      const frame = window.requestAnimationFrame(() => setVisible(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
     const element = ref.current;
     if (!element) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -27,11 +33,12 @@ export function ScrollReveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.14 },
+      { rootMargin: "60px 0px", threshold: 0.05 },
     );
     observer.observe(element);
     return () => observer.disconnect();
   }, [reducedMotion]);
+
   return (
     <div
       ref={ref}

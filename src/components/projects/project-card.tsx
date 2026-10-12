@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/data/projects";
 
@@ -19,7 +20,15 @@ export function ProjectCard({
       </div>
       <div className="project-card__content">
         <p className="mono">{project.domain}</p>
-        <Heading>{project.name}</Heading>
+        <Heading>
+          {project.caseStudy ? (
+            <Link href={`/case-studies/${project.slug}`} className="project-title-link">
+              {project.name}
+            </Link>
+          ) : (
+            project.name
+          )}
+        </Heading>
         <p>{project.summary}</p>
         <ul className="project-highlights" aria-label={`${project.name} contribution highlights`}>
           {project.highlights.map((highlight) => (
@@ -36,15 +45,26 @@ export function ProjectCard({
       </div>
       <div className="card-footer">
         <span>{project.category}</span>
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-link"
-          aria-label={`View ${project.name} project (opens in a new tab)`}
-        >
-          View Project <span aria-hidden="true">↗</span>
-        </a>
+        <div className="card-footer-actions">
+          {project.caseStudy && (
+            <Link
+              href={`/case-studies/${project.slug}`}
+              className="text-link"
+              aria-label={`Read ${project.name} system brief`}
+            >
+              System brief <span aria-hidden="true">→</span>
+            </Link>
+          )}
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-link text-link--secondary"
+            aria-label={`View ${project.name} project (opens in a new tab)`}
+          >
+            Live site <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </article>
   );

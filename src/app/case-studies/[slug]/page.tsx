@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/layout/site-shell";
 import { CaseStudyJourney } from "@/components/engineering/case-study-journey";
@@ -45,6 +46,11 @@ export default async function CaseStudy({ params }: CaseStudyPageProps) {
       <article className="case-study">
         <header className="case-header">
           <div className="container">
+            <nav className="case-breadcrumb" aria-label="Breadcrumb" style={{ marginBottom: "20px" }}>
+              <Link href="/projects" className="text-link">
+                ← Back to all projects
+              </Link>
+            </nav>
             <p className="eyebrow">Project system brief</p>
             <h1>{project.name}</h1>
             <p>{project.summary}</p>
@@ -73,6 +79,19 @@ export default async function CaseStudy({ params }: CaseStudyPageProps) {
                 {section.id === "architecture-lens" && <CaseStudyJourney />}
               </section>
             ))}
+            <div className="case-footer-actions" style={{ display: "flex", gap: "14px", marginTop: "40px", flexWrap: "wrap" }}>
+              <Link href="/projects" className="button button-secondary">
+                ← Back to all projects
+              </Link>
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button button-primary"
+              >
+                Visit {project.name} <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </div>
         </div>
       </article>
