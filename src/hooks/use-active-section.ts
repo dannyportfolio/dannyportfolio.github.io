@@ -18,10 +18,7 @@ export function useActiveSection(sectionIds: string[]) {
 
     const updateActive = () => {
       // If at bottom of page, activate last section
-      if (
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 60
-      ) {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60) {
         const lastId = ids[ids.length - 1];
         if (lastId) {
           setActiveSection(lastId);

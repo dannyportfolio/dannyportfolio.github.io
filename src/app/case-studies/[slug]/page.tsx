@@ -46,7 +46,11 @@ export default async function CaseStudy({ params }: CaseStudyPageProps) {
       <article className="case-study">
         <header className="case-header">
           <div className="container">
-            <nav className="case-breadcrumb" aria-label="Breadcrumb" style={{ marginBottom: "20px" }}>
+            <nav
+              className="case-breadcrumb"
+              aria-label="Breadcrumb"
+              style={{ marginBottom: "20px" }}
+            >
               <Link href="/projects" className="text-link">
                 ← Back to all projects
               </Link>
@@ -79,7 +83,10 @@ export default async function CaseStudy({ params }: CaseStudyPageProps) {
                 {section.id === "architecture-lens" && <CaseStudyJourney />}
               </section>
             ))}
-            <div className="case-footer-actions" style={{ display: "flex", gap: "14px", marginTop: "40px", flexWrap: "wrap" }}>
+            <div
+              className="case-footer-actions"
+              style={{ display: "flex", gap: "14px", marginTop: "40px", flexWrap: "wrap" }}
+            >
               <Link href="/projects" className="button button-secondary">
                 ← Back to all projects
               </Link>
