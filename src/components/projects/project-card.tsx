@@ -11,15 +11,21 @@ export function ProjectCard({
 }) {
   const Heading = headingLevel;
   return (
-    <article className={`project-card project-card--${project.slug}`}>
+    <article
+      className={`project-card project-card--${project.slug}${project.isNew ? " project-card--new" : ""}`}
+    >
       <div className="project-thumbnail" aria-hidden="true">
+        {project.isNew && <span className="project-new-pill">New Portfolio</span>}
         <span className="project-thumbnail__orb" />
         <span className="project-thumbnail__grid" />
         <p>{project.domain}</p>
         <strong>{project.category}</strong>
       </div>
       <div className="project-card__content">
-        <p className="mono">{project.domain}</p>
+        <div className="project-card__meta">
+          <p className="mono">{project.domain}</p>
+          {project.isNew && <span className="project-new-tag">Baru</span>}
+        </div>
         <Heading>
           {project.caseStudy ? (
             <Link href={`/case-studies/${project.slug}`} className="project-title-link">

@@ -9,6 +9,13 @@ export function HeroParallax() {
       <div className="hero-glow" aria-hidden="true" />
       <div className="container hero-layout">
         <div className="hero-content">
+          <div className="hero-new-badge">
+            <span className="hero-new-badge__dot" aria-hidden="true" />
+            <span className="mono">New portfolio</span>
+            <Link href="/case-studies/astraops" className="hero-new-badge__link">
+              AstraOps — B2B Logistics Platform →
+            </Link>
+          </div>
           <p className="eyebrow">
             Danial Fachrudin <span>—</span> Software Engineer
           </p>

@@ -14,9 +14,43 @@ export type Project = {
   reliability: string;
   implementation: string[];
   caseStudy: boolean;
+  isNew?: boolean;
 };
 
 export const projects: Project[] = [
+  {
+    slug: "astraops",
+    name: "AstraOps — Trukindo Logistik Prima",
+    domain: "display-trukindologistikprima.vercel.app",
+    url: "https://display-trukindologistikprima.vercel.app",
+    summary:
+      "Platform komersial logistik darat B2B, pelacakan waybill armada FTL, dan otomasi kualifikasi prospek untuk PT Trukindo Logistik Prima.",
+    category: "B2B Logistics & Fleet Platform",
+    highlights: [
+      "B2B FTL quote flow",
+      "Waybill & fleet tracking",
+      "Lead lifecycle FSM",
+      "Idempotent API & rate limiting",
+      "Fail-closed security gate",
+    ],
+    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
+    problem:
+      "Menangani permintaan penawaran kargo FTL B2B, pelacakan status pengiriman antarkota, dan kualifikasi prospek korporat dalam satu sistem yang terstruktur dan aman.",
+    challenge:
+      "Memisahkan jalur publik (request penawaran 3-langkah dan pelacakan waybill) dari operasional internal (scoring prospek, human-in-the-loop review, dan audit log) dengan proteksi keamanan berlapis.",
+    architecture:
+      "Arsitektur dua sisi yang menggabungkan portal komersial publik, API ingestion ber-idempotency lock dan rate limiting, state machine siklus hidup prospek di PostgreSQL, serta mode showcase fail-closed untuk demonstrasi publik.",
+    contributions: [
+      "Fokus pada arsitektur full-stack & backend, alur kuotasi FTL multi-step, sistem pelacakan waybill telematika, proteksi endpoint (rate limit, honeypot, idempotency), serta fail-closed display gate.",
+    ],
+    reliability:
+      "Keandalan dijaga melalui validasi skema ketat, penguncian idempotensi transaksi, audit log yang immutable, serta isolasi penuh antara mode display publik dan infrastruktur operasional.",
+    implementation: [
+      "Mengutamakan determinisme state machine prospek, pertahanan berlapis pada middleware dan route handler, serta pengalaman responsif mobile-first untuk pengirim kargo B2B.",
+    ],
+    caseStudy: true,
+    isNew: true,
+  },
   {
     slug: "gegarap",
     name: "Gegarap",
