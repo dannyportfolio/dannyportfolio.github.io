@@ -12,8 +12,8 @@ export function HeroParallax() {
           <div className="hero-new-badge">
             <span className="hero-new-badge__dot" aria-hidden="true" />
             <span className="mono">New portfolio</span>
-            <Link href="/case-studies/astraops" className="hero-new-badge__link">
-              AstraOps — B2B Logistics Platform →
+            <Link href="/case-studies/veloura" className="hero-new-badge__link">
+              Veloura ERP — Fashion Manufacturing & Distribution →
             </Link>
           </div>
           <p className="eyebrow">

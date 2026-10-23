@@ -19,6 +19,39 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "veloura",
+    name: "Veloura ERP — Fashion Manufacturing & Distribution",
+    domain: "display-veloura.vercel.app",
+    url: "https://display-veloura.vercel.app",
+    summary:
+      "Sistem ERP modular untuk manajemen manufaktur garmen, persediaan multi-gudang, pengadaan bahan baku, dan penjualan multi-kanal (grosir B2B & ritel D2C) PT Veloura Yogyakarta.",
+    category: "Fashion ERP & Supply Chain",
+    highlights: [
+      "Multi-warehouse inventory ledger",
+      "Garment BOM & production SPK",
+      "B2B wholesale & D2C sales FSM",
+      "Atomic procurement & goods receipt",
+      "Multi-role RBAC & fail-safe demo",
+    ],
+    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Docker", "Tailwind CSS"],
+    problem:
+      "Mengintegrasikan seluruh siklus manufaktur konveksi, buku besar persediaan multi-gudang, rantai pasok bahan baku, dan pesanan penjualan grosir/ritel dalam satu platform terpusat yang aman.",
+    challenge:
+      "Menjaga konsistensi buku besar persediaan multi-gudang berbasis append-only, determinisme state machine pesanan dan SPK produksi, serta isolasi keamanan mode demo portofolio tanpa mengekspos basis data internal.",
+    architecture:
+      "Arsitektur modular berbasis Next.js App Router dan PostgreSQL dengan prosedur tersimpan atomik, mutasi persediaan append-only, kontrol akses berbasis peran (RBAC), serta pemisahan tegas antara lingkungan pengembangan lokal dan mode demo portofolio publik.",
+    contributions: [
+      "Fokus pada arsitektur sistem ERP modular end-to-end, state machine siklus produksi dan pesanan, mutasi persediaan multi-gudang atomik, kontrol akses multi-peran (RBAC), serta isolasi keamanan mode demo publik.",
+    ],
+    reliability:
+      "Keandalan dipastikan melalui transaksi atomik tingkat basis data, penguncian idempotensi untuk mencegah mutasi ganda, validasi skema ketat dengan Zod, dan pengujian otomatis komprehensif (unit, integrasi, dan e2e).",
+    implementation: [
+      "Mengedepankan pemisahan tanggung jawab modular (Inventory, Sales, Procurement, Production, QC), kepatuhan audit trail waktu WIB, antarmuka responsif ramah operasional bengkel/gudang, serta determinisme simulasi persona pengguna.",
+    ],
+    caseStudy: true,
+    isNew: true,
+  },
+  {
     slug: "astraops",
     name: "AstraOps — Trukindo Logistik Prima",
     domain: "display-trukindologistikprima.vercel.app",
@@ -49,7 +82,6 @@ export const projects: Project[] = [
       "Mengutamakan determinisme state machine prospek, pertahanan berlapis pada middleware dan route handler, serta pengalaman responsif mobile-first untuk pengirim kargo B2B.",
     ],
     caseStudy: true,
-    isNew: true,
   },
   {
     slug: "gegarap",

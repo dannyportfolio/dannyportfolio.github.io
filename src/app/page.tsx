@@ -85,8 +85,8 @@ function ProjectsSection() {
             <em>real-world use.</em>
           </h2>
           <p>
-            A focused selection of platforms spanning B2B logistics, local services, advertising,
-            travel, and professional consulting.
+            A focused selection of platforms spanning fashion ERP, B2B logistics, local services,
+            advertising, travel, and professional consulting.
           </p>
         </div>
         <div className="projects-home-grid">
@@ -120,7 +120,7 @@ function ArchitectureCaseStudiesSection() {
             Each project record captures its product context, system focus, and the engineering
             considerations that shape the work.
           </p>
-          <ButtonLink href="/case-studies/astraops" variant="secondary">
+          <ButtonLink href="/case-studies/veloura" variant="secondary">
             Read a system brief <span aria-hidden="true">→</span>
           </ButtonLink>
         </div>

@@ -1912,6 +1912,14 @@ p {
   font-size: 1.02rem;
   line-height: 1.2;
 }
+.project-card--veloura .project-thumbnail {
+  background: linear-gradient(135deg, #091530, #1d48d8);
+}
+.project-card--veloura .project-thumbnail__orb {
+  background:
+    radial-gradient(circle at 36% 34%, #c5dbfd, transparent 16%),
+    linear-gradient(145deg, #417cf6, transparent 64%);
+}
 .project-card--astraops .project-thumbnail {
   background: linear-gradient(135deg, #0b2d52, #1d5fa7);
 }
