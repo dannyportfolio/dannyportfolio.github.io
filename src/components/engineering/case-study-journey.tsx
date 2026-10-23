@@ -1,46 +1,75 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SystemArchitecture } from "./system-architecture";
+import { useEffect, useMemo, useState } from "react";
+import type { Project } from "@/data/projects";
+import { useLocale } from "@/context/locale-context";
+import { SystemArchitecture, type ArchitectureNode } from "./system-architecture";
 
-const journey = [
-  {
-    id: "client",
-    label: "Client → API",
-    description:
-      "A clear contract begins at the boundary: validate intent, shape the response, and establish a traceable request.",
-  },
-  {
-    id: "cache",
-    label: "API → Cache",
-    description:
-      "Cache only the reads that benefit from it, with a clear invalidation and failure strategy.",
-  },
-  {
-    id: "database",
-    label: "Cache miss → Database",
-    description:
-      "Keep data access intentional: projection, indexes, query shape, and transaction boundaries matter.",
-  },
-  {
-    id: "worker",
-    label: "Queue → Worker",
-    description:
-      "Move resilient asynchronous work outside the request path with explicit retry and idempotency decisions.",
-  },
-  {
-    id: "logs",
-    label: "Observability",
-    description:
-      "Logs, metrics, and traces make a system explainable when it is operating under real conditions.",
-  },
-];
+function getNodeType(id: string): ArchitectureNode["type"] {
+  if (
+    id.includes("client") ||
+    id.includes("discovery") ||
+    id.includes("intake") ||
+    id.includes("brand") ||
+    id.includes("search")
+  ) {
+    return "client";
+  }
+  if (
+    id.includes("api") ||
+    id.includes("quote") ||
+    id.includes("spec") ||
+    id.includes("fsm") ||
+    id.includes("state")
+  ) {
+    return "api";
+  }
+  if (
+    id.includes("idempotency") ||
+    id.includes("auth") ||
+    id.includes("rbac") ||
+    id.includes("gateway")
+  ) {
+    return "service";
+  }
+  if (id.includes("cache") || id.includes("lead")) {
+    return "cache";
+  }
+  if (
+    id.includes("database") ||
+    id.includes("ledger") ||
+    id.includes("storage") ||
+    id.includes("order")
+  ) {
+    return "database";
+  }
+  if (id.includes("queue") || id.includes("procurement") || id.includes("webhook")) {
+    return "queue";
+  }
+  if (id.includes("worker") || id.includes("production") || id.includes("tracking")) {
+    return "worker";
+  }
+  return "observability";
+}
 
-export function CaseStudyJourney() {
-  const [active, setActive] = useState(journey[0].id);
+export function CaseStudyJourney({ project }: { project: Project }) {
+  const { locale } = useLocale();
+  const steps = useMemo(() => project.architectureSteps || [], [project.architectureSteps]);
+  const [active, setActive] = useState(steps[0]?.id || "");
+
+  const projectNodes: ArchitectureNode[] = useMemo(
+    () =>
+      steps.map((step) => ({
+        id: step.id,
+        label: step.label[locale],
+        type: getNodeType(step.id),
+      })),
+    [steps, locale],
+  );
 
   useEffect(() => {
-    const sections = journey
+    if (steps.length === 0) return;
+    const elements = steps
       .map((item) => document.getElementById(`journey-${item.id}`))
       .filter((item): item is HTMLElement => Boolean(item));
 
@@ -55,39 +84,45 @@ export function CaseStudyJourney() {
         }
       },
       {
-        rootMargin: "-38% 0px -42% 0px",
+        rootMargin: "-35% 0px -40% 0px",
         threshold: [0.2, 0.5, 0.8],
       },
     );
 
-    sections.forEach((section) => {
+    elements.forEach((section) => {
       observer.observe(section);
     });
 
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [steps]);
+
+  if (steps.length === 0) {
+    return null;
+  }
 
   return (
-    <section className="case-journey">
+    <div className="case-journey">
       <div className="case-journey-visual">
-        <SystemArchitecture activeNode={active} />
+        <SystemArchitecture nodes={projectNodes} activeNode={active || steps[0]?.id} />
       </div>
 
       <div className="case-journey-steps">
-        {journey.map((item, index) => (
+        {steps.map((item, index) => (
           <article
             key={item.id}
             id={`journey-${item.id}`}
             className={active === item.id ? "is-active" : ""}
           >
-            <span className="mono">STEP {String(index + 1).padStart(2, "0")}</span>
-            <h3>{item.label}</h3>
-            <p>{item.description}</p>
+            <span className="mono">
+              {locale === "en" ? "STAGE" : "TAHAP"} {String(index + 1).padStart(2, "0")}
+            </span>
+            <h3>{item.label[locale]}</h3>
+            <p>{item.description[locale]}</p>
           </article>
         ))}
       </div>
-    </section>
+    </div>
   );
 }

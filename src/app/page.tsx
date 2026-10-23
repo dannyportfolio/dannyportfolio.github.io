@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ScrollProgress } from "@/components/motion/scroll-progress";
@@ -16,6 +18,8 @@ import { profile } from "@/data/profile";
 import { principles, skillGroups } from "@/data/skills";
 import { projects } from "@/data/projects";
 import { experiences } from "@/data/experience";
+import { useLocale } from "@/context/locale-context";
+import { translations } from "@/data/translations";
 
 export default function Home() {
   return (
@@ -38,20 +42,20 @@ export default function Home() {
 }
 
 function TechnicalExpertiseSection() {
+  const { locale } = useLocale();
+  const t = translations.home;
+
   return (
     <section id="expertise" className="engineering-stack">
       <div className="container stack-layout">
         <div className="stack-heading">
-          <p className="eyebrow">03 / Technical expertise</p>
+          <p className="eyebrow">{t.expertiseEyebrow[locale]}</p>
           <h2>
-            Engineering
+            {t.expertiseTitle[locale]}
             <br />
-            <em>stack.</em>
+            <em>{t.expertiseTitleEm[locale]}</em>
           </h2>
-          <p>
-            Tools grouped by the system concern they help solve — from product boundaries to
-            production operations.
-          </p>
+          <p>{t.expertiseDescription[locale]}</p>
         </div>
         <div className="stack-groups">
           {skillGroups.map((group, index) => (
@@ -74,20 +78,20 @@ function TechnicalExpertiseSection() {
 }
 
 function ProjectsSection() {
+  const { locale } = useLocale();
+  const t = translations.home;
+
   return (
     <section id="projects" className="projects-story">
       <div className="container">
         <div className="projects-story-heading">
-          <p className="eyebrow">04 / Selected systems</p>
+          <p className="eyebrow">{t.projectsEyebrow[locale]}</p>
           <h2>
-            Products built for
+            {t.projectsTitle[locale]}
             <br />
-            <em>real-world use.</em>
+            <em>{t.projectsTitleEm[locale]}</em>
           </h2>
-          <p>
-            A focused selection of platforms spanning fashion ERP, B2B logistics, local services,
-            advertising, travel, and professional consulting.
-          </p>
+          <p>{t.projectsDescription[locale]}</p>
         </div>
         <div className="projects-home-grid">
           {projects.map((project) => (
@@ -95,9 +99,12 @@ function ProjectsSection() {
           ))}
         </div>
         <div className="projects-story-bottom">
-          <span className="mono">{String(projects.length).padStart(2, "0")} selected products</span>
+          <span className="mono">
+            {String(projects.length).padStart(2, "0")}{" "}
+            {locale === "en" ? "selected products" : "produk pilihan"}
+          </span>
           <Link href="/projects" className="text-link">
-            View project overview →
+            {t.projectsOverviewLink[locale]}
           </Link>
         </div>
       </div>
@@ -106,22 +113,22 @@ function ProjectsSection() {
 }
 
 function ArchitectureCaseStudiesSection() {
+  const { locale } = useLocale();
+  const t = translations.home;
+
   return (
     <section id="case-studies" className="architecture-showcase">
       <div className="container architecture-showcase-grid">
         <div>
-          <p className="eyebrow">05 / Architecture case studies</p>
+          <p className="eyebrow">{t.caseStudiesEyebrow[locale]}</p>
           <h2>
-            Designing the path
+            {t.caseStudiesTitle[locale]}
             <br />
-            <em>through complexity.</em>
+            <em>{t.caseStudiesTitleEm[locale]}</em>
           </h2>
-          <p>
-            Each project record captures its product context, system focus, and the engineering
-            considerations that shape the work.
-          </p>
+          <p>{t.caseStudiesDescription[locale]}</p>
           <ButtonLink href="/case-studies/veloura" variant="secondary">
-            Read a system brief <span aria-hidden="true">→</span>
+            {t.caseStudiesCta[locale]} <span aria-hidden="true">→</span>
           </ButtonLink>
         </div>
         <ScrollReveal className="architecture-display">
@@ -133,17 +140,20 @@ function ArchitectureCaseStudiesSection() {
 }
 
 function ExperienceSection() {
+  const { locale } = useLocale();
+  const t = translations.home;
+
   return (
     <section id="experience" className="experience-story">
       <div className="container experience-story-grid">
         <div>
-          <p className="eyebrow">06 / Experience</p>
+          <p className="eyebrow">{t.experienceEyebrow[locale]}</p>
           <h2>
-            A career shaped
+            {t.experienceTitle[locale]}
             <br />
             by <em>shipping.</em>
           </h2>
-          <p>Building professionally since 2021, with an independent freelance focus since 2023.</p>
+          <p>{t.experienceDescription[locale]}</p>
         </div>
         <div className="experience-story-list">
           {experiences.map((experience, index) => (
@@ -170,10 +180,13 @@ function ExperienceSection() {
 }
 
 function PrinciplesSection() {
+  const { locale } = useLocale();
+  const t = translations.home;
+
   return (
     <section className="principles-band">
       <div className="container">
-        <p className="eyebrow">Operating principles</p>
+        <p className="eyebrow">{t.principlesEyebrow[locale]}</p>
         <div className="principles-band-grid">
           {principles.map((principle, index) => (
             <ScrollReveal key={principle} delay={index * 35}>
@@ -188,25 +201,38 @@ function PrinciplesSection() {
 }
 
 function ContactSection() {
+  const { locale } = useLocale();
+  const t = translations.home;
+
   return (
     <section id="contact" className="contact-section contact-story">
       <div className="container">
-        <p className="eyebrow">08 / Contact</p>
+        <p className="eyebrow">{locale === "en" ? "09 / Contact" : "09 / Kontak"}</p>
         <h2>
-          Interested in building
+          {t.contactTitle[locale]}
           <br />
-          <em>reliable, scalable software?</em>
+          <em>{t.contactTitleEm[locale]}</em>
         </h2>
-        <p>{profile.availability}</p>
-        <p>{profile.relocation}</p>
-        {profile.contactLinks.length > 0 && (
+        <p>{profile.availability[locale]}</p>
+        <p>{profile.relocation[locale]}</p>
+        {profile.contactLinks.length > 0 ? (
           <div className="contact-links">
             {profile.contactLinks.map((link) => (
-              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
+              <a
+                key={link.href}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                aria-label={`${link.label} (${profile.name})`}
+              >
                 {link.label} <span aria-hidden="true">↗</span>
               </a>
             ))}
           </div>
+        ) : (
+          <p className="muted" style={{ marginTop: "24px" }}>
+            {t.contactEmpty[locale]}
+          </p>
         )}
       </div>
     </section>

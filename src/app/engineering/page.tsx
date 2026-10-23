@@ -1,33 +1,35 @@
+"use client";
+
+import Link from "next/link";
 import { SiteShell } from "@/components/layout/site-shell";
 import { SectionHeading } from "@/components/portfolio/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { engineeringArticles } from "@/data/engineering";
 import { principles } from "@/data/skills";
-
-export const metadata = {
-  title: "Engineering",
-  description: "Engineering principles for production-ready backend systems.",
-};
+import { useLocale } from "@/context/locale-context";
+import { translations } from "@/data/translations";
 
 export default function EngineeringPage() {
+  const { locale } = useLocale();
+  const t = translations.engineeringPage;
+
   return (
     <SiteShell>
       <section className="page-hero">
         <div className="container">
-          <p className="eyebrow">Engineering notes</p>
+          <p className="eyebrow">{t.eyebrow[locale]}</p>
           <h1>
-            Clarity for systems
+            {t.titlePrefix[locale]}
             <br />
-            <em>under real load.</em>
+            <em>{t.titleEm[locale]}</em>
           </h1>
-          <p>
-            Practical principles for dependable software, without overstating unverified experience.
-          </p>
+          <p>{t.description[locale]}</p>
         </div>
       </section>
+
       <section className="section tint">
         <div className="container">
-          <SectionHeading eyebrow="Principles" title="How I think about production systems." />
+          <SectionHeading eyebrow={t.principlesEyebrow[locale]} title={t.principlesTitle[locale]} />
           <div className="principles-grid">
             {principles.map((principle, index) => (
               <article key={principle}>
@@ -38,22 +40,40 @@ export default function EngineeringPage() {
           </div>
         </div>
       </section>
+
       <section className="section">
         <div className="container">
-          <SectionHeading eyebrow="Article library" title="Practical backend topics." />
+          <SectionHeading eyebrow={t.libraryEyebrow[locale]} title={t.libraryTitle[locale]} />
           <div className="article-grid">
             {engineeringArticles.map((article) => (
-              <article key={article.slug} className="article-card">
-                <p className="mono">/{article.slug}</p>
-                <h2>{article.title}</h2>
-                <p>{article.excerpt}</p>
-                <div className="badge-row">
+              <Link
+                key={article.slug}
+                href={`/engineering/${article.slug}`}
+                className="article-card article-card-interactive"
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <div
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                >
+                  <p className="mono">/{article.slug}</p>
+                  <span className="mono">{article.readingTime[locale]}</span>
+                </div>
+                <h2>{article.title[locale]}</h2>
+                <p>{article.excerpt[locale]}</p>
+                <div className="badge-row" style={{ marginTop: "auto", paddingTop: "14px" }}>
                   {article.topics.map((topic) => (
                     <Badge key={topic}>{topic}</Badge>
                   ))}
                 </div>
-                <span className="muted">Engineering note</span>
-              </article>
+                <span className="text-link" style={{ marginTop: "14px", fontWeight: 600 }}>
+                  {t.noteBadge[locale]}
+                </span>
+              </Link>
             ))}
           </div>
         </div>

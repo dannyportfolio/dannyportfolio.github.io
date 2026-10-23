@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/data/projects";
+import { useLocale } from "@/context/locale-context";
+import { translations } from "@/data/translations";
 
 export function ProjectCard({
   project,
@@ -10,21 +14,43 @@ export function ProjectCard({
   headingLevel?: "h2" | "h3";
 }) {
   const Heading = headingLevel;
+  const { locale } = useLocale();
+  const t = translations.projectsPage;
+
   return (
     <article
       className={`project-card project-card--${project.slug}${project.isNew ? " project-card--new" : ""}`}
     >
       <div className="project-thumbnail" aria-hidden="true">
-        {project.isNew && <span className="project-new-pill">New Portfolio</span>}
+        {project.isNew && (
+          <span className="project-new-pill">
+            {locale === "en" ? "New Portfolio" : "Portofolio Baru"}
+          </span>
+        )}
         <span className="project-thumbnail__orb" />
         <span className="project-thumbnail__grid" />
-        <p>{project.domain}</p>
-        <strong>{project.category}</strong>
+        <div className="project-thumbnail__blueprint">
+          <div className="blueprint-header">
+            <span className="blueprint-dot" />
+            <span className="blueprint-dot" />
+            <span className="blueprint-dot" />
+            <span className="blueprint-domain">{project.domain}</span>
+          </div>
+          <div className="blueprint-body">
+            <span className="blueprint-badge">{project.category[locale]}</span>
+            <div className="blueprint-bars">
+              <span className="blueprint-bar" style={{ width: "80%" }} />
+              <span className="blueprint-bar" style={{ width: "55%" }} />
+              <span className="blueprint-bar" style={{ width: "70%" }} />
+            </div>
+          </div>
+        </div>
       </div>
+
       <div className="project-card__content">
         <div className="project-card__meta">
           <p className="mono">{project.domain}</p>
-          {project.isNew && <span className="project-new-tag">Baru</span>}
+          {project.isNew && <span className="project-new-tag">{t.newTag[locale]}</span>}
         </div>
         <Heading>
           {project.caseStudy ? (
@@ -35,9 +61,9 @@ export function ProjectCard({
             project.name
           )}
         </Heading>
-        <p>{project.summary}</p>
+        <p>{project.summary[locale]}</p>
         <ul className="project-highlights" aria-label={`${project.name} contribution highlights`}>
-          {project.highlights.map((highlight) => (
+          {project.highlights[locale].map((highlight) => (
             <li key={highlight}>{highlight}</li>
           ))}
         </ul>
@@ -49,8 +75,9 @@ export function ProjectCard({
           </div>
         )}
       </div>
+
       <div className="card-footer">
-        <span>{project.category}</span>
+        <span>{project.category[locale]}</span>
         <div className="card-footer-actions">
           {project.caseStudy && (
             <Link
@@ -58,17 +85,28 @@ export function ProjectCard({
               className="text-link"
               aria-label={`Read ${project.name} system brief`}
             >
-              System brief <span aria-hidden="true">→</span>
+              {t.systemBrief[locale]} <span aria-hidden="true">→</span>
             </Link>
+          )}
+          {project.githubUrl && (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-link text-link--code"
+              aria-label={`View ${project.name} source code on GitHub`}
+            >
+              {t.viewCode[locale]} <span aria-hidden="true">↗</span>
+            </a>
           )}
           <a
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"
             className="text-link text-link--secondary"
-            aria-label={`View ${project.name} project (opens in a new tab)`}
+            aria-label={`View ${project.name} live project (opens in a new tab)`}
           >
-            Live site <span aria-hidden="true">↗</span>
+            {t.liveSite[locale]} <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>

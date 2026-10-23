@@ -1,11 +1,17 @@
 import type { Metadata, Viewport } from "next";
+import { LocaleProvider } from "@/context/locale-context";
 import "./globals.css";
+
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://dannyportfolio.github.io").replace(
+  /\/$/,
+  "",
+);
 
 const THEME_INITIALIZATION_SCRIPT =
   "try { const t = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.dataset.theme = t; } catch {}";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dannyportfolio.github.io"),
+  metadataBase: new URL(siteUrl),
   title: { default: "Danial Fachrudin — Software Engineer", template: "%s | Danial Fachrudin" },
   description:
     "Portfolio of Danial Fachrudin, a Software Engineer focused on backend systems, product development, performance, and scalable software.",
@@ -13,13 +19,14 @@ export const metadata: Metadata = {
     title: "Danial Fachrudin — Software Engineer",
     description: "Backend systems, product development, performance, and scalable software.",
     type: "website",
-    url: "https://dannyportfolio.github.io/",
+    url: `${siteUrl}/`,
     images: [
       {
-        url: "/danny-fachrudin-profile.avif",
-        width: 800,
-        height: 800,
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
         alt: "Danial Fachrudin — Software Engineer",
+        type: "image/png",
       },
     ],
   },
@@ -27,10 +34,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Danial Fachrudin — Software Engineer",
     description: "Backend systems, product development, performance, and scalable software.",
-    images: ["/danny-fachrudin-profile.avif"],
+    images: [`${siteUrl}/og-image.png`],
   },
   robots: { index: true, follow: true },
 };
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -39,6 +47,44 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "#050505" },
   ],
 };
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: "Danial Fachrudin",
+      jobTitle: "Software Engineer",
+      url: `${siteUrl}/`,
+      sameAs: ["https://github.com/dannyportfolio"],
+      knowsAbout: [
+        "Backend Architecture",
+        "API Design",
+        "PostgreSQL",
+        "Distributed Systems",
+        "Performance Optimization",
+        "Next.js",
+        "TypeScript",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: "Danial Fachrudin Portfolio",
+      publisher: { "@id": `${siteUrl}/#person` },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${siteUrl}/#profilepage`,
+      url: `${siteUrl}/`,
+      name: "Danial Fachrudin — Software Engineer Portfolio",
+      mainEntity: { "@id": `${siteUrl}/#person` },
+    },
+  ],
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -48,8 +94,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             __html: THEME_INITIALIZATION_SCRIPT,
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd),
+          }}
+        />
       </head>
-      <body>{children}</body>
+      <body>
+        <LocaleProvider>{children}</LocaleProvider>
+      </body>
     </html>
   );
 }

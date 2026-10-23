@@ -1,8 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { profile } from "@/data/profile";
+import { useLocale } from "@/context/locale-context";
 
 export function SiteFooter() {
+  const { locale } = useLocale();
+
   return (
     <footer className="site-footer">
       <section className="footer-verse" aria-label="Guiding verse — Proverbs 16:3">
@@ -38,11 +43,14 @@ export function SiteFooter() {
       <div className="footer-bar">
         <div className="container footer-inner">
           <p>
-            © {new Date().getFullYear()} {profile.name}. Built with intention.
+            © {new Date().getFullYear()} {profile.name}.{" "}
+            {locale === "en" ? "Built with intention." : "Dibangun dengan kesungguhan."}
           </p>
-          <div>
-            <Link href="/resume">Resume</Link>
-            <Link href="/engineering">Engineering notes</Link>
+          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+            <Link href="/projects">{locale === "en" ? "Projects" : "Proyek"}</Link>
+            <Link href="/engineering">{locale === "en" ? "Engineering" : "Catatan Rekayasa"}</Link>
+            <Link href="/blog">Blog</Link>
+            <Link href="/resume">{locale === "en" ? "Resume & CV" : "Resume & CV"}</Link>
           </div>
         </div>
       </div>

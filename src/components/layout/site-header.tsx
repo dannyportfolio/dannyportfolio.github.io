@@ -4,22 +4,37 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useActiveSection } from "@/hooks/use-active-section";
-
-const links = [
-  { href: "/#about", label: "About", section: "about" },
-  { href: "/projects", label: "Projects", section: "projects" },
-  { href: "/engineering", label: "Engineering", section: "philosophy" },
-  { href: "/resume", label: "Resume", section: "resume-generator" },
-  { href: "/#contact", label: "Contact", section: "contact" },
-];
+import { useLocale } from "@/context/locale-context";
+import { translations } from "@/data/translations";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const { locale, toggleLocale } = useLocale();
+  const t = translations.nav;
+
   const [open, setOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const activeSection = useActiveSection(links.map((link) => link.section));
+
+  const navLinks = [
+    { href: "/projects", label: t.projects[locale], key: "projects" },
+    { href: "/engineering", label: t.engineering[locale], key: "engineering" },
+    { href: "/blog", label: t.blog[locale], key: "blog" },
+    { href: "/resume", label: t.resume[locale], key: "resume" },
+    { href: "/#contact", label: t.contact[locale], key: "contact" },
+  ];
+
+  const activeSection = useActiveSection([
+    "about",
+    "philosophy",
+    "expertise",
+    "projects",
+    "case-studies",
+    "experience",
+    "principles",
+    "contact",
+  ]);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -59,49 +74,49 @@ export function SiteHeader() {
     localStorage.setItem("theme", next ? "dark" : "light");
   }
 
-  function checkActive(link: (typeof links)[number]) {
-    if (pathname === "/") {
-      return activeSection === link.section;
+  function checkActive(item: (typeof navLinks)[number]) {
+    if (item.href === "/#contact") {
+      return pathname === "/" && activeSection === "contact";
     }
-    if (link.href === "/resume" && pathname.startsWith("/resume")) return true;
-    if (
-      link.section === "projects" &&
-      (pathname.startsWith("/projects") || pathname.startsWith("/case-studies"))
-    ) {
-      return true;
+    if (item.href === "/projects") {
+      return pathname.startsWith("/projects") || pathname.startsWith("/case-studies");
     }
-    if (link.section === "philosophy" && pathname.startsWith("/engineering")) {
-      return true;
+    if (item.href === "/engineering") {
+      return pathname.startsWith("/engineering");
+    }
+    if (item.href === "/blog") {
+      return pathname.startsWith("/blog");
+    }
+    if (item.href === "/resume") {
+      return pathname.startsWith("/resume");
     }
     return false;
   }
 
-  const getHref = (link: (typeof links)[number]) => {
-    if (pathname === "/") {
-      if (link.section === "projects") return "/#projects";
-      if (link.section === "philosophy") return "/#philosophy";
-    }
-    return link.href;
-  };
-
   return (
     <header className={`site-header ${scrolled || open ? "is-scrolled" : ""}`}>
       <div className="container nav">
-        <Link href="/" className="brand" aria-label="DF. - Danial Fachrudin home">
+        <Link href="/" className="brand" aria-label="Danial Fachrudin portfolio home">
           DF<span>.</span>
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
-          {links.map((link) => (
-            <Link
-              key={link.label}
-              href={getHref(link)}
-              className={checkActive(link) ? "is-active" : ""}
-            >
+          {navLinks.map((link) => (
+            <Link key={link.key} href={link.href} className={checkActive(link) ? "is-active" : ""}>
               {link.label}
             </Link>
           ))}
         </nav>
         <div className="nav-actions">
+          <button
+            className="lang-button"
+            onClick={toggleLocale}
+            aria-label={`Current language: ${locale.toUpperCase()}. Click to switch to ${locale === "en" ? "Indonesian" : "English"}`}
+            title={locale === "en" ? "Ganti ke Bahasa Indonesia" : "Switch to English"}
+          >
+            <span className={locale === "en" ? "is-active" : ""}>EN</span>
+            <span className="lang-sep">/</span>
+            <span className={locale === "id" ? "is-active" : ""}>ID</span>
+          </button>
           <button
             className="icon-button"
             onClick={toggleTheme}
@@ -121,16 +136,16 @@ export function SiteHeader() {
             aria-controls="mobile-menu"
             aria-label={`${open ? "Close" : "Open"} navigation menu`}
           >
-            {open ? "Close" : "Menu"}
+            {open ? t.close[locale] : t.menu[locale]}
           </button>
         </div>
       </div>
       {open && (
         <nav id="mobile-menu" className="mobile-nav" aria-label="Mobile navigation">
-          {links.map((link) => (
+          {navLinks.map((link) => (
             <Link
-              key={link.label}
-              href={getHref(link)}
+              key={link.key}
+              href={link.href}
               onClick={() => setOpen(false)}
               className={checkActive(link) ? "is-active" : ""}
             >
