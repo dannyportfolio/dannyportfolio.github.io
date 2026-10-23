@@ -62,6 +62,7 @@ export function BlogListingContent() {
                     fontSize: "0.8rem",
                     borderRadius: "20px",
                     cursor: "pointer",
+                    minHeight: "36px",
                   }}
                 >
                   {cat === "all" ? t.allCategories[locale] : cat}
@@ -69,7 +70,7 @@ export function BlogListingContent() {
               ))}
             </div>
 
-            <div style={{ minWidth: "260px" }}>
+            <div style={{ flex: "1 1 220px", maxWidth: "340px", width: "100%" }}>
               <input
                 type="text"
                 value={search}
@@ -78,13 +79,15 @@ export function BlogListingContent() {
                 aria-label={t.searchPlaceholder[locale]}
                 style={{
                   width: "100%",
-                  padding: "8px 14px",
+                  padding: "9px 14px",
+                  minHeight: "40px",
                   borderRadius: "8px",
                   border: "1px solid var(--line)",
                   background: "var(--surface)",
                   color: "var(--text)",
                   fontSize: "0.85rem",
                   fontFamily: "var(--font-sans)",
+                  boxSizing: "border-box",
                 }}
               />
             </div>

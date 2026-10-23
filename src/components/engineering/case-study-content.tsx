@@ -52,27 +52,25 @@ export function CaseStudyContent({ project }: { project: Project }) {
               {locale === "en" ? "← Back to all projects" : "← Kembali ke daftar proyek"}
             </Link>
           </nav>
-          <p className="eyebrow">
+          <p className="eyebrow" style={{ margin: 0, marginBottom: "16px" }}>
             {locale === "en" ? "Project system brief" : "Ringkasan sistem proyek"}
           </p>
-          <h1>{project.name}</h1>
-          <p>{project.summary[locale]}</p>
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              alignItems: "center",
-              flexWrap: "wrap",
-              marginTop: "16px",
-            }}
-          >
-            <p className="case-domain" style={{ margin: 0 }}>
-              <a href={project.url} target="_blank" rel="noopener noreferrer">
+          <h1 className="article-title">{project.name}</h1>
+          <p className="article-summary">{project.summary[locale]}</p>
+          <div className="article-meta-bar" style={{ marginTop: "24px" }}>
+            <div className="article-meta-details">
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-link"
+                style={{ fontWeight: 600 }}
+              >
                 {project.domain} <span aria-hidden="true">↗</span>
               </a>
-            </p>
+            </div>
             {project.technologies.length > 0 && (
-              <div className="badge-row" style={{ marginTop: 0 }}>
+              <div className="article-meta-tags">
                 {project.technologies.map((tech) => (
                   <Badge key={tech}>{tech}</Badge>
                 ))}

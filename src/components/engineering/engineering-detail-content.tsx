@@ -17,7 +17,7 @@ export function EngineeringDetailContent({
   const t = translations.engineeringPage;
 
   return (
-    <article className="case-study" style={{ paddingBottom: "80px" }}>
+    <article className="case-study case-study-hero">
       <header className="case-header">
         <div className="container">
           <nav className="case-breadcrumb" aria-label="Breadcrumb" style={{ marginBottom: "20px" }}>
@@ -26,66 +26,48 @@ export function EngineeringDetailContent({
             </Link>
           </nav>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "12px",
-              marginBottom: "12px",
-            }}
-          >
+          <div className="article-header-top">
             <p className="eyebrow" style={{ margin: 0 }}>
               {locale === "en" ? "Engineering Note" : "Catatan Rekayasa"}
             </p>
-            <div className="article-lang-toggle" role="group" aria-label="Article Language">
+            <div
+              className="article-lang-switcher"
+              role="group"
+              aria-label="Article translation language"
+            >
               <button
                 type="button"
                 onClick={() => setLocale("en")}
-                className={`button button-small ${locale === "en" ? "button-primary" : "button-secondary"}`}
-                style={{ padding: "4px 12px", fontSize: "0.75rem", borderRadius: "6px" }}
+                className={`article-lang-button ${locale === "en" ? "is-active" : ""}`}
+                aria-pressed={locale === "en"}
               >
                 English
               </button>
               <button
                 type="button"
                 onClick={() => setLocale("id")}
-                className={`button button-small ${locale === "id" ? "button-primary" : "button-secondary"}`}
-                style={{
-                  padding: "4px 12px",
-                  fontSize: "0.75rem",
-                  borderRadius: "6px",
-                  marginLeft: "6px",
-                }}
+                className={`article-lang-button ${locale === "id" ? "is-active" : ""}`}
+                aria-pressed={locale === "id"}
               >
                 Bahasa Indonesia
               </button>
             </div>
           </div>
 
-          <h1>{article.title[locale]}</h1>
-          <p style={{ fontSize: "1.2rem", color: "var(--muted)", maxWidth: "780px" }}>
-            {article.excerpt[locale]}
-          </p>
+          <h1 className="article-title">{article.title[locale]}</h1>
+          <p className="article-summary">{article.excerpt[locale]}</p>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "16px",
-              alignItems: "center",
-              flexWrap: "wrap",
-              marginTop: "24px",
-              paddingTop: "16px",
-              borderTop: "1px solid var(--line)",
-            }}
-          >
-            <span className="mono">
-              {locale === "en" ? "Published:" : "Diterbitkan:"} {article.publishedDate}
-            </span>
-            <span className="mono">·</span>
-            <span className="mono">{article.readingTime[locale]}</span>
-            <div className="badge-row" style={{ marginTop: 0, marginLeft: "auto" }}>
+          <div className="article-meta-bar">
+            <div className="article-meta-details">
+              <span>
+                {locale === "en" ? "Published:" : "Diterbitkan:"} {article.publishedDate}
+              </span>
+              <span className="article-meta-sep" aria-hidden="true">
+                ·
+              </span>
+              <span>{article.readingTime[locale]}</span>
+            </div>
+            <div className="article-meta-tags">
               {article.topics.map((topic) => (
                 <Badge key={topic}>{topic}</Badge>
               ))}
@@ -95,7 +77,7 @@ export function EngineeringDetailContent({
       </header>
 
       <div className="container case-layout">
-        <aside className="case-index">
+        <aside className="case-index" aria-label="Sections">
           <span className="mono">{locale === "en" ? "Sections" : "Daftar Bagian"}</span>
           {article.sections.map((section, idx) => (
             <a key={idx} href={`#section-${idx}`}>
@@ -106,46 +88,17 @@ export function EngineeringDetailContent({
 
         <div className="case-content">
           {article.sections.map((section, idx) => (
-            <section id={`section-${idx}`} key={idx} style={{ marginBottom: "40px" }}>
+            <section id={`section-${idx}`} key={idx} className="article-section">
               <h2>{section.heading[locale]}</h2>
               {section.paragraphs[locale].map((p, pIdx) => (
-                <p key={pIdx} style={{ lineHeight: 1.75, fontSize: "1.05rem" }}>
-                  {p}
-                </p>
+                <p key={pIdx}>{p}</p>
               ))}
               {section.code && (
-                <div
-                  style={{
-                    margin: "24px 0",
-                    background: "var(--surface-strong)",
-                    border: "1px solid var(--line)",
-                    borderRadius: "8px",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      padding: "8px 16px",
-                      background: "color-mix(in srgb, var(--surface) 60%, var(--surface-strong))",
-                      borderBottom: "1px solid var(--line)",
-                      fontSize: "0.75rem",
-                      fontFamily: "var(--font-mono)",
-                    }}
-                  >
+                <div className="article-code-block">
+                  <div className="article-code-header">
                     <span>{section.code.language}</span>
                   </div>
-                  <pre
-                    style={{
-                      margin: 0,
-                      padding: "16px",
-                      overflowX: "auto",
-                      fontSize: "0.85rem",
-                      lineHeight: 1.6,
-                      fontFamily: "var(--font-mono)",
-                    }}
-                  >
+                  <pre className="article-code-pre">
                     <code>{section.code.snippet}</code>
                   </pre>
                 </div>
@@ -168,7 +121,7 @@ export function EngineeringDetailContent({
                   <Link
                     key={rel.slug}
                     href={`/engineering/${rel.slug}`}
-                    className="article-card"
+                    className="article-card article-card-interactive"
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <p className="mono">/{rel.slug}</p>
