@@ -90,7 +90,7 @@ export const translations = {
     systemBrief: { en: "System brief", id: "Ringkasan sistem" },
     liveSite: { en: "Live site", id: "Kunjungi situs" },
     viewCode: { en: "View code", id: "Lihat kode" },
-    newTag: { en: "New", id: "Baru" },
+    newTag: { en: "Latest", id: "Terbaru" },
   },
   engineeringPage: {
     eyebrow: { en: "Engineering notes", id: "Catatan rekayasa" },
@@ -162,6 +162,19 @@ export const translations = {
       en: "Verified technical certifications can be added in src/data/education.ts.",
       id: "Sertifikasi teknis terverifikasi dapat ditambahkan di src/data/education.ts.",
     },
+  },
+  diagrams: {
+    requestFlow: { en: "Request flow", id: "Alur request" },
+    illustrativeSystem: { en: "Illustrative system", id: "Sistem ilustratif" },
+    systemStages: { en: "System Stages", id: "Tahap Sistem" },
+    activeStage: { en: "Active Stage", id: "Tahap Aktif" },
+    verifiedStage: { en: "Verified Stage", id: "Tahap Terverifikasi" },
+    clickToNavigate: { en: "Click to navigate", id: "Klik untuk menuju tahap" },
+    ingestionTier: { en: "Ingress & Gateway", id: "Ingress & Gateway" },
+    persistenceTier: { en: "State & Cache", id: "Data & Cache" },
+    asyncTier: { en: "Async & Telemetry", id: "Asinkron & Telemetri" },
+    systemNavigator: { en: "System Flow Navigator", id: "Navigator Alur Sistem" },
+    jumpToStage: { en: "Jump to stage", id: "Lompat ke tahap" },
   },
   common: {
     language: { en: "Language", id: "Bahasa" },

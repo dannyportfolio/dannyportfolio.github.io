@@ -104,10 +104,7 @@ export function CaseStudyContent({ project }: { project: Project }) {
             </section>
           ))}
 
-          <div
-            className="case-footer-actions"
-            style={{ display: "flex", gap: "14px", marginTop: "40px", flexWrap: "wrap" }}
-          >
+          <div className="case-footer-actions">
             <Link href="/projects" className="button button-secondary">
               {locale === "en" ? "← Back to all projects" : "← Kembali ke semua proyek"}
             </Link>

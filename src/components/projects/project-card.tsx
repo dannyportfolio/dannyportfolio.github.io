@@ -24,7 +24,8 @@ export function ProjectCard({
       <div className="project-thumbnail" aria-hidden="true">
         {project.isNew && (
           <span className="project-new-pill">
-            {locale === "en" ? "New Portfolio" : "Portofolio Baru"}
+            <span className="project-new-pill__dot" aria-hidden="true" />
+            {locale === "en" ? "Latest Project" : "Proyek Terbaru"}
           </span>
         )}
         <span className="project-thumbnail__orb" />

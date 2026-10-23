@@ -34,10 +34,29 @@ export function RequestFlow() {
         </div>
         <div className="request-flow" aria-label="Illustrative backend request pipeline">
           {stages.map((stage, index) => (
-            <ScrollReveal key={stage.en} delay={index * 45} className="flow-stage">
-              <span className="flow-number">{String(index + 1).padStart(2, "0")}</span>
-              <span>{stage[locale]}</span>
-              {index < stages.length - 1 && <i aria-hidden>↓</i>}
+            <ScrollReveal key={stage.en} delay={index * 40} className="flow-stage-wrap">
+              <div className="flow-stage">
+                <div className="flow-stage-header">
+                  <span className="flow-number">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="flow-stage-dot" aria-hidden="true" />
+                </div>
+                <span className="flow-stage-title">{stage[locale]}</span>
+              </div>
+              {index < stages.length - 1 && (
+                <span className="flow-arrow" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 16 16"
+                    className="flow-arrow-icon"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" />
+                  </svg>
+                </span>
+              )}
             </ScrollReveal>
           ))}
         </div>

@@ -105,7 +105,18 @@ export function CaseStudyJourney({ project }: { project: Project }) {
   return (
     <div className="case-journey">
       <div className="case-journey-visual">
-        <SystemArchitecture nodes={projectNodes} activeNode={active || steps[0]?.id} />
+        <SystemArchitecture
+          nodes={projectNodes}
+          activeNode={active || steps[0]?.id}
+          variant="journey"
+          onNodeClick={(id) => {
+            setActive(id);
+            const el = document.getElementById(`journey-${id}`);
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }}
+        />
       </div>
 
       <div className="case-journey-steps">
