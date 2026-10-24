@@ -5,6 +5,55 @@ import { Badge } from "@/components/ui/badge";
 import type { BlogPost } from "@/data/blog";
 import { useLocale } from "@/context/locale-context";
 import { translations } from "@/data/translations";
+import { InferencePipelineDiagram } from "@/components/blog/inference-pipeline-diagram";
+import { InferenceArchitectureDiagram } from "@/components/blog/inference-architecture-diagram";
+
+function FormattedText({ content }: { content: string }) {
+  if (!content) return null;
+  // Regex matches [label](url), **bold**, `code`, or *italic*
+  const tokenRegex = /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)/g;
+  const parts = content.split(tokenRegex);
+
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (!part) return null;
+        if (part.startsWith("[") && part.endsWith(")")) {
+          const match = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(part);
+          if (match) {
+            const [, label, url] = match;
+            const isExternal = url.startsWith("http");
+            return (
+              <a
+                key={index}
+                href={url}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                className="text-link"
+              >
+                {label}
+              </a>
+            );
+          }
+        }
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return <strong key={index}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith("`") && part.endsWith("`")) {
+          return (
+            <code key={index} className="mono article-inline-code">
+              {part.slice(1, -1)}
+            </code>
+          );
+        }
+        if (part.startsWith("*") && part.endsWith("*")) {
+          return <em key={index}>{part.slice(1, -1)}</em>;
+        }
+        return part;
+      })}
+    </>
+  );
+}
 
 export function BlogDetailContent({
   post,
@@ -99,12 +148,54 @@ export function BlogDetailContent({
               <h2>{section.title[locale]}</h2>
 
               {section.paragraphs[locale].map((para, pIdx) => (
-                <p key={pIdx}>{para}</p>
+                <p key={pIdx}>
+                  <FormattedText content={para} />
+                </p>
               ))}
+
+              {section.diagram === "inference-pipeline" && (
+                <InferencePipelineDiagram locale={locale} />
+              )}
+
+              {section.diagram === "inference-architecture" && (
+                <InferenceArchitectureDiagram locale={locale} />
+              )}
+
+              {section.table && (
+                <div className="article-table-wrapper">
+                  <div className="article-table-container">
+                    <table className="article-table">
+                      <thead>
+                        <tr>
+                          {section.table.headers[locale].map((h, i) => (
+                            <th key={i}>{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {section.table.rows[locale].map((row, rIdx) => (
+                          <tr key={rIdx}>
+                            {row.map((cell, cIdx) => (
+                              <td key={cIdx}>
+                                <FormattedText content={cell} />
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  {section.table.caption && (
+                    <p className="article-table-caption mono">{section.table.caption[locale]}</p>
+                  )}
+                </div>
+              )}
 
               {section.callout && (
                 <aside className="article-callout">
-                  <p>{section.callout.text[locale]}</p>
+                  <p>
+                    <FormattedText content={section.callout.text[locale]} />
+                  </p>
                 </aside>
               )}
 
@@ -127,7 +218,9 @@ export function BlogDetailContent({
                   <h4>{locale === "en" ? "Verification Criteria:" : "Kriteria Verifikasi:"}</h4>
                   <ul className="article-checklist">
                     {section.checklist[locale].map((item, cIdx) => (
-                      <li key={cIdx}>{item}</li>
+                      <li key={cIdx}>
+                        <FormattedText content={item} />
+                      </li>
                     ))}
                   </ul>
                 </div>
