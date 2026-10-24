@@ -280,7 +280,7 @@ export function SystemArchitecture({
               markerHeight="6"
               orient="auto-start-reverse"
             >
-              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--accent)" />
+              <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--accent-connector, var(--accent))" />
             </marker>
             <filter id={`${idPrefix}-glow`} x="-20%" y="-20%" width="140%" height="140%">
               <feDropShadow
@@ -288,7 +288,7 @@ export function SystemArchitecture({
                 dy="2"
                 stdDeviation="4"
                 floodColor="var(--accent)"
-                floodOpacity="0.25"
+                floodOpacity="0.15"
               />
             </filter>
           </defs>

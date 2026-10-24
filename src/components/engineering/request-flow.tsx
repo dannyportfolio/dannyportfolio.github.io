@@ -49,7 +49,7 @@ export function RequestFlow() {
                     className="flow-arrow-icon"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="1.3"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
