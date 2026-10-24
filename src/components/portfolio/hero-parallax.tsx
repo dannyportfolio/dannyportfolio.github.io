@@ -14,45 +14,73 @@ export function HeroParallax() {
       <div className="hero-glow" aria-hidden="true" />
       <div className="container hero-layout">
         <div className="hero-content">
-          <div className="hero-new-badge">
-            <span className="hero-new-badge__dot" aria-hidden="true" />
-            <span className="mono">{locale === "en" ? "New showcase" : "Portofolio baru"}</span>
-            <Link href="/case-studies/veloura" className="hero-new-badge__link">
-              Veloura ERP — Fashion Manufacturing & Distribution →
-            </Link>
-          </div>
-          <p className="eyebrow">
-            Danial Fachrudin <span>—</span> Software Engineer
+          {/* Featured Project Announcement */}
+          <Link
+            href="/case-studies/veloura"
+            className="hero-announcement"
+            aria-label={
+              locale === "en"
+                ? "Latest project: Veloura ERP — Fashion Manufacturing & Distribution"
+                : "Proyek terbaru: Veloura ERP — Fashion Manufacturing & Distribution"
+            }
+          >
+            <span className="hero-announcement__pill">
+              <span className="hero-announcement__dot" aria-hidden="true" />
+              <span className="mono">{locale === "en" ? "LATEST PROJECT" : "PROYEK TERBARU"}</span>
+            </span>
+            <span className="hero-announcement__content">
+              <span className="hero-announcement__title">
+                Veloura ERP — Fashion Manufacturing &amp; Distribution
+              </span>
+              <span className="hero-announcement__arrow" aria-hidden="true">
+                →
+              </span>
+            </span>
+          </Link>
+
+          {/* Professional Byline */}
+          <p className="eyebrow hero-byline">
+            Danial Fachrudin{" "}
+            <span className="hero-byline-sep" aria-hidden="true">
+              —
+            </span>{" "}
+            Software Engineer
           </p>
+
+          {/* Main Headline */}
           <h1>
-            {locale === "en" ? (
-              <>
-                Building Systems
-                <br />
-                <em>That Perform.</em>
-              </>
-            ) : (
-              <>
-                Membangun Sistem
-                <br />
-                <em>Yang Berperforma.</em>
-              </>
-            )}
+            <span className="hero-title-lead">
+              {locale === "en" ? "Building Systems" : "Membangun Sistem"}
+            </span>{" "}
+            <em className="hero-title-accent">
+              {locale === "en" ? "That Perform." : "Yang Berperforma."}
+            </em>
           </h1>
+
+          {/* Supporting Description */}
           <p className="hero-parallax-copy">
             {locale === "en"
               ? "Software Engineer focused on backend architecture, scalable APIs, database performance, and reliable production systems."
               : "Software Engineer yang berfokus pada arsitektur backend, API skalabel, performa basis data, dan keandalan sistem produksi."}
           </p>
+
+          {/* Action CTAs */}
           <div className="hero-actions">
-            <ButtonLink href="/projects">
+            <ButtonLink href="/projects" className="hero-cta-primary">
               {locale === "en" ? "Explore projects" : "Jelajahi proyek"}{" "}
-              <span aria-hidden="true">→</span>
+              <span className="hero-cta-arrow" aria-hidden="true">
+                →
+              </span>
             </ButtonLink>
-            <ButtonLink href="/resume" variant="secondary">
-              {locale === "en" ? "Open CV" : "Buka CV"} <span aria-hidden="true">↗</span>
+            <ButtonLink href="/resume" variant="secondary" className="hero-cta-secondary">
+              {locale === "en" ? "Open CV" : "Buka CV"}{" "}
+              <span className="hero-cta-arrow" aria-hidden="true">
+                ↗
+              </span>
             </ButtonLink>
           </div>
+
+          {/* Meta Bar */}
           <div className="hero-meta">
             <span>
               {locale === "en"
@@ -64,6 +92,8 @@ export function HeroParallax() {
             </Link>
           </div>
         </div>
+
+        {/* Hero Visual / Portrait */}
         <div className="hero-visual">
           <figure className="hero-portrait">
             <Image
