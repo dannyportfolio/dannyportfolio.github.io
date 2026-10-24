@@ -8,10 +8,14 @@ export function ScrollReveal({
   children,
   className = "",
   delay = 0,
+  rootMargin = "0px 0px -40px 0px",
+  threshold = 0.05,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
+  rootMargin?: string;
+  threshold?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -33,11 +37,11 @@ export function ScrollReveal({
           observer.disconnect();
         }
       },
-      { rootMargin: "60px 0px", threshold: 0.05 },
+      { rootMargin, threshold },
     );
     observer.observe(element);
     return () => observer.disconnect();
-  }, [reducedMotion]);
+  }, [reducedMotion, rootMargin, threshold]);
 
   return (
     <div

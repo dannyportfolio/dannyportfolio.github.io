@@ -9,6 +9,7 @@ import { RequestFlow } from "@/components/engineering/request-flow";
 import { PerformanceVisualization } from "@/components/engineering/performance-visualization";
 import { DatabaseFlow } from "@/components/engineering/database-flow";
 import { HeroParallax } from "@/components/portfolio/hero-parallax";
+import { ProfileSection } from "@/components/portfolio/profile-section";
 import { StickyIntroduction } from "@/components/portfolio/sticky-introduction";
 import { ResumeTransition } from "@/components/portfolio/resume-transition";
 import { ProjectCard } from "@/components/projects/project-card";
@@ -26,6 +27,7 @@ export default function Home() {
     <SiteShell>
       <ScrollProgress />
       <HeroParallax />
+      <ProfileSection />
       <StickyIntroduction />
       <RequestFlow />
       <TechnicalExpertiseSection />

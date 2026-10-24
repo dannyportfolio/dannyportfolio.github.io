@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { useLocale } from "@/context/locale-context";
@@ -24,23 +23,22 @@ export function HeroParallax() {
                 : "Proyek terbaru: Veloura ERP — Fashion Manufacturing & Distribution"
             }
           >
-            <span className="hero-announcement__pill">
+            <span className="hero-announcement__label">
               <span className="hero-announcement__dot" aria-hidden="true" />
-              <span className="mono">{locale === "en" ? "LATEST PROJECT" : "PROYEK TERBARU"}</span>
+              {locale === "en" ? "Latest project" : "Proyek terbaru"}
             </span>
-            <span className="hero-announcement__content">
-              <span className="hero-announcement__title">
-                Veloura ERP — Fashion Manufacturing &amp; Distribution
-              </span>
-              <span className="hero-announcement__arrow" aria-hidden="true">
-                →
-              </span>
+            <span className="hero-announcement__divider" aria-hidden="true" />
+            <span className="hero-announcement__title">
+              Veloura ERP — Fashion Manufacturing &amp; Distribution
+            </span>
+            <span className="hero-announcement__arrow" aria-hidden="true">
+              →
             </span>
           </Link>
 
           {/* Professional Byline */}
           <p className="eyebrow hero-byline">
-            Danial Fachrudin{" "}
+            <span className="hero-byline-name">Danial Fachrudin</span>{" "}
             <span className="hero-byline-sep" aria-hidden="true">
               —
             </span>{" "}
@@ -80,7 +78,7 @@ export function HeroParallax() {
             </ButtonLink>
           </div>
 
-          {/* Meta Bar */}
+          {/* Meta Bar: specialties & availability */}
           <div className="hero-meta">
             <span>
               {locale === "en"
@@ -90,27 +88,6 @@ export function HeroParallax() {
             <Link href="/#contact">
               {locale === "en" ? "Open to opportunities ↗" : "Terbuka untuk peluang kerja ↗"}
             </Link>
-          </div>
-        </div>
-
-        {/* Hero Visual / Portrait */}
-        <div className="hero-visual">
-          <figure className="hero-portrait">
-            <Image
-              src="/danny-fachrudin-profile.avif"
-              alt="Danial Fachrudin, Software Engineer"
-              fill
-              priority
-              sizes="(max-width: 800px) 86vw, 34vw"
-            />
-          </figure>
-          <div className="hero-visual-caption">
-            <span className="mono">
-              {locale === "en" ? "Based in Indonesia" : "Berbasis di Indonesia"}
-            </span>
-            <strong>
-              {locale === "en" ? "Available internationally" : "Tersedia secara internasional"}
-            </strong>
           </div>
         </div>
       </div>

@@ -14,11 +14,12 @@ const sections = [
 ] as const;
 
 export function ScrollProgress() {
-  const active = useActiveSection(["intro", ...sections.map(([id]) => id)]);
+  const active = useActiveSection(["intro", "profile", ...sections.map(([id]) => id)]);
   return (
     <aside className="scroll-progress" aria-label="Section progress">
       {sections.map(([id, number]) => {
-        const isActive = active === id || (id === "about" && active === "intro");
+        const isActive =
+          active === id || (id === "about" && (active === "intro" || active === "profile"));
         return (
           <a
             key={id}
