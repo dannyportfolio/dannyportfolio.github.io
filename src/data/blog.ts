@@ -1,5 +1,6 @@
 import { vibeCodingPost } from "@/data/posts/vibe-coding";
 import { inferenceEngineeringPost } from "@/data/posts/inference-engineering";
+import { cloudComputingPost } from "@/data/posts/cloud-computing";
 
 export type BlogTable = {
   headers: { en: string[]; id: string[] };
@@ -42,7 +43,7 @@ export type BlogPost = {
   sections: BlogSection[];
 };
 
-export const blogPosts: BlogPost[] = [inferenceEngineeringPost, vibeCodingPost];
+export const blogPosts: BlogPost[] = [cloudComputingPost, inferenceEngineeringPost, vibeCodingPost];
 
 export function getBlogPost(slug: string) {
   return blogPosts.find((post) => post.slug === slug && post.status === "published");

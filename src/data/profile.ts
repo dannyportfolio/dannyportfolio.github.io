@@ -1,7 +1,7 @@
 export type ProfileLink = {
   label: string;
   href: string;
-  type?: "email" | "github" | "linkedin" | "portfolio" | "custom";
+  type?: "email" | "github" | "linkedin" | "portfolio" | "instagram" | "custom";
 };
 
 export const profile = {
@@ -12,6 +12,7 @@ export const profile = {
   email: "danialf.business@gmail.com",
   github: "https://github.com/dannyportfolio",
   linkedin: "", // Owner configuration point: e.g. "https://linkedin.com/in/username"
+  instagram: "https://instagram.com/daannhard",
   portfolioUrl: "https://dannyportfolio.github.io",
   location: "Indonesia",
 
@@ -38,7 +39,7 @@ export const profile = {
   contactLinks: [
     { label: "Email", href: "mailto:danialf.business@gmail.com", type: "email" },
     { label: "GitHub", href: "https://github.com/dannyportfolio", type: "github" },
-    { label: "Portfolio", href: "https://dannyportfolio.github.io", type: "portfolio" },
+    { label: "Instagram", href: "https://instagram.com/daannhard", type: "instagram" },
   ] as ProfileLink[],
 };
 
