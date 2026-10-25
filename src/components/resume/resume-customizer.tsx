@@ -1,14 +1,10 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import type { TargetRole } from "@/data/profile";
+import { targetRoles, type TargetRole } from "@/data/profile";
 import { useLocale } from "@/context/locale-context";
 
-const roles: Array<{ value: TargetRole; label: { en: string; id: string } }> = [
-  { value: "backend", label: { en: "Backend Engineer", id: "Backend Engineer" } },
-  { value: "software", label: { en: "Software Engineer", id: "Software Engineer" } },
-  { value: "fullstack", label: { en: "Full Stack Engineer", id: "Full Stack Engineer" } },
-];
+const roleKeys: TargetRole[] = ["backend", "software", "fullstack"];
 
 export function ResumeCustomizer({ current }: { current: TargetRole }) {
   const router = useRouter();
@@ -18,22 +14,39 @@ export function ResumeCustomizer({ current }: { current: TargetRole }) {
   function select(role: TargetRole) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("role", role);
-    router.replace(`/resume?${params.toString()}`);
+    router.replace(`/resume?${params.toString()}`, { scroll: false });
   }
 
   return (
     <div className="role-selector" aria-label="CV target role selector">
-      <span className="mono">{locale === "en" ? "Target role" : "Fokus peran"}</span>
-      <div role="group">
-        {roles.map((role) => (
-          <button
-            key={role.value}
-            onClick={() => select(role.value)}
-            className={current === role.value ? "active" : ""}
-          >
-            {role.label[locale]}
-          </button>
-        ))}
+      <div className="role-selector-header">
+        <span className="mono role-selector-label">
+          {locale === "en" ? "Target role" : "Fokus peran"}
+        </span>
+        <span className="mono role-selector-count">{locale === "en" ? "3 options" : "3 opsi"}</span>
+      </div>
+      <div
+        className="role-selector-group"
+        role="radiogroup"
+        aria-label={locale === "en" ? "Target role selection" : "Pemilihan fokus peran"}
+      >
+        {roleKeys.map((key) => {
+          const roleData = targetRoles[key];
+          const isSelected = current === key;
+          return (
+            <button
+              key={key}
+              type="button"
+              role="radio"
+              aria-checked={isSelected}
+              onClick={() => select(key)}
+              className={`role-button ${isSelected ? "is-selected" : ""}`}
+            >
+              <span className="role-button-indicator" aria-hidden="true" />
+              <span>{roleData.label[locale]}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
