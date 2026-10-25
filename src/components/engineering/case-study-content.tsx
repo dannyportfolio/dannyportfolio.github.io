@@ -47,7 +47,7 @@ export function CaseStudyContent({ project }: { project: Project }) {
     <article className="case-study">
       <header className="case-header">
         <div className="container">
-          <nav className="case-breadcrumb" aria-label="Breadcrumb" style={{ marginBottom: "20px" }}>
+          <nav className="case-breadcrumb" aria-label="Breadcrumb">
             <Link href="/projects" className="text-link">
               {locale === "en" ? "← Back to all projects" : "← Kembali ke daftar proyek"}
             </Link>

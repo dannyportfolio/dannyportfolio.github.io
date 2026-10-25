@@ -1679,7 +1679,7 @@ p {
   margin-top: 15px;
 }
 .case-header {
-  padding: 120px 0 70px;
+  padding: clamp(88px, 8vw, 108px) 0 clamp(36px, 4.5vw, 54px);
   border-bottom: 1px solid var(--line);
   background: radial-gradient(
     circle at 78% 26%,
@@ -1687,9 +1687,11 @@ p {
     transparent 34%
   );
 }
-.case-header h1 {
-  margin-bottom: 20px;
-  font-size: clamp(3rem, 7vw, 6.4rem);
+.case-header h1:not(.article-title) {
+  margin-bottom: 18px;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
 }
 .case-header .container > p:not(.eyebrow) {
   max-width: 690px;
@@ -2247,16 +2249,23 @@ p {
     display: none;
   }
   .case-header {
-    padding: 88px 0 44px;
+    padding: 84px 0 38px;
     background: radial-gradient(
       circle at 50% 18%,
       color-mix(in srgb, var(--accent) 11%, transparent),
       transparent 55%
     );
   }
-  .case-header h1 {
-    font-size: clamp(2.2rem, 8vw, 3.8rem);
+  .case-header h1:not(.article-title) {
+    font-size: clamp(2rem, 6vw, 3rem);
     margin-bottom: 16px;
+  }
+  .case-header h1.article-title,
+  .article-header h1.article-title,
+  .article-title {
+    font-size: clamp(1.85rem, 4.2vw + 0.8rem, 2.6rem);
+    line-height: 1.15;
+    margin: 12px 0 16px;
   }
   .resume-hero-layout {
     grid-template-columns: 1fr;
@@ -2296,16 +2305,23 @@ p {
     gap: 4px;
   }
   .case-header {
-    padding: 76px 0 36px;
+    padding: 78px 0 32px;
     background: radial-gradient(
       circle at 50% 14%,
       color-mix(in srgb, var(--accent) 10%, transparent),
       transparent 60%
     );
   }
-  .case-header h1 {
-    font-size: clamp(1.85rem, 8.5vw, 2.5rem);
+  .case-header h1:not(.article-title) {
+    font-size: clamp(1.75rem, 7.5vw, 2.2rem);
     margin-bottom: 14px;
+  }
+  .case-header h1.article-title,
+  .article-header h1.article-title,
+  .article-title {
+    font-size: clamp(1.75rem, 6.5vw, 2.15rem);
+    line-height: 1.16;
+    margin: 10px 0 14px;
   }
   .mobile-nav {
     padding: 12px 16px 20px;
@@ -4071,20 +4087,38 @@ pre code {
   color: #fff;
   box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 30%, transparent);
 }
+.case-breadcrumb {
+  margin-bottom: 16px;
+}
+.case-breadcrumb .text-link {
+  font-size: 0.8rem;
+  font-family: var(--font-mono), monospace;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.case-breadcrumb .text-link:hover {
+  color: var(--accent);
+}
+.case-header h1.article-title,
+.article-header h1.article-title,
 .article-title {
-  font-size: clamp(2rem, 5vw, 3.8rem);
-  line-height: 1.08;
-  letter-spacing: -0.015em;
-  margin: 16px 0 20px;
+  font-size: clamp(1.9rem, 3.2vw + 1rem, 3.4rem);
+  line-height: 1.14;
+  letter-spacing: -0.028em;
+  font-weight: 800;
+  margin: 14px 0 18px;
+  max-width: 860px;
   text-wrap: balance;
   overflow-wrap: break-word;
 }
 .article-summary {
-  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-  line-height: 1.65;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.62;
   color: var(--muted);
-  max-width: 780px;
-  margin: 0 0 28px;
+  max-width: 760px;
+  margin: 0 0 24px;
   text-wrap: pretty;
 }
 .article-meta-bar {

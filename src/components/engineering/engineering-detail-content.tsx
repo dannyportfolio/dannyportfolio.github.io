@@ -18,9 +18,9 @@ export function EngineeringDetailContent({
 
   return (
     <article className="case-study case-study-hero">
-      <header className="case-header">
+      <header className="case-header article-header">
         <div className="container">
-          <nav className="case-breadcrumb" aria-label="Breadcrumb" style={{ marginBottom: "20px" }}>
+          <nav className="case-breadcrumb" aria-label="Breadcrumb">
             <Link href="/engineering" className="text-link">
               {t.backToNotes[locale]}
             </Link>

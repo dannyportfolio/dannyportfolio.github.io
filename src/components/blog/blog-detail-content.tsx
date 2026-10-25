@@ -67,9 +67,9 @@ export function BlogDetailContent({
 
   return (
     <article className="case-study case-study-hero">
-      <header className="case-header">
+      <header className="case-header article-header">
         <div className="container">
-          <nav className="case-breadcrumb" aria-label="Breadcrumb" style={{ marginBottom: "20px" }}>
+          <nav className="case-breadcrumb" aria-label="Breadcrumb">
             <Link href="/blog" className="text-link">
               {t.backToBlog[locale]}
             </Link>
