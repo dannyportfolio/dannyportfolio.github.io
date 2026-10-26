@@ -32,6 +32,7 @@ export function SiteHeader() {
     "projects",
     "case-studies",
     "experience",
+    "certifications",
     "principles",
     "contact",
   ]);

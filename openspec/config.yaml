@@ -1,0 +1,16 @@
+schema: spec-driven
+
+context: |
+  Static site export (Next.js output: "export"). No runtime Node.js server or dynamic API routes.
+  Strict zero-hallucination policy: never invent degrees, certifications, or professional metrics.
+  Bilingual support (EN / ID) required for all user-facing content via src/data/translations.ts.
+  Apple-inspired minimalist aesthetic with full dark and light theme compliance.
+
+rules:
+  proposal:
+    - Keep proposals concise and focused on direct value
+    - Explicitly define what is out of scope
+  specs:
+    - Use RFC 2119 keywords (SHALL, MUST, SHOULD) for all requirements
+  tasks:
+    - Sequence tasks from data contracts to UI components to verification

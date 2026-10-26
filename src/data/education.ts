@@ -1,3 +1,5 @@
+import { certificates } from "./certifications";
+
 export type Education = {
   institution: string;
   credential: string;
@@ -17,23 +19,15 @@ export type Certification = {
  * Honest, unverified credential policy:
  * No academic institutions, degree titles, or professional certifications are fabricated.
  * Add genuine verified educational backgrounds and certifications here as they are acquired.
- *
- * Example structure:
- * {
- *   institution: "Universitas Gadjah Mada",
- *   credential: "B.Sc. in Computer Science",
- *   period: "2019 — 2023",
- *   location: "Yogyakarta, Indonesia"
- * }
  */
 export const education: Education[] = [];
 
 /**
- * Example structure:
- * {
- *   name: "AWS Certified Solutions Architect",
- *   issuer: "Amazon Web Services",
- *   year: "2024"
- * }
+ * Verified certifications mapped directly from the single source of truth in `./certifications.ts`
  */
-export const certifications: Certification[] = [];
+export const certifications: Certification[] = certificates.map((cert) => ({
+  name: cert.title,
+  issuer: cert.issuer,
+  year: cert.year || cert.issueDate,
+  credentialUrl: cert.verificationUrl || cert.filePath,
+}));

@@ -50,6 +50,9 @@ export function SiteFooter() {
             <Link href="/projects">{locale === "en" ? "Projects" : "Proyek"}</Link>
             <Link href="/engineering">{locale === "en" ? "Engineering" : "Catatan Rekayasa"}</Link>
             <Link href="/blog">Blog</Link>
+            <Link href="/#certifications">
+              {locale === "en" ? "Certifications" : "Sertifikasi"}
+            </Link>
             <Link href="/resume">{locale === "en" ? "Resume & CV" : "Resume & CV"}</Link>
           </div>
         </div>

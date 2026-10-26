@@ -11,6 +11,7 @@ import { DatabaseFlow } from "@/components/engineering/database-flow";
 import { HeroParallax } from "@/components/portfolio/hero-parallax";
 import { ProfileSection } from "@/components/portfolio/profile-section";
 import { StickyIntroduction } from "@/components/portfolio/sticky-introduction";
+import { CertificationsSection } from "@/components/portfolio/certifications-section";
 import { ResumeTransition } from "@/components/portfolio/resume-transition";
 import { ProjectCard } from "@/components/projects/project-card";
 import { ButtonLink } from "@/components/ui/button";
@@ -36,6 +37,7 @@ export default function Home() {
       <PerformanceVisualization />
       <DatabaseFlow />
       <ExperienceSection />
+      <CertificationsSection />
       <PrinciplesSection />
       <ResumeTransition />
       <ContactSection />
