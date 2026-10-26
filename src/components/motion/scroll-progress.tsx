@@ -9,8 +9,9 @@ const sections = [
   ["projects", "04"],
   ["case-studies", "05"],
   ["experience", "06"],
-  ["resume-generator", "07"],
-  ["contact", "08"],
+  ["certifications", "07"],
+  ["resume-generator", "08"],
+  ["contact", "09"],
 ] as const;
 
 export function ScrollProgress() {

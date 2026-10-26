@@ -21,6 +21,7 @@ export function SiteHeader() {
     { href: "/projects", label: t.projects[locale], key: "projects" },
     { href: "/engineering", label: t.engineering[locale], key: "engineering" },
     { href: "/blog", label: t.blog[locale], key: "blog" },
+    { href: "/#certifications", label: t.certifications[locale], key: "certifications" },
     { href: "/resume", label: t.resume[locale], key: "resume" },
     { href: "/#contact", label: t.contact[locale], key: "contact" },
   ];
@@ -78,6 +79,9 @@ export function SiteHeader() {
   function checkActive(item: (typeof navLinks)[number]) {
     if (item.href === "/#contact") {
       return pathname === "/" && activeSection === "contact";
+    }
+    if (item.href === "/#certifications") {
+      return pathname === "/" && activeSection === "certifications";
     }
     if (item.href === "/projects") {
       return pathname.startsWith("/projects") || pathname.startsWith("/case-studies");

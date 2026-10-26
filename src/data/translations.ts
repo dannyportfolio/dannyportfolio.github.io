@@ -7,6 +7,7 @@ export const translations = {
     projects: { en: "Projects", id: "Proyek" },
     engineering: { en: "Engineering", id: "Engineering" },
     blog: { en: "Blog", id: "Blog" },
+    certifications: { en: "Certifications", id: "Sertifikasi" },
     resume: { en: "Resume", id: "Resume" },
     contact: { en: "Contact", id: "Kontak" },
     cv: { en: "CV", id: "CV" },
