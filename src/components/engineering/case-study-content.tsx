@@ -119,15 +119,17 @@ export function CaseStudyContent({ project }: { project: Project }) {
                 <span aria-hidden="true">↗</span>
               </a>
             )}
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="button button-primary"
-            >
-              {locale === "en" ? `Visit ${project.name}` : `Kunjungi ${project.name}`}{" "}
-              <span aria-hidden="true">↗</span>
-            </a>
+            {project.url !== project.githubUrl && (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button button-primary"
+              >
+                {locale === "en" ? `Visit ${project.name}` : `Kunjungi ${project.name}`}{" "}
+                <span aria-hidden="true">↗</span>
+              </a>
+            )}
           </div>
         </div>
       </div>

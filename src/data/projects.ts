@@ -32,6 +32,122 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "opspilot",
+    name: "OpsPilot — Serverless Multi-Tenant Task REST API in Go",
+    domain: "github.com/dannyportfolio/OpsPilot",
+    url: "https://github.com/dannyportfolio/OpsPilot",
+    githubUrl: "https://github.com/dannyportfolio/OpsPilot",
+    summary: {
+      en: "Production-ready serverless multi-tenant task REST API built in idiomatic Go with hexagonal architecture, dual-runtime execution (HTTP server & AWS Lambda ARM64 Graviton), cryptographic JWT RBAC, and automated schema migrations.",
+      id: "REST API manajemen task multi-tenant serverless siap produksi dalam bahasa Go dengan arsitektur heksagonal murni, dual-runtime (HTTP server & AWS Lambda ARM64 Graviton), autentikasi JWT RBAC kriptografis, dan migrasi skema database otomatis.",
+    },
+    category: {
+      en: "Serverless & Cloud Architecture",
+      id: "Serverless & Arsitektur Cloud",
+    },
+    highlights: {
+      en: [
+        "Dual-runtime (HTTP server & AWS Lambda Graviton)",
+        "Strict Hexagonal / Clean Architecture",
+        "Multi-tenant isolation & granular RBAC",
+        "Cryptographic JWT authentication & revocation",
+        "Automated lexical SQL migration engine",
+      ],
+      id: [
+        "Dual-runtime (HTTP server & AWS Lambda Graviton)",
+        "Arsitektur heksagonal murni",
+        "Isolasi multi-tenant & granular RBAC",
+        "Autentikasi JWT kriptografis & revokasi instan",
+        "Engine migrasi SQL leksikal otomatis",
+      ],
+    },
+    technologies: ["Go", "AWS Lambda", "API Gateway", "PostgreSQL", "Docker", "JWT / RBAC"],
+    problem: {
+      en: "Engineering a high-throughput, low-latency multi-tenant task management backend capable of running seamlessly both as a long-running containerized HTTP service and as an ephemeral AWS Lambda serverless function without duplicating domain logic.",
+      id: "Membangun backend manajemen task multi-tenant berlatensi rendah yang mampu berjalan mulus baik sebagai service HTTP kontainer maupun fungsi serverless AWS Lambda tanpa menduplikasi logika domain bisnis.",
+    },
+    challenge: {
+      en: "Enforcing absolute multi-tenant boundary isolation across repository adapters, managing database connection pooling under AWS Lambda burst concurrency, and achieving sub-15ms cold start initialization on 64-bit ARM Graviton.",
+      id: "Menjamin isolasi batas multi-tenant tanpa risiko kebocoran data, mengelola connection pool database saat lonjakan konkurensi AWS Lambda, dan menjaga latensi cold start di bawah 15ms pada arsitektur 64-bit ARM Graviton.",
+    },
+    architecture: {
+      en: "Hexagonal clean architecture isolating pure domain ports from HTTP transport and persistence adapters, featuring a custom lexical SQL migration engine, token revocation cache, and zero-allocation API Gateway v2 event proxying.",
+      id: "Arsitektur heksagonal bersih yang memisahkan domain inti dari adapter transport HTTP dan database PostgreSQL, dilengkapi engine migrasi SQL leksikal terintegrasi, registri pencabutan token instan, dan proxy event API Gateway v2 efisien.",
+    },
+    contributions: {
+      en: [
+        "Architected pure Go domain interfaces and application services for multi-tenant task lifecycle and authentication.",
+        "Engineered dual-runtime bootstrap adapters for standalone net/http servers and AWS Lambda Graviton execution.",
+        "Implemented strict cryptographic JWT verification, sliding-window rate limiting, and defensive thread-safe in-memory fallback repositories.",
+      ],
+      id: [
+        "Merancang antarmuka domain Go murni dan application services untuk siklus hidup task dan autentikasi multi-tenant.",
+        "Mengembangkan bootstrap dual-runtime untuk standalone server net/http dan eksekusi serverless AWS Lambda Graviton.",
+        "Mengimplementasikan verifikasi JWT kriptografis, pembatas laju sliding-window, dan repositori in-memory thread-safe defensif.",
+      ],
+    },
+    reliability: {
+      en: "Reliability is verified through 100% test pass rate across all domain packages, table-driven race detection, transactional PostgreSQL migrations, and OpenSpec specification validation.",
+      id: "Keandalan dijamin melalui 100% kelulusan test di seluruh paket domain, pengujian race condition berbasis konkurensi, migrasi database transaksional, dan validasi spesifikasi OpenSpec.",
+    },
+    implementation: {
+      en: [
+        "Pure Go standard library routing with zero external heavy web framework dependencies.",
+        "Automated lexical SQL migration runner ensuring deterministic forward and backward schema evolution.",
+        "AWS SAM declarative template targeting provided.al2023 on Graviton ARM64 for 20% lower cost.",
+      ],
+      id: [
+        "Routing berbasis pustaka standar Go murni tanpa ketergantungan framework eksternal berat.",
+        "Runner migrasi SQL leksikal otomatis untuk evolusi skema database yang aman dan teruji.",
+        "Template deklaratif AWS SAM dengan target provided.al2023 pada Graviton ARM64 untuk efisiensi biaya 20%.",
+      ],
+    },
+    caseStudy: true,
+    isNew: true,
+    architectureSteps: [
+      {
+        id: "client-ingress",
+        label: { en: "Client API Ingress", id: "Ingress Klien API" },
+        description: {
+          en: "External HTTPS requests pass through Amazon API Gateway HTTP API v2 or standalone HTTP reverse proxy with TLS termination.",
+          id: "Request HTTPS masuk melalui API Gateway HTTP API v2 atau reverse proxy HTTP dengan terminasi TLS.",
+        },
+      },
+      {
+        id: "jwt-rbac-guard",
+        label: { en: "JWT & RBAC Security Gate", id: "Gerbang Keamanan JWT & RBAC" },
+        description: {
+          en: "Cryptographic HS256 verification, sliding-window IP rate limiting, and role-based access validation before touching domain handlers.",
+          id: "Verifikasi kriptografis token HS256, pembatasan laju IP, dan otorisasi peran pengguna sebelum menyentuh handler domain.",
+        },
+      },
+      {
+        id: "hexagonal-domain",
+        label: { en: "Hexagonal Business Core", id: "Inti Bisnis Heksagonal" },
+        description: {
+          en: "Domain task and auth services process business constraints with zero coupling to transport or storage mechanisms.",
+          id: "Layanan domain task dan autentikasi mengeksekusi aturan bisnis tanpa ketergantungan pada layer transport atau database.",
+        },
+      },
+      {
+        id: "dual-persistence",
+        label: { en: "Tenant-Isolated Persistence", id: "Persistensi Terisolasi Multi-Tenant" },
+        description: {
+          en: "Executes parameterized PostgreSQL queries scoped strictly by tenant_id, with in-memory thread-safe fallback for local development.",
+          id: "Mengeksekusi kueri PostgreSQL berparameter dengan pembatasan tenant_id ketat, didukung repositori in-memory untuk dev lokal.",
+        },
+      },
+      {
+        id: "serverless-response",
+        label: { en: "Standardized Response Marshalling", id: "Format Respons Terstandarisasi" },
+        description: {
+          en: "Returns deterministic JSON envelopes and maps internal domain errors to RFC-compliant HTTP status codes in under 15ms.",
+          id: "Mengembalikan envelope respons JSON terstandarisasi dan memetakan error domain ke status HTTP dalam waktu <15ms.",
+        },
+      },
+    ],
+  },
+  {
     slug: "veloura",
     name: "Veloura ERP — Fashion Manufacturing & Distribution",
     domain: "display-veloura.vercel.app",
@@ -94,7 +210,6 @@ export const projects: Project[] = [
       ],
     },
     caseStudy: true,
-    isNew: true,
     architectureSteps: [
       {
         id: "sales-orders",

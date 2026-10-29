@@ -100,15 +100,17 @@ export function ProjectCard({
               {t.viewCode[locale]} <span aria-hidden="true">↗</span>
             </a>
           )}
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-link text-link--secondary"
-            aria-label={`View ${project.name} live project (opens in a new tab)`}
-          >
-            {t.liveSite[locale]} <span aria-hidden="true">↗</span>
-          </a>
+          {project.url !== project.githubUrl && (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-link text-link--secondary"
+              aria-label={`View ${project.name} live project (opens in a new tab)`}
+            >
+              {t.liveSite[locale]} <span aria-hidden="true">↗</span>
+            </a>
+          )}
         </div>
       </div>
     </article>
