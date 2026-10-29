@@ -2,15 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { profile } from "@/data/profile";
 import { useLocale } from "@/context/locale-context";
+import { translations } from "@/data/translations";
 
 export function SiteFooter() {
+  const pathname = usePathname();
   const { locale } = useLocale();
+  const t = translations.footer;
 
   return (
     <footer className="site-footer">
-      <section className="footer-verse" aria-label="Guiding verse — Proverbs 16:3">
+      <section className="footer-verse" aria-label={t.verseAriaLabel[locale]}>
         <div className="footer-verse__backdrop" aria-hidden="true">
           <Image
             src="/footer-horizon.avif"
@@ -22,38 +26,28 @@ export function SiteFooter() {
           <div className="footer-verse__overlay" />
         </div>
         <div className="container footer-verse__inner">
-          <div className="footer-verse__grid">
-            <figure className="footer-verse__block" lang="en">
-              <span className="mono footer-verse__lang">ENGLISH</span>
-              <blockquote className="footer-verse__quote">
-                “Commit to the LORD whatever you do, and he will establish your plans.”
-              </blockquote>
-              <figcaption className="footer-verse__cite">Proverbs 16:3 (NIV)</figcaption>
-            </figure>
-            <figure className="footer-verse__block" lang="id">
-              <span className="mono footer-verse__lang">INDONESIA</span>
-              <blockquote className="footer-verse__quote">
-                “Serahkanlah perbuatanmu kepada TUHAN, maka terlaksanalah segala rencanamu.”
-              </blockquote>
-              <figcaption className="footer-verse__cite">Amsal 16:3 (TB)</figcaption>
-            </figure>
-          </div>
+          <figure className="footer-verse__block" lang={locale}>
+            <span className="mono footer-verse__eyebrow">{t.verseEyebrow[locale]}</span>
+            <blockquote className="footer-verse__quote">{t.verseQuote[locale]}</blockquote>
+            <figcaption className="footer-verse__cite">{t.verseCite[locale]}</figcaption>
+          </figure>
         </div>
       </section>
       <div className="footer-bar">
         <div className="container footer-inner">
           <p>
-            © {new Date().getFullYear()} {profile.name}.{" "}
-            {locale === "en" ? "Built with intention." : "Dibangun dengan kesungguhan."}
+            © {new Date().getFullYear()} {profile.name}. {t.builtWithIntention[locale]}
           </p>
-          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-            <Link href="/projects">{locale === "en" ? "Projects" : "Proyek"}</Link>
-            <Link href="/engineering">{locale === "en" ? "Engineering" : "Catatan Rekayasa"}</Link>
-            <Link href="/blog">Blog</Link>
-            <Link href="/#certifications">
-              {locale === "en" ? "Certifications" : "Sertifikasi"}
-            </Link>
-            <Link href="/resume">{locale === "en" ? "Resume & CV" : "Resume & CV"}</Link>
+          <div className="footer-nav-links">
+            <Link href="/projects">{t.projects[locale]}</Link>
+            <Link href="/engineering">{t.engineering[locale]}</Link>
+            <Link href="/blog">{t.blog[locale]}</Link>
+            {pathname === "/" ? (
+              <a href="#certifications">{t.certifications[locale]}</a>
+            ) : (
+              <Link href="/#certifications">{t.certifications[locale]}</Link>
+            )}
+            <Link href="/resume">{t.resume[locale]}</Link>
           </div>
         </div>
       </div>

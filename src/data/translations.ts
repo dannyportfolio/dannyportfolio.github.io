@@ -16,12 +16,52 @@ export const translations = {
   },
   home: {
     heroEyebrow: { en: "Danial Fachrudin", id: "Danial Fachrudin" },
-    heroTitlePrefix: { en: "Building systems", id: "Membangun sistem" },
-    heroTitleEm: { en: "behind the screen.", id: "di balik layar." },
+    heroRole: { en: "Software Engineer", id: "Software Engineer" },
+    heroTitlePrefix: { en: "Building Systems", id: "Membangun Sistem" },
+    heroTitleEm: { en: "That Perform.", id: "Yang Berperforma." },
     heroDescription: {
-      en: "Software Engineer focused on reliable backend systems, intentional APIs, and production software designed for real-world use.",
-      id: "Software Engineer yang berfokus pada sistem backend andal, desain API terarah, dan software produksi yang dibangun untuk dunia nyata.",
+      en: "Software Engineer focused on backend architecture, scalable APIs, database performance, and reliable production systems.",
+      id: "Software Engineer yang berfokus pada arsitektur backend, API skalabel, performa basis data, dan keandalan sistem produksi.",
     },
+    heroCtaPrimary: { en: "Explore projects", id: "Jelajahi proyek" },
+    heroCtaSecondary: { en: "Open CV", id: "Buka CV" },
+    heroFocusLabel: { en: "Core engineering focus", id: "Fokus rekayasa utama" },
+    heroFocusItems: [
+      {
+        id: "architecture",
+        index: "01",
+        label: { en: "Backend Architecture", id: "Arsitektur Backend" },
+        detail: {
+          en: "Service boundaries, RBAC, and modular API design built to stay clear as systems grow.",
+          id: "Batas layanan, RBAC, dan desain API modular yang tetap terarah seiring pertumbuhan sistem.",
+        },
+        cta: { en: "Inspect request flow", id: "Lihat alur request" },
+        href: "#philosophy",
+      },
+      {
+        id: "data",
+        index: "02",
+        label: { en: "Data & Performance", id: "Data & Performa" },
+        detail: {
+          en: "Intentional query shapes, indexing strategies, and caching boundaries grounded in real access patterns.",
+          id: "Pola kueri terarah, strategi indeks, dan batas caching berdasarkan pola akses data nyata.",
+        },
+        cta: { en: "Browse selected systems", id: "Telusuri sistem pilihan" },
+        href: "#projects",
+      },
+      {
+        id: "production",
+        index: "03",
+        label: { en: "Production Delivery", id: "Sistem Produksi" },
+        detail: {
+          en: "Reliable software across ERP, B2B logistics, serverless Go APIs, and cloud operations.",
+          id: "Software andal untuk ERP, logistik B2B, API Go serverless, dan operasional cloud.",
+        },
+        cta: { en: "Explore architecture", id: "Pelajari arsitektur" },
+        href: "#case-studies",
+      },
+    ],
+    heroOpportunities: { en: "Open to opportunities", id: "Terbuka untuk peluang kerja" },
     introEyebrow: { en: "01 / Introduction", id: "01 / Pengenalan" },
     introTitle: { en: "I build software", id: "Saya membangun software" },
     introTitleEm: { en: "behind the interface.", id: "di balik antarmuka." },
@@ -82,10 +122,39 @@ export const translations = {
     contactEyebrow: { en: "09 / Contact", id: "09 / Kontak" },
     contactTitle: { en: "Interested in building", id: "Tertarik membangun software" },
     contactTitleEm: { en: "reliable, scalable software?", id: "yang andal dan skalabel?" },
+    contactEmailSubtitle: { en: "Direct email inquiry", id: "Email langsung" },
+    contactGithubSubtitle: { en: "Repositories & source code", id: "Repositori & kode sumber" },
     contactEmpty: {
       en: "Direct contact links can be configured in src/data/profile.ts.",
       id: "Tautan kontak langsung dapat dikonfigurasikan di src/data/profile.ts.",
     },
+  },
+  footer: {
+    verseAriaLabel: {
+      en: "Guiding verse — Proverbs 16:3",
+      id: "Ayat pedoman — Amsal 16:3",
+    },
+    verseEyebrow: {
+      en: "Guiding Verse",
+      id: "Ayat Pedoman",
+    },
+    verseQuote: {
+      en: "“Commit to the LORD whatever you do, and he will establish your plans.”",
+      id: "“Serahkanlah perbuatanmu kepada TUHAN, maka terlaksanalah segala rencanamu.”",
+    },
+    verseCite: {
+      en: "Proverbs 16:3 (NIV)",
+      id: "Amsal 16:3 (TB)",
+    },
+    builtWithIntention: {
+      en: "Built with intention.",
+      id: "Dibangun dengan kesungguhan.",
+    },
+    projects: { en: "Projects", id: "Proyek" },
+    engineering: { en: "Engineering", id: "Catatan Rekayasa" },
+    blog: { en: "Blog", id: "Blog" },
+    certifications: { en: "Certifications", id: "Sertifikasi" },
+    resume: { en: "Resume & CV", id: "Resume & CV" },
   },
   certificationsSection: {
     viewCertificate: { en: "View Certificate", id: "Lihat Sertifikat" },

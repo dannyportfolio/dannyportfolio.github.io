@@ -98,6 +98,39 @@ export function SiteHeader() {
     return false;
   }
 
+  function renderNavLink(item: (typeof navLinks)[number], onNavigate?: () => void) {
+    const active = checkActive(item);
+    const className = active ? "is-active" : undefined;
+    const isHashLink = item.href.startsWith("/#");
+    const ariaCurrent = active ? (isHashLink ? "location" : "page") : undefined;
+
+    if (pathname === "/" && isHashLink) {
+      return (
+        <a
+          key={item.key}
+          href={item.href.slice(1)}
+          onClick={onNavigate}
+          className={className}
+          aria-current={ariaCurrent}
+        >
+          {item.label}
+        </a>
+      );
+    }
+
+    return (
+      <Link
+        key={item.key}
+        href={item.href}
+        onClick={onNavigate}
+        className={className}
+        aria-current={ariaCurrent}
+      >
+        {item.label}
+      </Link>
+    );
+  }
+
   return (
     <header className={`site-header ${scrolled || open ? "is-scrolled" : ""}`}>
       <div className="container nav">
@@ -105,11 +138,7 @@ export function SiteHeader() {
           DF<span>.</span>
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
-          {navLinks.map((link) => (
-            <Link key={link.key} href={link.href} className={checkActive(link) ? "is-active" : ""}>
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => renderNavLink(link))}
         </nav>
         <div className="nav-actions">
           <button
@@ -147,16 +176,7 @@ export function SiteHeader() {
       </div>
       {open && (
         <nav id="mobile-menu" className="mobile-nav" aria-label="Mobile navigation">
-          {navLinks.map((link) => (
-            <Link
-              key={link.key}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className={checkActive(link) ? "is-active" : ""}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => renderNavLink(link, () => setOpen(false)))}
         </nav>
       )}
     </header>

@@ -1,7 +1,8 @@
 export type ProfileLink = {
   label: string;
   href: string;
-  type?: "email" | "github" | "linkedin" | "portfolio" | "instagram" | "custom";
+  type?: "email" | "github" | "linkedin" | "portfolio" | "custom";
+  detail?: string;
 };
 
 export const profile = {
@@ -12,7 +13,6 @@ export const profile = {
   email: "danialf.business@gmail.com",
   github: "https://github.com/dannyportfolio",
   linkedin: "", // Owner configuration point: e.g. "https://linkedin.com/in/username"
-  instagram: "https://instagram.com/daannhard",
   portfolioUrl: "https://dannyportfolio.github.io",
   location: "Indonesia",
 
@@ -37,9 +37,18 @@ export const profile = {
     id: "Software engineer berfokus backend yang membangun sistem andal, rancangan API terarah, arsitektur basis data teroptimasi, dan praktik delivery yang dapat dipelihara.",
   },
   contactLinks: [
-    { label: "Email", href: "mailto:danialf.business@gmail.com", type: "email" },
-    { label: "GitHub", href: "https://github.com/dannyportfolio", type: "github" },
-    { label: "Instagram", href: "https://instagram.com/daannhard", type: "instagram" },
+    {
+      label: "Email",
+      href: "mailto:danialf.business@gmail.com",
+      type: "email",
+      detail: "danialf.business@gmail.com",
+    },
+    {
+      label: "GitHub",
+      href: "https://github.com/dannyportfolio",
+      type: "github",
+      detail: "github.com/dannyportfolio",
+    },
   ] as ProfileLink[],
 };
 
