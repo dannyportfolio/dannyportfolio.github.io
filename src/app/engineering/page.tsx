@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SiteShell } from "@/components/layout/site-shell";
 import { SectionHeading } from "@/components/portfolio/section-heading";
 import { Badge } from "@/components/ui/badge";
+import { AlgorithmComplexityReference } from "@/components/engineering/algorithm-complexity-reference";
 import { engineeringArticles } from "@/data/engineering";
 import { principles } from "@/data/skills";
 import { useLocale } from "@/context/locale-context";
@@ -38,6 +39,12 @@ export default function EngineeringPage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ borderTop: "1px solid var(--line)" }}>
+        <div className="container">
+          <AlgorithmComplexityReference locale={locale} />
         </div>
       </section>
 

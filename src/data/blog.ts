@@ -3,6 +3,7 @@ import { inferenceEngineeringPost } from "@/data/posts/inference-engineering";
 import { cloudComputingPost } from "@/data/posts/cloud-computing";
 import { serverlessArchitecturePost } from "@/data/posts/serverless-architecture";
 import { dockerKubernetesCloudPost } from "@/data/posts/docker-kubernetes-cloud";
+import { bigOComplexityPost } from "@/data/posts/big-o-complexity";
 
 export type BlogTable = {
   headers: { en: string[]; id: string[] };
@@ -24,7 +25,7 @@ export type BlogSection = {
     caption?: { en: string; id: string };
   };
   table?: BlogTable;
-  diagram?: "inference-pipeline" | "inference-architecture";
+  diagram?: "inference-pipeline" | "inference-architecture" | "complexity-growth";
   checklist?: { en: string[]; id: string[] };
 };
 
@@ -46,6 +47,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  bigOComplexityPost,
   dockerKubernetesCloudPost,
   serverlessArchitecturePost,
   cloudComputingPost,

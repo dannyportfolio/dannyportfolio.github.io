@@ -5698,6 +5698,530 @@ pre code {
   }
 }
 
+/* ==========================================================================
+   Algorithm Complexity Reference & Growth Explorer
+   ========================================================================== */
+
+.complexity-handbook-container {
+  width: 100%;
+}
+
+.complexity-handbook-header {
+  margin-bottom: 28px;
+}
+
+.complexity-nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.complexity-nav-pill {
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.complexity-nav-pill:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--surface-nested);
+}
+
+.complexity-nav-pill.is-active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.complexity-tab-content {
+  margin-bottom: 32px;
+}
+
+.complexity-card-section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-subtle);
+}
+
+/* Terms Grid */
+.complexity-terms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.term-box {
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+}
+
+.term-label {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.68rem;
+}
+
+/* Bounds Grid */
+.bounds-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.bound-card {
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+}
+
+.bound-symbol {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.bound-analogy {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.bound-formal {
+  font-size: 0.76rem;
+  padding: 6px 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin: 8px 0;
+  color: var(--text);
+  word-break: break-all;
+}
+
+.math-reduction-box {
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border-left: 3px solid var(--accent);
+}
+
+/* Complexity Classes Stack */
+.complexity-classes-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.complexity-detail-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 22px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.detail-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail-notation {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 14px;
+}
+
+@media (max-width: 860px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-label {
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  display: block;
+}
+
+.detail-code-side {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.code-header-mini {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.72rem;
+}
+
+.code-pre-mini {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+/* Growth Explorer */
+.complexity-explorer-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.complexity-explorer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.complexity-scale-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface-nested);
+}
+
+.scale-btn {
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 36px;
+}
+
+.scale-btn.is-active {
+  background: var(--surface);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.complexity-curve-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.curve-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  background: var(--surface-nested);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 36px;
+}
+
+.curve-chip:hover {
+  background: var(--surface);
+}
+
+.curve-chip.is-active {
+  background: var(--surface);
+}
+
+.curve-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.complexity-chart-container {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.complexity-svg {
+  width: 100%;
+  height: auto;
+  min-width: 520px;
+  display: block;
+}
+
+.complexity-slider-control {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+}
+
+.preset-btn {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  min-height: 28px;
+}
+
+.preset-btn.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.complexity-range-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line);
+  outline: none;
+  cursor: pointer;
+  margin: 10px 0;
+  accent-color: var(--accent);
+}
+
+.complexity-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.complexity-metric-card {
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+  transition: opacity 0.2s ease;
+}
+
+.complexity-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.complexity-disclaimer svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--accent);
+}
+
+/* Time vs Space Dimension Cards */
+.space-time-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 720px) {
+  .space-time-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dimension-card {
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+}
+
+.dimension-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.time-badge {
+  background: rgba(217, 119, 6, 0.12);
+  color: #d97706;
+}
+
+.space-badge {
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+}
+
+/* Code Analysis Steps */
+.analysis-steps-card {
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.steps-pill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.step-pill-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+}
+
+.step-pill-num {
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.analysis-examples-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.analysis-example-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+
+.example-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.example-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 860px) {
+  .example-body-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.example-code-pre {
+  margin: 0;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.example-reasoning-side {
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+}
+
+/* Tradeoffs Grid */
+.tradeoffs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.tradeoff-card {
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+}
+
+/* Further Learning Footer Card */
+.complexity-further-learning {
+  margin-top: 32px;
+  padding: 24px;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  box-shadow: var(--shadow-subtle);
+}
+
 /* Reduced Motion Compliance */
 @media (prefers-reduced-motion: reduce) {
   *,

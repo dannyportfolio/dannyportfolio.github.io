@@ -7,6 +7,7 @@ import { useLocale } from "@/context/locale-context";
 import { translations } from "@/data/translations";
 import { InferencePipelineDiagram } from "@/components/blog/inference-pipeline-diagram";
 import { InferenceArchitectureDiagram } from "@/components/blog/inference-architecture-diagram";
+import { ComplexityGrowthExplorer } from "@/components/engineering/complexity-growth-explorer";
 
 function FormattedText({ content }: { content: string }) {
   if (!content) return null;
@@ -159,6 +160,10 @@ export function BlogDetailContent({
 
               {section.diagram === "inference-architecture" && (
                 <InferenceArchitectureDiagram locale={locale} />
+              )}
+
+              {section.diagram === "complexity-growth" && (
+                <ComplexityGrowthExplorer locale={locale} />
               )}
 
               {section.table && (
