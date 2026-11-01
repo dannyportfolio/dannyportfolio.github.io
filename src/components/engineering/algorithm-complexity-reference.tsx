@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ComplexityGrowthExplorer } from "@/components/engineering/complexity-growth-explorer";
@@ -14,6 +14,8 @@ import type { Locale } from "@/data/translations";
 
 export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
   const [activeTab, setActiveTab] = useState<string>("overview");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileNavRef = useRef<HTMLDivElement>(null);
 
   const tabs = [
     { id: "overview", label: { en: "1. Overview & Bounds", id: "1. Pengantar & Batasan" } },
@@ -24,6 +26,31 @@ export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
     { id: "tradeoffs", label: { en: "6. Engineering Trade-offs", id: "6. Kompromi Rekayasa" } },
     { id: "quickref", label: { en: "7. Quick Reference", id: "7. Ringkasan Cepat" } },
   ];
+
+  const currentTab = tabs.find((t) => t.id === activeTab) ?? tabs[0];
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (mobileNavRef.current && !mobileNavRef.current.contains(e.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <div id="complexity-reference" className="complexity-handbook-container">
@@ -66,7 +93,86 @@ export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
         </p>
       </div>
 
-      {/* Navigation Pills */}
+      {/* Mobile Compact 'On this page' Control */}
+      <div className="complexity-mobile-nav" ref={mobileNavRef}>
+        <button
+          type="button"
+          className="complexity-mobile-selector"
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
+          aria-expanded={mobileMenuOpen}
+          aria-haspopup="listbox"
+          aria-label={`${locale === "en" ? "On this page" : "Daftar isi"}: ${currentTab.label[locale]}`}
+        >
+          <span className="complexity-mobile-selector__lead">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="8" y1="6" x2="21" y2="6" />
+              <line x1="8" y1="12" x2="21" y2="12" />
+              <line x1="8" y1="18" x2="21" y2="18" />
+              <line x1="3" y1="6" x2="3.01" y2="6" />
+              <line x1="3" y1="12" x2="3.01" y2="12" />
+              <line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+            {locale === "en" ? "On this page" : "Daftar isi"}
+          </span>
+          <span className="complexity-mobile-selector__dot">·</span>
+          <span className="complexity-mobile-selector__active">{currentTab.label[locale]}</span>
+          <svg
+            className={`complexity-mobile-selector__chevron ${mobileMenuOpen ? "is-open" : ""}`}
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+
+        {mobileMenuOpen && (
+          <div className="complexity-mobile-dropdown" role="listbox" aria-label="Handbook Sections">
+            {tabs.map((tab, idx) => (
+              <button
+                key={tab.id}
+                role="option"
+                aria-selected={activeTab === tab.id}
+                type="button"
+                className={`complexity-mobile-option ${activeTab === tab.id ? "is-active" : ""}`}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setMobileMenuOpen(false);
+                  document
+                    .getElementById("complexity-reference")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                <span className="complexity-mobile-option__num">0{idx + 1}</span>
+                <span className="complexity-mobile-option__text">{tab.label[locale]}</span>
+                {activeTab === tab.id && (
+                  <span className="complexity-mobile-option__check" aria-hidden="true">
+                    ✓
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Navigation Pills (Horizontal scroll on narrow, multi-pill on wider screens) */}
       <nav className="complexity-nav-tabs" aria-label="Algorithm Complexity Handbook Sections">
         {tabs.map((tab) => (
           <button

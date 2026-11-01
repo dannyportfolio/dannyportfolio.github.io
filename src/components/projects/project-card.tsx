@@ -35,7 +35,9 @@ export function ProjectCard({
             <span className="blueprint-dot" />
             <span className="blueprint-dot" />
             <span className="blueprint-dot" />
-            <span className="blueprint-domain">{project.domain}</span>
+            <span className="blueprint-domain" title={project.domain}>
+              {project.domain}
+            </span>
           </div>
           <div className="blueprint-body">
             <span className="blueprint-badge">{project.category[locale]}</span>

@@ -134,7 +134,12 @@ export function SiteHeader() {
   return (
     <header className={`site-header ${scrolled || open ? "is-scrolled" : ""}`}>
       <div className="container nav">
-        <Link href="/" className="brand" aria-label="Danial Fachrudin portfolio home">
+        <Link
+          href="/"
+          className="brand"
+          aria-label="Danial Fachrudin portfolio home"
+          draggable={false}
+        >
           DF<span>.</span>
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
