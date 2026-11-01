@@ -11,24 +11,105 @@ import {
   engineeringTradeoffs,
 } from "@/data/algorithm-complexity";
 import type { Locale } from "@/data/translations";
+import { translations } from "@/data/translations";
+
+type LearningGroup = "fundamentals" | "growth-rates" | "code-analysis" | "applications";
 
 export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
-  const [activeTab, setActiveTab] = useState<string>("overview");
+  const [activeGroup, setActiveGroup] = useState<LearningGroup>("fundamentals");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [expandedClasses, setExpandedClasses] = useState<Record<string, boolean>>({});
+  const [expandedExamples, setExpandedExamples] = useState<Record<string, boolean>>({
+    "constant-access": true,
+    "linear-traversal": true,
+    "nested-loops": true,
+  });
   const mobileNavRef = useRef<HTMLDivElement>(null);
+  const t = translations.engineeringPage;
 
-  const tabs = [
-    { id: "overview", label: { en: "1. Overview & Bounds", id: "1. Pengantar & Batasan" } },
-    { id: "classes", label: { en: "2. Complexity Classes", id: "2. Kelas Kompleksitas" } },
-    { id: "visualizer", label: { en: "3. Growth Explorer", id: "3. Grafik Pertumbuhan" } },
-    { id: "space-time", label: { en: "4. Time vs Space", id: "4. Waktu vs Memori" } },
-    { id: "analysis", label: { en: "5. Code Analysis", id: "5. Analisis Kode" } },
-    { id: "tradeoffs", label: { en: "6. Engineering Trade-offs", id: "6. Kompromi Rekayasa" } },
-    { id: "quickref", label: { en: "7. Quick Reference", id: "7. Ringkasan Cepat" } },
+  const learningGroups: {
+    id: LearningGroup;
+    index: number;
+    label: { en: string; id: string };
+    shortLabel: { en: string; id: string };
+    summary: { en: string; id: string };
+  }[] = [
+    {
+      id: "fundamentals",
+      index: 1,
+      label: t.groupFundamentals,
+      shortLabel: t.groupFundamentalsShort,
+      summary: {
+        en: "Asymptotic bounds (O, Ω, Θ), mathematical simplification, and time vs space trade-offs.",
+        id: "Batas asimptotik (O, Ω, Θ), penyederhanaan matematis, serta kompromi waktu vs memori.",
+      },
+    },
+    {
+      id: "growth-rates",
+      index: 2,
+      label: t.groupGrowthRates,
+      shortLabel: t.groupGrowthRatesShort,
+      summary: {
+        en: "The 7 canonical complexity classes from O(1) to O(n!) and interactive growth explorer.",
+        id: "7 kelas kompleksitas kanonikal dari O(1) hingga O(n!) dan penjelajah grafik pertumbuhan interaktif.",
+      },
+    },
+    {
+      id: "code-analysis",
+      index: 3,
+      label: t.groupCodeAnalysis,
+      shortLabel: t.groupCodeAnalysisShort,
+      summary: {
+        en: "Systematic 10-step audit protocol with annotated TypeScript examples.",
+        id: "Protokol audit 10-langkah sistematis disertai contoh kode TypeScript beranotasi.",
+      },
+    },
+    {
+      id: "applications",
+      index: 4,
+      label: t.groupApplications,
+      shortLabel: t.groupApplicationsShort,
+      summary: {
+        en: "Real-world engineering trade-offs, cache locality, and quick reference lookup matrix.",
+        id: "Kompromi rekayasa dunia nyata, lokalitas cache CPU, dan matriks referensi cepat.",
+      },
+    },
   ];
 
-  const currentTab = tabs.find((t) => t.id === activeTab) ?? tabs[0];
+  const currentGroupIndex = learningGroups.findIndex((g) => g.id === activeGroup);
+  const currentGroup = learningGroups[currentGroupIndex] ?? learningGroups[0];
 
+  // Hash-based navigation and backward compatibility
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) return;
+
+      if (hash === "fundamentals" || hash === "overview" || hash === "space-time") {
+        setActiveGroup("fundamentals");
+      } else if (hash === "growth-rates" || hash === "classes" || hash === "visualizer") {
+        setActiveGroup("growth-rates");
+      } else if (hash === "code-analysis" || hash === "analysis") {
+        setActiveGroup("code-analysis");
+      } else if (hash === "applications" || hash === "tradeoffs" || hash === "quickref") {
+        setActiveGroup("applications");
+      }
+    };
+
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
+  // Sync hash when activeGroup changes
+  const switchGroup = (groupId: LearningGroup) => {
+    setActiveGroup(groupId);
+    if (typeof window !== "undefined" && window.history.replaceState) {
+      window.history.replaceState(null, "", `#${groupId}`);
+    }
+  };
+
+  // Close mobile menu on outside click or escape
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
@@ -52,48 +133,43 @@ export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
     };
   }, [mobileMenuOpen]);
 
-  return (
-    <div id="complexity-reference" className="complexity-handbook-container">
-      {/* Handbook Header */}
-      <div className="complexity-handbook-header">
-        <div className="blueprint-badge" style={{ marginBottom: "12px" }}>
-          {locale === "en" ? "Engineering Handbook" : "Buku Saku Rekayasa"}
-        </div>
-        <h2
-          style={{ fontSize: "clamp(1.75rem, 4vw, 2.4rem)", fontWeight: 800, margin: "0 0 10px 0" }}
-        >
-          {locale === "en"
-            ? "Understanding Algorithm Complexity"
-            : "Memahami Kompleksitas Algoritma"}
-        </h2>
-        <p
-          style={{
-            fontSize: "1.1rem",
-            color: "var(--accent)",
-            fontWeight: 600,
-            margin: "0 0 12px 0",
-          }}
-        >
-          {locale === "en"
-            ? '"How efficiently does your code scale as input grows?"'
-            : '"Seberapa efisien kode Anda berkembang saat data masukan bertambah?"'}
-        </p>
-        <p
-          style={{
-            maxWidth: "780px",
-            color: "var(--muted)",
-            fontSize: "0.98rem",
-            lineHeight: 1.6,
-            margin: 0,
-          }}
-        >
-          {locale === "en"
-            ? "A structured reference guide to computational complexity, asymptotic bounds, real-world data structure mechanics, and systematic code analysis."
-            : "Panduan referensi teknis terstruktur mengenai kompleksitas komputasi, batas matematis asimptotik, mekanisme struktur data riil, dan analisis kode sistematis."}
-        </p>
-      </div>
+  const toggleClassExpansion = (notation: string) => {
+    setExpandedClasses((prev) => ({
+      ...prev,
+      [notation]: !prev[notation],
+    }));
+  };
 
-      {/* Mobile Compact 'On this page' Control */}
+  const toggleExampleExpansion = (id: string) => {
+    setExpandedExamples((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  return (
+    <div id="complexity-handbook" className="editorial-handbook">
+      {/* Editorial Navigation: Desktop Segmented Bar */}
+      <nav className="complexity-segmented-nav" aria-label="Learning Groups">
+        {learningGroups.map((group) => {
+          const isActive = activeGroup === group.id;
+          return (
+            <button
+              key={group.id}
+              type="button"
+              className={`complexity-segment-button ${isActive ? "is-active" : ""}`}
+              onClick={() => switchGroup(group.id)}
+              aria-selected={isActive}
+              role="tab"
+            >
+              <span className="complexity-segment-button__num">0{group.index}</span>
+              <span className="complexity-segment-button__label">{group.label[locale]}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Editorial Navigation: Mobile Compact 'On This Page' Control */}
       <div className="complexity-mobile-nav" ref={mobileNavRef}>
         <button
           type="button"
@@ -101,7 +177,7 @@ export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
           onClick={() => setMobileMenuOpen((prev) => !prev)}
           aria-expanded={mobileMenuOpen}
           aria-haspopup="listbox"
-          aria-label={`${locale === "en" ? "On this page" : "Daftar isi"}: ${currentTab.label[locale]}`}
+          aria-label={`${locale === "en" ? "On this page" : "Daftar topik"}: ${currentGroup.label[locale]}`}
         >
           <span className="complexity-mobile-selector__lead">
             <svg
@@ -122,10 +198,12 @@ export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
               <line x1="3" y1="12" x2="3.01" y2="12" />
               <line x1="3" y1="18" x2="3.01" y2="18" />
             </svg>
-            {locale === "en" ? "On this page" : "Daftar isi"}
+            {locale === "en" ? "On this page" : "Topik bahasan"}
           </span>
           <span className="complexity-mobile-selector__dot">·</span>
-          <span className="complexity-mobile-selector__active">{currentTab.label[locale]}</span>
+          <span className="complexity-mobile-selector__active">
+            {currentGroup.shortLabel[locale]}
+          </span>
           <svg
             className={`complexity-mobile-selector__chevron ${mobileMenuOpen ? "is-open" : ""}`}
             width="14"
@@ -143,760 +221,847 @@ export function AlgorithmComplexityReference({ locale }: { locale: Locale }) {
         </button>
 
         {mobileMenuOpen && (
-          <div className="complexity-mobile-dropdown" role="listbox" aria-label="Handbook Sections">
-            {tabs.map((tab, idx) => (
-              <button
-                key={tab.id}
-                role="option"
-                aria-selected={activeTab === tab.id}
-                type="button"
-                className={`complexity-mobile-option ${activeTab === tab.id ? "is-active" : ""}`}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  setMobileMenuOpen(false);
-                  document
-                    .getElementById("complexity-reference")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                <span className="complexity-mobile-option__num">0{idx + 1}</span>
-                <span className="complexity-mobile-option__text">{tab.label[locale]}</span>
-                {activeTab === tab.id && (
-                  <span className="complexity-mobile-option__check" aria-hidden="true">
-                    ✓
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Navigation Pills (Horizontal scroll on narrow, multi-pill on wider screens) */}
-      <nav className="complexity-nav-tabs" aria-label="Algorithm Complexity Handbook Sections">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            className={`complexity-nav-pill ${activeTab === tab.id ? "is-active" : ""}`}
-            onClick={() => setActiveTab(tab.id)}
-            aria-selected={activeTab === tab.id}
-            role="tab"
+          <div
+            className="complexity-mobile-dropdown"
+            role="listbox"
+            aria-label="Engineering Learning Groups"
           >
-            {tab.label[locale]}
-          </button>
-        ))}
-      </nav>
-
-      {/* Tab Panels */}
-      <div className="complexity-tab-content">
-        {/* TAB 1: OVERVIEW & BOUNDS */}
-        {activeTab === "overview" && (
-          <div className="complexity-panel animate-fade-in">
-            <div className="complexity-card-section">
-              <h3 style={{ fontSize: "1.35rem", marginBottom: "12px" }}>
-                {locale === "en"
-                  ? "1. Introduction: Understanding Algorithm Complexity"
-                  : "1. Pengantar: Memahami Kompleksitas Algoritma"}
-              </h3>
-              <p style={{ color: "var(--text)", lineHeight: 1.65 }}>
-                {locale === "en"
-                  ? "Algorithm complexity is the mathematical study of the resources (CPU operations and RAM bytes) required by an algorithm as the size of the input data (n) scales toward infinity. In production systems, software developers must differentiate between theoretical complexity and measured wall-clock execution time."
-                  : "Kompleksitas algoritma adalah studi matematis mengenai sumber daya (siklus operasi CPU dan byte RAM) yang dibutuhkan algoritma saat ukuran data masukan (n) bertumbuh menuju tak terhingga. Pada sistem produksi, software developer wajib membedakan antara kompleksitas teoretis dan durasi waktu eksekusi riil."}
-              </p>
-
-              <div className="complexity-terms-grid" style={{ margin: "24px 0" }}>
-                <div className="term-box">
-                  <span className="mono term-label">
-                    {locale === "en" ? "TERM 01" : "ISTILAH 01"}
-                  </span>
-                  <strong style={{ display: "block", fontSize: "1rem", margin: "4px 0" }}>
-                    Time Complexity
-                  </strong>
-                  <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--muted)" }}>
-                    {locale === "en"
-                      ? "How the total count of elementary operations grows relative to input size."
-                      : "Bagaimana jumlah operasi dasar bertambah terhadap ukuran masukan."}
-                  </p>
-                </div>
-                <div className="term-box">
-                  <span className="mono term-label">
-                    {locale === "en" ? "TERM 02" : "ISTILAH 02"}
-                  </span>
-                  <strong style={{ display: "block", fontSize: "1rem", margin: "4px 0" }}>
-                    Space Complexity
-                  </strong>
-                  <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--muted)" }}>
-                    {locale === "en"
-                      ? "How memory usage (both input storage and auxiliary heap/stack) expands."
-                      : "Bagaimana konsumsi memori (penyimpanan input dan stack/heap tambahan) bertambah."}
-                  </p>
-                </div>
-                <div className="term-box">
-                  <span className="mono term-label">
-                    {locale === "en" ? "TERM 03" : "ISTILAH 03"}
-                  </span>
-                  <strong style={{ display: "block", fontSize: "1rem", margin: "4px 0" }}>
-                    Input Size (n)
-                  </strong>
-                  <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--muted)" }}>
-                    {locale === "en"
-                      ? "The measurable scale of problem input (array length, string characters, database records)."
-                      : "Skala kuantitatif dari data masukan (panjang array, karakter teks, jumlah baris database)."}
-                  </p>
-                </div>
-                <div className="term-box">
-                  <span className="mono term-label">
-                    {locale === "en" ? "TERM 04" : "ISTILAH 04"}
-                  </span>
-                  <strong style={{ display: "block", fontSize: "1rem", margin: "4px 0" }}>
-                    Asymptotic Analysis
-                  </strong>
-                  <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--muted)" }}>
-                    {locale === "en"
-                      ? "Evaluating algorithmic behavior at the mathematical limit as n becomes arbitrarily large."
-                      : "Mengevaluasi perilaku algoritma pada limit batas matematis ketika n menjadi sangat besar."}
-                  </p>
-                </div>
-              </div>
-
-              <h4 style={{ fontSize: "1.15rem", marginTop: "28px", marginBottom: "8px" }}>
-                {locale === "en"
-                  ? "Asymptotic Bounds: Big O, Big Omega, and Big Theta"
-                  : "Batasan Asimptotik: Big O, Big Omega, dan Big Theta"}
-              </h4>
-              <p style={{ color: "var(--muted)", fontSize: "0.92rem", lineHeight: 1.6 }}>
-                {locale === "en"
-                  ? "Computer scientists use three distinct notations to describe growth envelopes. They are not interchangeable:"
-                  : "Ilmu komputer menggunakan tiga notasi berbeda untuk memetakan ruang pertumbuhan. Ketiganya tidak boleh dipertukarkan:"}
-              </p>
-
-              <div className="bounds-cards-grid">
-                {asymptoticBounds.map((b) => (
-                  <div key={b.symbol} className="bound-card">
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "baseline",
-                      }}
-                    >
-                      <span className="mono bound-symbol">{b.symbol}</span>
-                      <span className="bound-analogy mono">{b.analogy[locale]}</span>
-                    </div>
-                    <strong
-                      style={{ display: "block", fontSize: "0.98rem", margin: "8px 0 4px 0" }}
-                    >
-                      {b.name[locale]}
-                    </strong>
-                    <div className="mono bound-formal">{b.formal}</div>
-                    <p
-                      style={{
-                        fontSize: "0.86rem",
-                        color: "var(--muted)",
-                        margin: "8px 0 0 0",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      {b.intuitive[locale]}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Mathematical Reduction Example */}
-              <div className="math-reduction-box" style={{ marginTop: "24px" }}>
-                <h5 style={{ margin: "0 0 8px 0", fontSize: "0.96rem" }}>
-                  {locale === "en"
-                    ? "Mathematical Simplification Example:"
-                    : "Contoh Penyederhanaan Matematis:"}
-                </h5>
-                <div
-                  className="mono"
-                  style={{ fontSize: "1.05rem", color: "var(--accent)", fontWeight: 700 }}
-                >
-                  T(n) = 3n² + 5n + 10 ==&gt; O(n²)
-                </div>
-                <ol
-                  style={{
-                    margin: "10px 0 0 0",
-                    paddingLeft: "20px",
-                    fontSize: "0.88rem",
-                    color: "var(--muted)",
-                    lineHeight: 1.6,
+            {learningGroups.map((group) => {
+              const isActive = activeGroup === group.id;
+              return (
+                <button
+                  key={group.id}
+                  type="button"
+                  role="option"
+                  aria-selected={isActive}
+                  className={`complexity-mobile-option ${isActive ? "is-active" : ""}`}
+                  onClick={() => {
+                    switchGroup(group.id);
+                    setMobileMenuOpen(false);
                   }}
                 >
-                  <li>
-                    {locale === "en"
-                      ? "Drop lower-order terms: As n approaches infinity, the n² term completely dominates 5n and 10."
-                      : "Abaikan suku derajat rendah: Saat n mendekati tak terhingga, suku n² mendominasi penuh 5n dan 10."}
-                  </li>
-                  <li>
-                    {locale === "en"
-                      ? "Drop constant coefficients: The multiplier 3 scales the rate, but does not alter the quadratic shape of the curve."
-                      : "Abaikan koefisien konstanta: Angka pengali 3 mengubah skala laju, namun tidak mengubah kurva kuadratiknya."}
-                  </li>
-                  <li>
-                    {locale === "en"
-                      ? "Conclusion: The asymptotic upper bound is strictly classified as O(n²)."
-                      : "Kesimpulan: Batas atas asimptotik secara resmi diklasifikasikan sebagai O(n²)."}
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 2: COMPLEXITY CLASSES */}
-        {activeTab === "classes" && (
-          <div className="complexity-panel animate-fade-in">
-            <h3 style={{ fontSize: "1.35rem", marginBottom: "8px" }}>
-              {locale === "en" ? "2. Common Time Complexities" : "2. Kelas Kompleksitas Waktu Umum"}
-            </h3>
-            <p style={{ color: "var(--muted)", fontSize: "0.95rem", marginBottom: "20px" }}>
-              {locale === "en"
-                ? "The seven standard complexity tiers, ranked from fastest to computationally intractable."
-                : "Tujuh tingkatan kompleksitas standar, diurutkan dari yang paling efisien hingga yang mustahil diproses."}
-            </p>
-
-            <div className="complexity-classes-stack">
-              {complexityClasses.map((item) => (
-                <div key={item.notation} className="complexity-detail-card">
-                  <div className="detail-card-header">
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                      <span className="mono detail-notation">{item.notation}</span>
-                      <h4 style={{ margin: 0, fontSize: "1.1rem" }}>{item.name[locale]}</h4>
-                    </div>
-                    <Badge>{item.growthBehavior[locale].split(".")[0]}</Badge>
+                  <span className="complexity-mobile-option__num">0{group.index}</span>
+                  <div className="complexity-mobile-option__content">
+                    <span className="complexity-mobile-option__title">{group.label[locale]}</span>
+                    <span className="complexity-mobile-option__desc">{group.summary[locale]}</span>
                   </div>
-
-                  <p style={{ margin: "8px 0 12px 0", fontSize: "0.92rem", color: "var(--text)" }}>
-                    {item.definition[locale]}
-                  </p>
-
-                  <div className="detail-grid">
-                    <div>
-                      <span className="mono detail-label">
-                        {locale === "en" ? "PRACTICAL ALGORITHM" : "CONTOH ALGORITMA"}
-                      </span>
-                      <p
-                        style={{
-                          margin: "2px 0 10px 0",
-                          fontSize: "0.85rem",
-                          color: "var(--muted)",
-                        }}
-                      >
-                        {item.example[locale]}
-                      </p>
-
-                      <span className="mono detail-label">
-                        {locale === "en" ? "WHEN PROBLEMATIC" : "MULAI BERMASALAH SAAT"}
-                      </span>
-                      <p
-                        style={{
-                          margin: "2px 0 10px 0",
-                          fontSize: "0.85rem",
-                          color: "var(--muted)",
-                        }}
-                      >
-                        {item.problematicWhen[locale]}
-                      </p>
-
-                      <span className="mono detail-label">
-                        {locale === "en" ? "TYPICAL USE CASES" : "KASUS PENGGUNAAN"}
-                      </span>
-                      <ul
-                        style={{
-                          margin: "4px 0 0 0",
-                          paddingLeft: "18px",
-                          fontSize: "0.83rem",
-                          color: "var(--muted)",
-                        }}
-                      >
-                        {item.useCases[locale].map((uc, idx) => (
-                          <li key={idx}>{uc}</li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="detail-code-side">
-                      <div className="code-header-mini">
-                        <span className="mono">{item.snippetLanguage.toUpperCase()}</span>
-                        <span className="mono" style={{ color: "var(--muted)" }}>
-                          {item.snippetCaption[locale]}
-                        </span>
-                      </div>
-                      <pre className="code-pre-mini">
-                        <code>{item.snippet}</code>
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  {isActive && (
+                    <svg
+                      className="complexity-mobile-option__check"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
+      </div>
 
-        {/* TAB 3: VISUAL GROWTH EXPLORER */}
-        {activeTab === "visualizer" && (
-          <div className="complexity-panel animate-fade-in">
-            <ComplexityGrowthExplorer locale={locale} />
-          </div>
-        )}
-
-        {/* TAB 4: TIME VS SPACE */}
-        {activeTab === "space-time" && (
-          <div className="complexity-panel animate-fade-in">
-            <div className="complexity-card-section">
-              <h3 style={{ fontSize: "1.35rem", marginBottom: "8px" }}>
+      {/* ACTIVE LEARNING GROUP VIEW */}
+      <div className="editorial-group-container">
+        {/* ========================================================= */}
+        {/* GROUP 1: COMPLEXITY FUNDAMENTALS                          */}
+        {/* ========================================================= */}
+        {activeGroup === "fundamentals" && (
+          <section className="editorial-panel" aria-label="Complexity Fundamentals">
+            <header className="editorial-group-header">
+              <span className="editorial-group-index">GROUP 01</span>
+              <h2 className="editorial-group-title">{t.groupFundamentals[locale]}</h2>
+              <p className="editorial-lead">
                 {locale === "en"
-                  ? "4. Time Complexity vs Space Complexity"
-                  : "4. Waktu vs Memori (Time vs Space)"}
+                  ? "Algorithmic complexity quantifies the mathematical relationship between input growth and computational resource demand. It abstracts hardware variance to evaluate scaling ceilings, asymptotic limits, and runtime predictability."
+                  : "Kompleksitas algoritma mengukur hubungan matematis antara pertumbuhan ukuran masukan dan kebutuhan sumber daya komputasi. Konsep ini mengabaikan spesifikasi mesin untuk menganalisis batas skalabilitas dan prediktabilitas waktu eksekusi."}
+              </p>
+            </header>
+
+            {/* Asymptotic Bounds: O, Omega, Theta */}
+            <div className="editorial-block">
+              <h3 className="editorial-subheading">
+                {locale === "en"
+                  ? "Asymptotic Bounds: Formal Limits"
+                  : "Batas Asimptotik: Batasan Formal"}
               </h3>
-              <p style={{ color: "var(--text)", lineHeight: 1.65 }}>
+              <p className="editorial-prose">
                 {locale === "en"
-                  ? "High-performance software engineering requires balancing operational speed against RAM utilization. Optimizing code solely for execution speed often increases memory pressure, while aggressive memory minimization can incur severe CPU calculation penalties."
-                  : "Rekayasa perangkat lunak berkinerja tinggi menuntut keseimbangan antara kecepatan operasi dan penggunaan RAM. Mengoptimasi kode semata-mata demi kecepatan sering kali meningkatkan beban memori, sementara minimisasi memori yang agresif dapat memicu penalti komputasi CPU yang berat."}
+                  ? "In production engineering, we frequently conflate Big O with worst-case runtime. Mathematically, asymptotic notation describes three distinct boundary conditions for algorithm growth:"
+                  : "Dalam praktik rekayasa perangkat lunak, istilah Big O sering disamakan dengan skenario terburuk (worst-case). Secara matematis, notasi asimptotik memetakan tiga kondisi batas pertumbuhan:"}
               </p>
 
-              <div className="space-time-comparison-grid" style={{ margin: "20px 0" }}>
-                <div className="dimension-card">
-                  <div className="dimension-badge time-badge">
-                    {locale === "en" ? "TIME DIMENSION" : "DIMENSI WAKTU"}
+              <div className="bounds-editorial-strip">
+                {asymptoticBounds.map((bound) => (
+                  <div key={bound.symbol} className="bound-editorial-card">
+                    <div className="bound-editorial-card__head">
+                      <span className="bound-editorial-card__symbol">{bound.symbol}</span>
+                      <h4 className="bound-editorial-card__name">{bound.name[locale]}</h4>
+                    </div>
+                    <code className="bound-editorial-card__formula">{bound.formal}</code>
+                    <p className="bound-editorial-card__desc">{bound.intuitive[locale]}</p>
+                    <div className="bound-editorial-card__analogy">
+                      <span className="bound-editorial-card__tag">
+                        {locale === "en" ? "Relational Equivalent:" : "Analogi:"}
+                      </span>{" "}
+                      {bound.analogy[locale]}
+                    </div>
                   </div>
-                  <h4 style={{ margin: "10px 0 6px 0", fontSize: "1.1rem" }}>Time Complexity</h4>
-                  <p
-                    style={{
-                      fontSize: "0.88rem",
-                      color: "var(--muted)",
-                      margin: 0,
-                      lineHeight: 1.5,
-                    }}
-                  >
+                ))}
+              </div>
+            </div>
+
+            {/* Essential Terminology Strip */}
+            <div className="editorial-block">
+              <h3 className="editorial-subheading">
+                {locale === "en"
+                  ? "Core Algorithmic Terminology"
+                  : "Terminologi Kunci Analisis Kompleksitas"}
+              </h3>
+              <div className="terms-editorial-grid">
+                <div className="term-editorial-item">
+                  <h4>
                     {locale === "en"
-                      ? "Measures the rate of growth in CPU operations as input size n expands. Governed by loop counts, recursive branching, and conditional logic."
-                      : "Mengukur laju pertumbuhan operasi prosesor CPU saat ukuran masukan n bertambah. Ditentukan oleh jumlah perulangan, percabangan rekursif, dan logika kondisi."}
+                      ? "Worst-Case Analysis (T_worst)"
+                      : "Analisis Kasus Terburuk (T_worst)"}
+                  </h4>
+                  <p>
+                    {locale === "en"
+                      ? "The absolute maximum operations required across all possible input permutations of size n. Provides hard contractual runtime guarantees for SLAs."
+                      : "Jumlah operasi maksimum yang dibutuhkan pada semua permutasi input berukuran n. Menjadi garansi batas atas untuk SLA sistem produksi."}
                   </p>
                 </div>
-
-                <div className="dimension-card">
-                  <div className="dimension-badge space-badge">
-                    {locale === "en" ? "SPACE DIMENSION" : "DIMENSI MEMORI"}
-                  </div>
-                  <h4 style={{ margin: "10px 0 6px 0", fontSize: "1.1rem" }}>Space Complexity</h4>
-                  <p
-                    style={{
-                      fontSize: "0.88rem",
-                      color: "var(--muted)",
-                      margin: 0,
-                      lineHeight: 1.5,
-                    }}
-                  >
+                <div className="term-editorial-item">
+                  <h4>
                     {locale === "en"
-                      ? "Measures additional memory allocation in RAM. Crucially distinguishes input storage from auxiliary space (heap structures, buffer arrays, call stack frames)."
-                      : "Mengukur alokasi memori tambahan di RAM. Membedakan secara tegas antara input storage awal dan auxiliary space (struktur heap, array buffer, tumpukan call stack)."}
+                      ? "Average-Case Analysis (T_avg)"
+                      : "Analisis Kasus Rata-rata (T_avg)"}
+                  </h4>
+                  <p>
+                    {locale === "en"
+                      ? "The expected operations over an assumed statistical distribution of inputs. Key for estimating steady-state cloud infrastructure and capacity planning."
+                      : "Ekspektasi operasi berdasarkan distribusi statistik input. Fondasi untuk estimasi kapasitas server dan biaya infrastruktur cloud jangka panjang."}
+                  </p>
+                </div>
+                <div className="term-editorial-item">
+                  <h4>
+                    {locale === "en"
+                      ? "Best-Case Analysis (T_best)"
+                      : "Analisis Kasus Terbaik (T_best)"}
+                  </h4>
+                  <p>
+                    {locale === "en"
+                      ? "The minimum operations under ideal input conditions (e.g., target element at index 0). Useful as a sanity check, but dangerous if relied upon for sizing."
+                      : "Operasi minimum pada kondisi data paling menguntungkan. Berguna sebagai sanity check, namun berisiko jika dijadikan acuan arsitektur."}
+                  </p>
+                </div>
+                <div className="term-editorial-item">
+                  <h4>
+                    {locale === "en" ? "Amortized Analysis" : "Analisis Teramortisasi (Amortized)"}
+                  </h4>
+                  <p>
+                    {locale === "en"
+                      ? "The average cost per operation over an extended sequence. An occasional expensive resizing operation (e.g., array capacity doubling) is averaged across preceding cheap insertions, yielding O(1) amortized."
+                      : "Biaya rata-rata per operasi dalam rentetan panjang. Operasi mahal yang terjadi sesekali (seperti penggandaan array) diserap oleh operasi murah sebelumnya sehingga menghasilkan O(1) amortized."}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mathematical Derivation Callout */}
+            <div className="editorial-block">
+              <h3 className="editorial-subheading">
+                {locale === "en"
+                  ? "Mathematical Simplification & Dominant Terms"
+                  : "Penyederhanaan Matematis & Istilah Dominan"}
+              </h3>
+              <p className="editorial-prose">
+                {locale === "en"
+                  ? "When deriving asymptotic complexity from execution step counts, two foundational rules eliminate implementation-level noise:"
+                  : "Saat menurunkan kompleksitas asimptotik dari hitungan langkah eksekusi, dua kaidah fundamental mengeliminasi detail implementasi minor:"}
+              </p>
+
+              <div className="math-highlight-card">
+                <div className="math-highlight-card__badge">
+                  {locale === "en"
+                    ? "Rule of Dominance & Constants"
+                    : "Kaidah Dominasi & Konstanta"}
+                </div>
+                <div className="math-highlight-card__formula">
+                  <span>T(n) = 3n² + 5n + 10</span>
+                  <span className="math-highlight-card__arrow">⟶</span>
+                  <span className="math-highlight-card__result">O(n²)</span>
+                </div>
+                <div className="math-highlight-card__breakdown">
+                  <div className="math-step">
+                    <strong>1. Drop Multiplicative Constants:</strong>
+                    <span>
+                      {locale === "en"
+                        ? "Constant multipliers (e.g., 3 in 3n²) depend on compiler optimizations, CPU clock rates, and cache speeds. As n scales, the geometric growth curve dominates the coefficient."
+                        : "Konstanta pengali (seperti 3 pada 3n²) dipengaruhi optimasi compiler dan clock CPU. Saat n membesar, kurva pertumbuhan eksponensial/kuadratik jauh melampaui koefisien tersebut."}
+                    </span>
+                  </div>
+                  <div className="math-step">
+                    <strong>2. Drop Non-Dominant Terms:</strong>
+                    <span>
+                      {locale === "en"
+                        ? "For large n, the fastest growing term completely dwarfs smaller terms. For n = 10,000, n² = 100,000,000 while 5n is only 50,000 (0.05% of the total runtime)."
+                        : "Untuk n besar, suku dengan pertumbuhan tercepat mendominasi total beban kerja. Pada n = 10.000, n² menghasilkan 100.000.000 operasi sementara 5n hanya 50.000 (0,05% dari total)."}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Time vs Space Complexity */}
+            <div className="editorial-block">
+              <h3 className="editorial-subheading">
+                {locale === "en"
+                  ? "Time vs Space: The Dual Resource Dimensions"
+                  : "Dimensi Waktu vs Memori"}
+              </h3>
+              <div className="space-time-editorial-grid">
+                <div className="dimension-editorial-card">
+                  <h4>
+                    {locale === "en"
+                      ? "Time Complexity (CPU Cycles)"
+                      : "Kompleksitas Waktu (Siklus CPU)"}
+                  </h4>
+                  <p>
+                    {locale === "en"
+                      ? "Measures CPU instruction cycles relative to n. In serverless or containerized environments, excessive time complexity drives request timeouts, thread starvation, and higher compute billing."
+                      : "Mengukur siklus instruksi CPU sebanding dengan n. Pada arsitektur cloud serverless, kompleksitas waktu tinggi memicu request timeout dan lonjakan tagihan komputasi."}
+                  </p>
+                </div>
+                <div className="dimension-editorial-card">
+                  <h4>
+                    {locale === "en"
+                      ? "Space Complexity (Auxiliary Heap & Stack)"
+                      : "Kompleksitas Memori (Heap & Stack)"}
+                  </h4>
+                  <p>
+                    {locale === "en"
+                      ? "Measures additional memory allocated beyond input storage. Recursive algorithms incur O(d) call stack frames; auxiliary hash sets incur O(n) heap memory. Exceeding pod memory limits triggers fatal Linux OOM kills."
+                      : "Mengukur alokasi memori tambahan di luar input asli. Rekursi memakan frame stack sebesar O(kedalaman); hash table memakan memori heap O(n). Melampaui limit pod akan memicu OOM Kill dari kernel Linux."}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ========================================================= */}
+        {/* GROUP 2: GROWTH RATES                                     */}
+        {/* ========================================================= */}
+        {activeGroup === "growth-rates" && (
+          <section className="editorial-panel" aria-label="Growth Rates & Visualizer">
+            <header className="editorial-group-header">
+              <span className="editorial-group-index">GROUP 02</span>
+              <h2 className="editorial-group-title">{t.groupGrowthRates[locale]}</h2>
+              <p className="editorial-lead">
+                {locale === "en"
+                  ? "Computational curves separate scalable architectures from catastrophic bottlenecks. Explore the seven canonical complexity classes and interactively inspect how operation counts explode as input expands."
+                  : "Kurva komputasi membedakan arsitektur yang tahan uji dari bottleneck sistem. Pelajari tujuh kelas kompleksitas kanonikal dan amati langsung bagaimana beban operasi meningkat pesat saat input bertambah."}
+              </p>
+            </header>
+
+            {/* Canonical Complexity Classes Table */}
+            <div className="editorial-block">
+              <div className="classes-editorial-header">
+                <div>
+                  <h3 className="editorial-subheading" style={{ margin: 0 }}>
+                    {locale === "en"
+                      ? "The Seven Canonical Complexity Classes"
+                      : "Tujuh Kelas Kompleksitas Kanonikal"}
+                  </h3>
+                  <p className="editorial-prose" style={{ marginTop: "6px", marginBottom: "16px" }}>
+                    {locale === "en"
+                      ? "From O(1) instant lookups to O(n!) combinatorial explosion. Click on any row to expand technical details, threshold limits, and TypeScript implementation."
+                      : "Mulai dari lookup O(1) instan hingga ledakan permutasi O(n!). Klik baris manapun untuk membuka detail teknis, batas toleransi, dan kode TypeScript."}
                   </p>
                 </div>
               </div>
 
-              <h4 style={{ fontSize: "1.05rem", marginTop: "24px", marginBottom: "8px" }}>
-                {locale === "en"
-                  ? "Concrete Memory Traps in Modern Runtimes"
-                  : "Jebakan Memori Nyata pada Runtime Modern"}
-              </h4>
-              <ul
-                style={{
-                  paddingLeft: "20px",
-                  color: "var(--muted)",
-                  fontSize: "0.9rem",
-                  lineHeight: 1.6,
-                }}
-              >
-                <li>
-                  <strong style={{ color: "var(--text)" }}>Iterative In-place:</strong>{" "}
-                  {locale === "en"
-                    ? "Traversing or swapping an array in place takes O(n) time and strictly O(1) auxiliary space."
-                    : "Menelusuri atau menukar array in-place membutuhkan waktu O(n) dan memori tambahan O(1)."}
-                </li>
-                <li>
-                  <strong style={{ color: "var(--text)" }}>Array Cloning:</strong>{" "}
-                  {locale === "en"
-                    ? "Using .slice() or .map() creates a shallow copy, immediately demanding O(n) additional heap memory and increasing GC overhead."
-                    : "Menggunakan .slice() atau .map() membuat salinan baru, langsung menyerap memori heap O(n) dan memperberat GC."}
-                </li>
-                <li>
-                  <strong style={{ color: "var(--text)" }}>Call Stack Frames:</strong>{" "}
-                  {locale === "en"
-                    ? "Deep recursion allocates one activation stack frame per call. A recursion depth of n costs O(n) memory even if no data structures are allocated."
-                    : "Rekursi mendalam mengalokasikan satu stack frame per pemanggilan. Kedalaman rekursi n menghabiskan memori O(n) meski tanpa struktur data baru."}
-                </li>
-                <li>
-                  <strong style={{ color: "var(--text)" }}>Merge Sort Auxiliary Buffers:</strong>{" "}
-                  {locale === "en"
-                    ? "Array-based merge sort requires temporary array buffers, resulting in O(n) auxiliary memory overhead."
-                    : "Merge sort berbasis array memerlukan buffer array sementara, menghasilkan overhead memori tambahan O(n)."}
-                </li>
-              </ul>
+              <div className="classes-editorial-table">
+                <div className="classes-table-head">
+                  <span className="col-notation">{locale === "en" ? "Notation" : "Notasi"}</span>
+                  <span className="col-name">
+                    {locale === "en" ? "Classification" : "Klasifikasi"}
+                  </span>
+                  <span className="col-example">
+                    {locale === "en" ? "Typical Operation" : "Operasi Khas"}
+                  </span>
+                  <span className="col-growth">
+                    {locale === "en" ? "Scalability" : "Skalabilitas"}
+                  </span>
+                  <span className="col-action"></span>
+                </div>
+
+                {complexityClasses.map((cls) => {
+                  const isExpanded = expandedClasses[cls.notation];
+                  return (
+                    <div
+                      key={cls.notation}
+                      className={`classes-table-row-group ${isExpanded ? "is-expanded" : ""}`}
+                    >
+                      <button
+                        type="button"
+                        className="classes-table-row"
+                        onClick={() => toggleClassExpansion(cls.notation)}
+                        aria-expanded={isExpanded}
+                        aria-label={`Toggle details for ${cls.notation} ${cls.name[locale]}`}
+                      >
+                        <span className="col-notation">
+                          <code className="classes-table-notation">{cls.notation}</code>
+                        </span>
+                        <span className="col-name">
+                          <strong className="classes-table-name">{cls.name[locale]}</strong>
+                        </span>
+                        <span className="col-example">
+                          <span className="classes-table-example">{cls.example[locale]}</span>
+                        </span>
+                        <span className="col-growth">
+                          <span className="classes-table-behavior">
+                            {cls.growthBehavior[locale]}
+                          </span>
+                        </span>
+                        <span className="col-action">
+                          <span className="classes-table-toggle">
+                            {isExpanded
+                              ? locale === "en"
+                                ? "Close −"
+                                : "Tutup −"
+                              : locale === "en"
+                                ? "Code +"
+                                : "Kode +"}
+                          </span>
+                        </span>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="classes-table-drawer">
+                          <div className="classes-drawer-grid">
+                            <div className="classes-drawer-info">
+                              <div className="classes-drawer-item">
+                                <span className="classes-drawer-label">
+                                  {locale === "en" ? "Formal Definition" : "Definisi Formal"}
+                                </span>
+                                <p>{cls.definition[locale]}</p>
+                              </div>
+                              <div className="classes-drawer-item">
+                                <span className="classes-drawer-label">
+                                  {locale === "en" ? "Problematic Boundary" : "Batas Bermasalah"}
+                                </span>
+                                <p>{cls.problematicWhen[locale]}</p>
+                              </div>
+                              <div className="classes-drawer-item">
+                                <span className="classes-drawer-label">
+                                  {locale === "en"
+                                    ? "Production Use Cases"
+                                    : "Penggunaan di Produksi"}
+                                </span>
+                                <ul className="classes-drawer-list">
+                                  {cls.useCases[locale].map((uc, i) => (
+                                    <li key={i}>{uc}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="classes-drawer-code">
+                              <div className="classes-drawer-code-head">
+                                <span>{cls.snippetCaption[locale]}</span>
+                                <span className="classes-code-badge">TypeScript</span>
+                              </div>
+                              <pre className="classes-code-pre">
+                                <code>{cls.snippet}</code>
+                              </pre>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+
+            {/* Interactive Growth Explorer */}
+            <div className="editorial-block" style={{ marginTop: "48px" }}>
+              <div className="explorer-editorial-heading">
+                <Badge>{locale === "en" ? "Interactive Lab" : "Laboratorium Interaktif"}</Badge>
+                <h3
+                  className="editorial-subheading"
+                  style={{ marginTop: "12px", marginBottom: "8px" }}
+                >
+                  {locale === "en" ? "Complexity Growth Explorer" : "Eksplorasi Kurva Pertumbuhan"}
+                </h3>
+                <p className="editorial-prose" style={{ margin: "0 0 24px 0" }}>
+                  {locale === "en"
+                    ? "Adjust input size n and toggle individual complexity curves. Observe the logarithmic divergence: while O(1) and O(log n) remain flat, O(2ⁿ) and O(n!) escape standard coordinates almost immediately."
+                    : "Atur ukuran masukan n dan aktifkan kurva kompleksitas secara individual. Perhatikan divergensi komputasi: saat O(1) dan O(log n) tetap datar, O(2ⁿ) dan O(n!) melesat keluar koordinat dalam sekejap."}
+                </p>
+              </div>
+
+              <div className="explorer-editorial-wrapper">
+                <ComplexityGrowthExplorer locale={locale} />
+              </div>
+            </div>
+          </section>
         )}
 
-        {/* TAB 5: CODE ANALYSIS WALKTHROUGH */}
-        {activeTab === "analysis" && (
-          <div className="complexity-panel animate-fade-in">
-            <h3 style={{ fontSize: "1.35rem", marginBottom: "8px" }}>
-              {locale === "en"
-                ? "5. How to Analyze Code Complexity"
-                : "5. Cara Menganalisis Kompleksitas Kode"}
-            </h3>
-            <p style={{ color: "var(--muted)", fontSize: "0.95rem", marginBottom: "16px" }}>
-              {locale === "en"
-                ? "A 10-step systematic process for dissecting algorithms, accompanied by TypeScript examples and line-by-line reasoning."
-                : "Alur kerja sistematis 10 langkah untuk menganalisis algoritma, disertai contoh TypeScript dan penalaran per baris."}
-            </p>
-
-            <div className="analysis-steps-card">
-              <h4 style={{ margin: "0 0 10px 0", fontSize: "0.98rem", color: "var(--accent)" }}>
+        {/* ========================================================= */}
+        {/* GROUP 3: CODE ANALYSIS                                    */}
+        {/* ========================================================= */}
+        {activeGroup === "code-analysis" && (
+          <section className="editorial-panel" aria-label="Code Analysis & Protocol">
+            <header className="editorial-group-header">
+              <span className="editorial-group-index">GROUP 03</span>
+              <h2 className="editorial-group-title">{t.groupCodeAnalysis[locale]}</h2>
+              <p className="editorial-lead">
                 {locale === "en"
-                  ? "Ten-Step Analysis Protocol:"
-                  : "Protokol Analisis Sepuluh Langkah:"}
-              </h4>
-              <div className="steps-pill-grid">
+                  ? "Rigorous algorithm analysis is an indispensable engineering discipline. Apply this 10-step audit protocol to analyze time and memory scaling in production pull requests."
+                  : "Menganalisis algoritma secara presisi adalah keterampilan wajib bagi software engineer. Terapkan protokol audit 10-langkah ini untuk mengevaluasi efisiensi kode pada pull request produksi."}
+              </p>
+            </header>
+
+            {/* 10-Step Code Audit Protocol */}
+            <div className="editorial-block">
+              <h3 className="editorial-subheading">
+                {locale === "en"
+                  ? "The 10-Step Algorithmic Audit Protocol"
+                  : "Protokol 10-Langkah Audit Algoritma"}
+              </h3>
+              <p className="editorial-prose">
+                {locale === "en"
+                  ? "Follow these sequential checks whenever reviewing loops, recursive routines, or data transformation pipelines:"
+                  : "Ikuti langkah berurutan ini saat meninjau perulangan, rutinitas rekursif, atau pipeline transformasi data:"}
+              </p>
+
+              <div className="protocol-steps-grid">
                 {[
                   {
-                    n: "01",
-                    t: {
-                      en: "Identify Input Variables (n, m)",
-                      id: "Identifikasi Variabel Input (n, m)",
+                    step: "01",
+                    title: {
+                      en: "Identify Input Dimensions (n, m)",
+                      id: "Identifikasi Dimensi Input (n, m)",
+                    },
+                    desc: {
+                      en: "Determine exactly which parameters scale. Distinguish between single array lengths (n) and multiple inputs (n * m).",
+                      id: "Tentukan parameter mana yang dapat bertambah. Bedakan antara panjang array tunggal (n) dan banyak input (n * m).",
                     },
                   },
-                  { n: "02", t: { en: "Find Dominant Operations", id: "Temukan Operasi Dominan" } },
-                  { n: "03", t: { en: "Count Scaling Ratio", id: "Hitung Rasio Penskalaan" } },
                   {
-                    n: "04",
-                    t: { en: "Analyze Sequential Loops", id: "Analisis Loop Sekuensial" },
-                  },
-                  { n: "05", t: { en: "Analyze Nested Loops", id: "Analisis Loop Bersarang" } },
-                  {
-                    n: "06",
-                    t: { en: "Analyze Conditional Branches", id: "Analisis Cabang Kondisi" },
-                  },
-                  {
-                    n: "07",
-                    t: { en: "Analyze Logarithmic Halving", id: "Analisis Pembagian Logaritmik" },
-                  },
-                  {
-                    n: "08",
-                    t: { en: "Analyze Recursive Depth", id: "Analisis Kedalaman Rekursi" },
-                  },
-                  { n: "09", t: { en: "Account Auxiliary Space", id: "Hitung Memori Tambahan" } },
-                  {
-                    n: "10",
-                    t: {
-                      en: "Drop Constants and Lower Terms",
-                      id: "Abaikan Konstanta & Suku Rendah",
+                    step: "02",
+                    title: { en: "Locate Primitive Operations", id: "Temukan Operasi Primitif" },
+                    desc: {
+                      en: "Identify basic CPU operations: arithmetic (+, -, *, /), assignments, array index lookups, and comparisons. Each costs O(1).",
+                      id: "Identifikasi operasi dasar CPU: aritmatika, assignment variabel, akses indeks array, dan perbandingan bernilai O(1).",
                     },
                   },
-                ].map((s) => (
-                  <div key={s.n} className="step-pill-item">
-                    <span className="mono step-pill-num">{s.n}</span>
-                    <span style={{ fontSize: "0.82rem" }}>{s.t[locale]}</span>
+                  {
+                    step: "03",
+                    title: { en: "Inspect Iterative Loop Bounds", id: "Periksa Batas Perulangan" },
+                    desc: {
+                      en: "Analyze loop start, termination condition, and step increment (i++, i += 2, or i *= 2).",
+                      id: "Analisis nilai awal perulangan, kondisi terminasi, dan kenaikan variabel (i++, i += 2, atau i *= 2).",
+                    },
+                  },
+                  {
+                    step: "04",
+                    title: {
+                      en: "Multiply Nested Loop Levels",
+                      id: "Kalikan Perulangan Bersarang",
+                    },
+                    desc: {
+                      en: "If inner loop iterations depend on outer loops, compute the exact summation series (e.g., Σ i = n(n-1)/2 = O(n²)).",
+                      id: "Jika putaran loop dalam bergantung pada loop luar, hitung deret penjumlahannya (contoh: Σ i = n(n-1)/2 = O(n²)).",
+                    },
+                  },
+                  {
+                    step: "05",
+                    title: { en: "Sum Sequential Code Blocks", id: "Jumlahkan Blok Sekuensial" },
+                    desc: {
+                      en: "Consecutive operations add together: O(n) + O(m) = O(n + m). If n >> m, it simplifies to O(n).",
+                      id: "Operasi berturutan saling menjumlahkan: O(n) + O(m) = O(n + m). Jika n >> m, sederhanakan menjadi O(n).",
+                    },
+                  },
+                  {
+                    step: "06",
+                    title: { en: "Drop Multiplicative Constants", id: "Abaikan Konstanta Pengali" },
+                    desc: {
+                      en: "T(n) = 4n + 12 simplifies to O(n). Constants reflect micro-optimizations, not asymptotic growth ceilings.",
+                      id: "T(n) = 4n + 12 disederhanakan menjadi O(n). Konstanta mencerminkan efisiensi mikro, bukan limit pertumbuhan.",
+                    },
+                  },
+                  {
+                    step: "07",
+                    title: {
+                      en: "Eliminate Lower-Order Terms",
+                      id: "Eliminasi Suku Tingkat Rendah",
+                    },
+                    desc: {
+                      en: "In polynomial functions such as T(n) = 2n³ + 50n² + 1000, retain only the highest-order exponent (O(n³)).",
+                      id: "Pada fungsi polinomial seperti T(n) = 2n³ + 50n² + 1000, simpan hanya pangkat tertinggi (O(n³)).",
+                    },
+                  },
+                  {
+                    step: "08",
+                    title: {
+                      en: "Evaluate Branching Worst-Case",
+                      id: "Evaluasi Skenario Percabangan Terburuk",
+                    },
+                    desc: {
+                      en: "If if/else branches execute different complexities, characterize the worst-case path as the contractual SLA limit.",
+                      id: "Jika percabangan if/else memiliki kompleksitas berbeda, tetapkan jalur terberat sebagai batas aman SLA.",
+                    },
+                  },
+                  {
+                    step: "09",
+                    title: {
+                      en: "Audit Auxiliary Heap Allocations",
+                      id: "Audit Alokasi Memori Tambahan",
+                    },
+                    desc: {
+                      en: "Track arrays, sets, maps, or cloned objects instantiated during execution to establish auxiliary space complexity.",
+                      id: "Lacak array, hash set, map, atau cloning objek yang dibuat saat eksekusi untuk menghitung kebutuhan RAM.",
+                    },
+                  },
+                  {
+                    step: "10",
+                    title: {
+                      en: "Calculate Recursion Tree Depth",
+                      id: "Hitung Kedalaman Pohon Rekursi",
+                    },
+                    desc: {
+                      en: "For recursive routines, calculate call stack frame depth (O(d) space) and branch factor (O(bᵈ) time).",
+                      id: "Untuk fungsi rekursif, hitung kedalaman call stack (memori O(d)) dan faktor percabangan (waktu O(bᵈ)).",
+                    },
+                  },
+                ].map((item) => (
+                  <div key={item.step} className="protocol-step-card">
+                    <span className="protocol-step-num">{item.step}</span>
+                    <h4 className="protocol-step-title">{item.title[locale]}</h4>
+                    <p className="protocol-step-desc">{item.desc[locale]}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="analysis-examples-stack" style={{ marginTop: "24px" }}>
-              {analysisExamples.map((ex) => (
-                <div key={ex.id} className="analysis-example-card">
-                  <div className="example-header">
-                    <h4 style={{ margin: 0, fontSize: "1.05rem" }}>{ex.title[locale]}</h4>
-                    <div style={{ display: "flex", gap: "8px" }}>
-                      <span className="blueprint-badge">{ex.complexity}</span>
-                      <Badge>{ex.spaceComplexity}</Badge>
-                    </div>
-                  </div>
-
-                  <div className="example-body-grid">
-                    <pre className="example-code-pre">
-                      <code>{ex.code}</code>
-                    </pre>
-
-                    <div className="example-reasoning-side">
-                      <span
-                        className="mono"
-                        style={{ fontSize: "0.75rem", color: "var(--accent)", fontWeight: 700 }}
-                      >
-                        {locale === "en"
-                          ? "STEP-BY-STEP REASONING:"
-                          : "PENALARAN LANGKAH DEMI LANGKAH:"}
-                      </span>
-                      <ul
-                        style={{
-                          margin: "6px 0 10px 0",
-                          paddingLeft: "18px",
-                          fontSize: "0.84rem",
-                          color: "var(--muted)",
-                        }}
-                      >
-                        {ex.reasoning[locale].map((r, rIdx) => (
-                          <li key={rIdx}>{r}</li>
-                        ))}
-                      </ul>
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: "0.82rem",
-                          color: "var(--text)",
-                          fontStyle: "italic",
-                        }}
-                      >
-                        {ex.explanation[locale]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* TAB 6: ENGINEERING TRADEOFFS */}
-        {activeTab === "tradeoffs" && (
-          <div className="complexity-panel animate-fade-in">
-            <div className="complexity-card-section">
-              <h3 style={{ fontSize: "1.35rem", marginBottom: "8px" }}>
+            {/* Concrete TypeScript Walkthroughs */}
+            <div className="editorial-block" style={{ marginTop: "48px" }}>
+              <h3 className="editorial-subheading">
                 {locale === "en"
-                  ? "6. Engineering Trade-offs: Why Big O Is Not the Whole Story"
-                  : "6. Kompromi Rekayasa: Mengapa Big O Bukan Segalanya"}
+                  ? "Annotated Code Analysis Walkthroughs"
+                  : "Studi Kasus Analisis Kode Teranotasi"}
               </h3>
-              <p
-                style={{
-                  color: "var(--muted)",
-                  fontSize: "0.95rem",
-                  lineHeight: 1.6,
-                  marginBottom: "20px",
-                }}
-              >
+              <p className="editorial-prose">
                 {locale === "en"
-                  ? "Lower asymptotic complexity does not automatically guarantee faster execution in production. Real-world performance depends heavily on constant factors, hardware memory hierarchies, and data layout."
-                  : "Kompleksitas asimptotik yang lebih rendah tidak otomatis menjamin eksekusi yang lebih cepat di server produksi. Kinerja nyata sangat dipengaruhi oleh faktor konstanta, hierarki memori hardware, dan struktur tata letak data."}
+                  ? "Examine these real-world TypeScript implementations, breaking down operation counts line-by-line:"
+                  : "Telusuri implementasi TypeScript nyata berikut, lengkap dengan pembuktian hitungan operasi baris demi baris:"}
               </p>
 
-              <div className="tradeoffs-grid">
+              <div className="analysis-editorial-list">
+                {analysisExamples.slice(0, 3).map((example) => {
+                  const isExpanded = expandedExamples[example.id] ?? true;
+                  return (
+                    <article key={example.id} className="analysis-editorial-card">
+                      <div className="analysis-card-header">
+                        <div>
+                          <h4 className="analysis-card-title">{example.title[locale]}</h4>
+                          <p className="analysis-card-expl">{example.explanation[locale]}</p>
+                        </div>
+                        <div className="analysis-card-badges">
+                          <span className="badge-mono-accent">{example.complexity}</span>
+                          <span className="badge-mono-muted">{example.spaceComplexity}</span>
+                        </div>
+                      </div>
+
+                      <div className="analysis-card-body">
+                        <div className="analysis-card-code">
+                          <pre>
+                            <code>{example.code}</code>
+                          </pre>
+                        </div>
+
+                        <div className="analysis-card-reasoning">
+                          <button
+                            type="button"
+                            className="analysis-reasoning-toggle"
+                            onClick={() => toggleExampleExpansion(example.id)}
+                            aria-expanded={isExpanded}
+                          >
+                            <span>
+                              {locale === "en"
+                                ? "Line-by-Line Complexity Proof"
+                                : "Pembuktian Kompleksitas Baris"}
+                            </span>
+                            <span>{isExpanded ? "▲" : "▼"}</span>
+                          </button>
+
+                          {isExpanded && (
+                            <ol className="analysis-reasoning-steps">
+                              {example.reasoning[locale].map((step, idx) => (
+                                <li key={idx}>{step}</li>
+                              ))}
+                            </ol>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ========================================================= */}
+        {/* GROUP 4: ENGINEERING APPLICATIONS                         */}
+        {/* ========================================================= */}
+        {activeGroup === "applications" && (
+          <section className="editorial-panel" aria-label="Engineering Applications & Trade-offs">
+            <header className="editorial-group-header">
+              <span className="editorial-group-index">GROUP 04</span>
+              <h2 className="editorial-group-title">{t.groupApplications[locale]}</h2>
+              <p className="editorial-lead">
+                {locale === "en"
+                  ? "Asymptotic theory assumes n approaches infinity. Production engineering operates within finite physical constraints: CPU caches, memory bandwidth, network latency, and garbage collection pauses."
+                  : "Teori asimptotik mengasumsikan n mendekati tak terhingga. Namun rekayasa sistem produksi berjalan dalam batas fisik nyata: cache CPU, bandwidth bus memori, latensi jaringan, dan jeda garbage collection."}
+              </p>
+            </header>
+
+            {/* Production Engineering Trade-offs */}
+            <div className="editorial-block">
+              <h3 className="editorial-subheading">
+                {locale === "en"
+                  ? "Four Engineering Trade-Offs in Practice"
+                  : "Empat Kompromi Rekayasa di Lapangan"}
+              </h3>
+
+              <div className="tradeoffs-editorial-grid">
                 {engineeringTradeoffs.map((item, idx) => (
-                  <div key={idx} className="tradeoff-card">
-                    <h4 style={{ margin: "0 0 8px 0", fontSize: "1.05rem", color: "var(--text)" }}>
-                      {item.title[locale]}
-                    </h4>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "0.88rem",
-                        color: "var(--muted)",
-                        lineHeight: 1.55,
-                      }}
-                    >
-                      {item.desc[locale]}
-                    </p>
-                  </div>
+                  <article key={idx} className="tradeoff-editorial-card">
+                    <span className="tradeoff-editorial-index">0{idx + 1}</span>
+                    <h4 className="tradeoff-editorial-title">{item.title[locale]}</h4>
+                    <p className="tradeoff-editorial-desc">{item.desc[locale]}</p>
+                  </article>
                 ))}
               </div>
             </div>
-          </div>
-        )}
 
-        {/* TAB 7: QUICK REFERENCE */}
-        {activeTab === "quickref" && (
-          <div className="complexity-panel animate-fade-in">
-            <div className="complexity-card-section">
-              <h3 style={{ fontSize: "1.35rem", marginBottom: "8px" }}>
+            {/* Quick Reference Matrix */}
+            <div className="editorial-block" style={{ marginTop: "48px" }}>
+              <h3 className="editorial-subheading">
                 {locale === "en"
-                  ? "7. Quick Reference Lookup Matrix"
-                  : "7. Matriks Referensi Cepat"}
+                  ? "Quick Operational Reference Matrix"
+                  : "Matriks Referensi Cepat Beban Operasi"}
               </h3>
-              <p style={{ color: "var(--muted)", fontSize: "0.92rem", marginBottom: "16px" }}>
+              <p className="editorial-prose">
                 {locale === "en"
-                  ? "Compact comparison guide for common algorithm complexity classes."
-                  : "Panduan pembanding ringkas untuk kelas kompleksitas algoritma umum."}
+                  ? "A rapid engineering cheat-sheet showing estimated step counts as dataset scale n increases by orders of magnitude:"
+                  : "Tabel panduan cepat yang memetakan estimasi jumlah operasi saat ukuran dataset n meningkat berlipat ganda:"}
               </p>
 
-              <div className="article-table-wrapper">
-                <div className="article-table-container">
-                  <table className="article-table">
-                    <thead>
-                      <tr>
-                        <th>{locale === "en" ? "Complexity" : "Kompleksitas"}</th>
-                        <th>{locale === "en" ? "Classification" : "Nama"}</th>
-                        <th>{locale === "en" ? "Growth for n = 1,000" : "Laju untuk n = 1.000"}</th>
-                        <th>{locale === "en" ? "Typical Example" : "Contoh Khas"}</th>
-                        <th>{locale === "en" ? "Warning Sign" : "Tanda Bahaya"}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <strong className="mono" style={{ color: "#10b981" }}>
-                            O(1)
-                          </strong>
-                        </td>
-                        <td>{locale === "en" ? "Constant" : "Konstan"}</td>
-                        <td className="mono">1</td>
-                        <td>{locale === "en" ? "Array index lookup" : "Akses indeks array"}</td>
-                        <td>
-                          {locale === "en"
-                            ? "Expensive hidden synchronous I/O"
-                            : "I/O sinkron tersembunyi yang berat"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <strong className="mono" style={{ color: "#0284c7" }}>
-                            O(log n)
-                          </strong>
-                        </td>
-                        <td>{locale === "en" ? "Logarithmic" : "Logaritmik"}</td>
-                        <td className="mono">~10</td>
-                        <td>
-                          {locale === "en"
-                            ? "Binary search (sorted data)"
-                            : "Binary search (data terurut)"}
-                        </td>
-                        <td>
-                          {locale === "en"
-                            ? "Requires sorted array + random access"
-                            : "Wajib array terurut + random access"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <strong className="mono" style={{ color: "#d97706" }}>
-                            O(n)
-                          </strong>
-                        </td>
-                        <td>{locale === "en" ? "Linear" : "Linear"}</td>
-                        <td className="mono">1,000</td>
-                        <td>
-                          {locale === "en"
-                            ? "Single loop traversal"
-                            : "Satu putaran loop traversal"}
-                        </td>
-                        <td>
-                          {locale === "en"
-                            ? "Avoid per-request full table scans"
-                            : "Hindari scan tabel penuh per-request"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <strong className="mono" style={{ color: "#8b5cf6" }}>
-                            O(n log n)
-                          </strong>
-                        </td>
-                        <td>{locale === "en" ? "Linearithmic" : "Linearitmik"}</td>
-                        <td className="mono">~10,000</td>
-                        <td>{locale === "en" ? "Merge Sort, TimSort" : "Merge Sort, TimSort"}</td>
-                        <td>
-                          {locale === "en"
-                            ? "Merge sort allocates O(n) memory"
-                            : "Merge sort mengalokasikan O(n) memori"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <strong className="mono" style={{ color: "#ea580c" }}>
-                            O(n²)
-                          </strong>
-                        </td>
-                        <td>{locale === "en" ? "Quadratic" : "Kuadratik"}</td>
-                        <td className="mono">1,000,000</td>
-                        <td>
-                          {locale === "en"
-                            ? "Nested loops, pairwise check"
-                            : "Loop bersarang, cek pasangan"}
-                        </td>
-                        <td>
-                          {locale === "en"
-                            ? "Severe latency when n > 5,000"
-                            : "Lag parah ketika n > 5.000"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <strong className="mono" style={{ color: "#e11d48" }}>
-                            O(2ⁿ)
-                          </strong>
-                        </td>
-                        <td>{locale === "en" ? "Exponential" : "Eksponensial"}</td>
-                        <td className="mono">1.07 x 10³⁰¹</td>
-                        <td>
-                          {locale === "en"
-                            ? "Naive recursive Fibonacci"
-                            : "Fibonacci rekursif naif"}
-                        </td>
-                        <td>
-                          {locale === "en" ? "Explodes beyond n = 40" : "Meledak ketika n > 40"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <strong className="mono" style={{ color: "#b91c1c" }}>
-                            O(n!)
-                          </strong>
-                        </td>
-                        <td>{locale === "en" ? "Factorial" : "Faktorial"}</td>
-                        <td className="mono">Astronomical</td>
-                        <td>
-                          {locale === "en" ? "Permutation generation" : "Generator permutasi"}
-                        </td>
-                        <td>
-                          {locale === "en"
-                            ? "Intractable beyond n = 12"
-                            : "Mustahil diproses melebihi n = 12"}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+              <div className="quickref-editorial-wrapper">
+                <table className="quickref-editorial-table">
+                  <thead>
+                    <tr>
+                      <th>{locale === "en" ? "Complexity" : "Kompleksitas"}</th>
+                      <th>n = 10</th>
+                      <th>n = 100</th>
+                      <th>n = 1,000</th>
+                      <th>n = 1,000,000</th>
+                      <th>
+                        {locale === "en" ? "Production Feasibility" : "Kelayakan di Produksi"}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <code>O(1)</code>
+                      </td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td>
+                        <span className="status-badge status-excellent">
+                          {locale === "en" ? "Optimal (Instant)" : "Optimal (Instan)"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>O(log n)</code>
+                      </td>
+                      <td>~3.3</td>
+                      <td>~6.6</td>
+                      <td>~10</td>
+                      <td>~20</td>
+                      <td>
+                        <span className="status-badge status-excellent">
+                          {locale === "en" ? "Scales Globally" : "Skalabilitas Global"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>O(n)</code>
+                      </td>
+                      <td>10</td>
+                      <td>100</td>
+                      <td>1,000</td>
+                      <td>1,000,000</td>
+                      <td>
+                        <span className="status-badge status-good">
+                          {locale === "en" ? "Linear (Acceptable)" : "Linear (Aman)"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>O(n log n)</code>
+                      </td>
+                      <td>~33</td>
+                      <td>~664</td>
+                      <td>~9,965</td>
+                      <td>~20,000,000</td>
+                      <td>
+                        <span className="status-badge status-good">
+                          {locale === "en" ? "Standard for Sorting" : "Standar Sorting"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>O(n²)</code>
+                      </td>
+                      <td>100</td>
+                      <td>10,000</td>
+                      <td>1,000,000</td>
+                      <td>10¹² (1 Trillion)</td>
+                      <td>
+                        <span className="status-badge status-warning">
+                          {locale === "en" ? "Risky beyond n > 1,000" : "Berisiko jika n > 1.000"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>O(2ⁿ)</code>
+                      </td>
+                      <td>1,024</td>
+                      <td>1.26 × 10³⁰</td>
+                      <td>Overflow</td>
+                      <td>Overflow</td>
+                      <td>
+                        <span className="status-badge status-danger">
+                          {locale === "en" ? "Intractable (n ≤ 25)" : "Mustahil (n ≤ 25)"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <code>O(n!)</code>
+                      </td>
+                      <td>3.62 × 10⁶</td>
+                      <td>Overflow</td>
+                      <td>Overflow</td>
+                      <td>Overflow</td>
+                      <td>
+                        <span className="status-badge status-danger">
+                          {locale === "en" ? "Intractable (n ≤ 11)" : "Mustahil (n ≤ 11)"}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
+
+            {/* Quiet Editorial Companion Article Link */}
+            <div className="editorial-companion-link">
+              <div className="editorial-companion-content">
+                <span className="editorial-companion-eyebrow">
+                  {locale === "en" ? "COMPANION ESSAY" : "ARTIKEL PENDAMPING"}
+                </span>
+                <h4 className="editorial-companion-title">
+                  {locale === "en"
+                    ? "Big O Notation & Algorithm Complexity in Production Systems"
+                    : "Notasi Big O & Kompleksitas Algoritma pada Sistem Produksi"}
+                </h4>
+                <p className="editorial-companion-desc">
+                  {locale === "en"
+                    ? "Read the in-depth architectural breakdown of memory hierarchies, V8 compiler internals, and database indexing strategies."
+                    : "Baca ulasan mendalam mengenai hierarki memori, kerja compiler V8, dan strategi indexing database pada skala produksi."}
+                </p>
+              </div>
+              <Link
+                href="/blog/big-o-notation-algorithm-complexity"
+                className="editorial-companion-cta"
+              >
+                <span>{locale === "en" ? "Read deep-dive article" : "Baca artikel lengkap"}</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </section>
         )}
       </div>
 
-      {/* Further Learning: Cross link to Blog */}
-      <div className="complexity-further-learning">
-        <div>
-          <span
-            className="mono"
-            style={{
-              fontSize: "0.75rem",
-              textTransform: "uppercase",
-              color: "var(--accent)",
-              fontWeight: 700,
-            }}
+      {/* Pagination Footer: Seamless Next/Prev Flow */}
+      <footer className="editorial-group-pagination">
+        {currentGroupIndex > 0 ? (
+          <button
+            type="button"
+            className="pagination-nav-button is-prev"
+            onClick={() => switchGroup(learningGroups[currentGroupIndex - 1].id)}
           >
-            {locale === "en" ? "DEEP-DIVE COMPANION ARTICLE" : "ARTIKEL PENDAMPING MENDALAM"}
-          </span>
-          <h3 style={{ margin: "4px 0 6px 0", fontSize: "1.15rem" }}>
-            {locale === "en"
-              ? "Big O Notation Explained: A Practical Guide to Algorithm Complexity"
-              : "Memahami Big O Notation: Panduan Praktis Analisis Kompleksitas Algoritma"}
-          </h3>
-          <p style={{ margin: 0, fontSize: "0.88rem", color: "var(--muted)" }}>
-            {locale === "en"
-              ? "Explore the full long-form article on our engineering blog: production scenarios, database query plans, and in-depth optimization workflows."
-              : "Pelajari artikel lengkap di blog kami: skenario produksi nyata, rencana kueri database, dan alur kerja optimasi mendalam."}
-          </p>
-        </div>
-        <Link
-          href="/blog/big-o-notation-algorithm-complexity"
-          className="button button-primary"
-          style={{ whiteSpace: "nowrap" }}
-        >
-          {locale === "en" ? "Read Deep-Dive Article →" : "Baca Artikel Mendalam →"}
-        </Link>
-      </div>
+            <span className="pagination-arrow" aria-hidden="true">
+              ←
+            </span>
+            <div className="pagination-text">
+              <span className="pagination-sub">
+                {locale === "en" ? "Previous Group" : "Grup Sebelumnya"}
+              </span>
+              <span className="pagination-target">
+                {learningGroups[currentGroupIndex - 1].shortLabel[locale]}
+              </span>
+            </div>
+          </button>
+        ) : (
+          <div />
+        )}
+
+        {currentGroupIndex < learningGroups.length - 1 ? (
+          <button
+            type="button"
+            className="pagination-nav-button is-next"
+            onClick={() => switchGroup(learningGroups[currentGroupIndex + 1].id)}
+          >
+            <div className="pagination-text" style={{ textAlign: "right" }}>
+              <span className="pagination-sub">
+                {locale === "en" ? "Next Group" : "Grup Berikutnya"}
+              </span>
+              <span className="pagination-target">
+                {learningGroups[currentGroupIndex + 1].shortLabel[locale]}
+              </span>
+            </div>
+            <span className="pagination-arrow" aria-hidden="true">
+              →
+            </span>
+          </button>
+        ) : (
+          <div />
+        )}
+      </footer>
     </div>
   );
 }

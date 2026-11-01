@@ -16,18 +16,24 @@ export default function EngineeringPage() {
 
   return (
     <SiteShell>
-      <section className="page-hero">
+      {/* Editorial Simplified Hero */}
+      <section className="page-hero engineering-hero">
         <div className="container">
-          <p className="eyebrow">{t.eyebrow[locale]}</p>
-          <h1>
-            {t.titlePrefix[locale]}
-            <br />
-            <em>{t.titleEm[locale]}</em>
-          </h1>
-          <p>{t.description[locale]}</p>
+          <p className="eyebrow">{t.complexityEyebrow[locale]}</p>
+          <h1 className="engineering-hero__title">{t.complexityTitle[locale]}</h1>
+          <p className="engineering-hero__subtitle">{t.complexitySubtitle[locale]}</p>
+          <p className="engineering-hero__description">{t.complexityIntro[locale]}</p>
         </div>
       </section>
 
+      {/* 4-Group Progressive Complexity Handbook */}
+      <section className="section handbook-section">
+        <div className="container">
+          <AlgorithmComplexityReference locale={locale} />
+        </div>
+      </section>
+
+      {/* Engineering Philosophy & Principles */}
       <section className="section tint">
         <div className="container">
           <SectionHeading eyebrow={t.principlesEyebrow[locale]} title={t.principlesTitle[locale]} />
@@ -39,12 +45,6 @@ export default function EngineeringPage() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="section" style={{ borderTop: "1px solid var(--line)" }}>
-        <div className="container">
-          <AlgorithmComplexityReference locale={locale} />
         </div>
       </section>
 
