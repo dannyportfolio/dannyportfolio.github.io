@@ -10,7 +10,7 @@ export const profile = {
   role: "Software Engineer — Backend & Performance Focused",
   // Primary verified contact details from repository source & git configuration.
   // Add LinkedIn or phone/WhatsApp here when available from the owner.
-  email: "danialf.business@gmail.com",
+  email: "danialfacrudin@gmail.com",
   github: "https://github.com/dannyportfolio",
   linkedin: "", // Owner configuration point: e.g. "https://linkedin.com/in/username"
   portfolioUrl: "https://dannyportfolio.github.io",
@@ -39,9 +39,9 @@ export const profile = {
   contactLinks: [
     {
       label: "Email",
-      href: "mailto:danialf.business@gmail.com",
+      href: "mailto:danialfacrudin@gmail.com",
       type: "email",
-      detail: "danialf.business@gmail.com",
+      detail: "danialfacrudin@gmail.com",
     },
     {
       label: "GitHub",
