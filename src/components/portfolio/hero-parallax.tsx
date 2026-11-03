@@ -122,16 +122,16 @@ export function HeroParallax() {
             </div>
           </div>
 
-          {/* Subtle Visual Identity Element: Desktop Backend Architecture Signature */}
-          <div className="hero-signature hero-enter hero-enter--3" aria-hidden="true">
+          {/* Subtle Visual Identity Element: Backend Architecture Signature */}
+          <div className="hero-signature hero-enter hero-enter--3">
             <div className="hero-signature__card">
               <div className="hero-signature__header">
                 <span className="hero-signature__eyebrow mono">
                   {t.heroSignature.eyebrow[locale]}
                 </span>
                 <span className="hero-signature__status">
-                  <span className="hero-signature__status-dot" />
-                  {t.heroSignature.status[locale]}
+                  <span className="hero-signature__status-dot" aria-hidden="true" />
+                  <span>{t.heroSignature.status[locale]}</span>
                 </span>
               </div>
               <div className="hero-signature__body">
