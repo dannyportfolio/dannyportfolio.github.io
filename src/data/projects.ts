@@ -12,17 +12,13 @@ export type ArchitectureStep = {
 export type Project = {
   slug: string;
   name: string;
-  shortName?: string;
   domain: string;
   url: string;
   githubUrl?: string; // Only populated when a verified public repo exists
   summary: LocalizedText;
-  cardSummary?: LocalizedText;
   category: LocalizedText;
   highlights: { en: string[]; id: string[] };
-  cardHighlights?: { en: string[]; id: string[] };
   technologies: string[];
-  cardTechnologies?: string[];
   problem: LocalizedText;
   challenge: LocalizedText;
   architecture: LocalizedText;
@@ -38,17 +34,12 @@ export const projects: Project[] = [
   {
     slug: "opspilot",
     name: "OpsPilot — Serverless Multi-Tenant Task REST API in Go",
-    shortName: "OpsPilot",
     domain: "github.com/dannyportfolio/OpsPilot",
     url: "https://github.com/dannyportfolio/OpsPilot",
     githubUrl: "https://github.com/dannyportfolio/OpsPilot",
     summary: {
       en: "Production-ready serverless multi-tenant task REST API built in idiomatic Go with hexagonal architecture, dual-runtime execution (HTTP server & AWS Lambda ARM64 Graviton), cryptographic JWT RBAC, and automated schema migrations.",
       id: "REST API manajemen task multi-tenant serverless siap produksi dalam bahasa Go dengan arsitektur heksagonal murni, dual-runtime (HTTP server & AWS Lambda ARM64 Graviton), autentikasi JWT RBAC kriptografis, dan migrasi skema database otomatis.",
-    },
-    cardSummary: {
-      en: "Serverless multi-tenant task REST API built in Go with hexagonal architecture, dual-runtime execution, cryptographic JWT RBAC, and automated schema migrations.",
-      id: "REST API manajemen task multi-tenant serverless dalam bahasa Go dengan arsitektur heksagonal, dual-runtime, autentikasi JWT RBAC, dan migrasi skema database otomatis.",
     },
     category: {
       en: "Serverless & Cloud Architecture",
@@ -71,7 +62,6 @@ export const projects: Project[] = [
       ],
     },
     technologies: ["Go", "AWS Lambda", "API Gateway", "PostgreSQL", "Docker", "JWT / RBAC"],
-    cardTechnologies: ["Go", "Serverless Architecture", "Multi-tenant REST API", "JWT / RBAC"],
     problem: {
       en: "Engineering a high-throughput, low-latency multi-tenant task management backend capable of running seamlessly both as a long-running containerized HTTP service and as an ephemeral AWS Lambda serverless function without duplicating domain logic.",
       id: "Membangun backend manajemen task multi-tenant berlatensi rendah yang mampu berjalan mulus baik sebagai service HTTP kontainer maupun fungsi serverless AWS Lambda tanpa menduplikasi logika domain bisnis.",
@@ -113,6 +103,7 @@ export const projects: Project[] = [
       ],
     },
     caseStudy: true,
+    isNew: true,
     architectureSteps: [
       {
         id: "client-ingress",
@@ -159,7 +150,6 @@ export const projects: Project[] = [
   {
     slug: "veloura",
     name: "Veloura ERP — Fashion Manufacturing & Distribution",
-    shortName: "Veloura ERP",
     domain: "display-veloura.vercel.app",
     url: "https://display-veloura.vercel.app",
     summary: {
@@ -266,7 +256,6 @@ export const projects: Project[] = [
   {
     slug: "astraops",
     name: "AstraOps — Trukindo Logistik Prima",
-    shortName: "AstraOps",
     domain: "display-trukindologistikprima.vercel.app",
     url: "https://display-trukindologistikprima.vercel.app",
     summary: {
