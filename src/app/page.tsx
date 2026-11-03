@@ -102,7 +102,7 @@ function ProjectsSection() {
             <ScrollReveal
               key={project.slug}
               delay={Math.min(index, 3) * 55}
-              className={`project-card-reveal reveal-subtle${project.isNew ? " project-card-reveal--new" : ""}`}
+              className="project-card-reveal reveal-subtle"
             >
               <ProjectCard project={project} headingLevel="h3" />
             </ScrollReveal>

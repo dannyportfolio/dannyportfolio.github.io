@@ -16,35 +16,30 @@ export function ProjectCard({
   const Heading = headingLevel;
   const { locale } = useLocale();
   const t = translations.projectsPage;
+  const displayName = project.shortName ?? project.name;
+  const displaySummary = project.cardSummary
+    ? project.cardSummary[locale]
+    : project.summary[locale];
+  const displayTechnologies = project.cardTechnologies ?? project.technologies.slice(0, 4);
 
   return (
-    <article
-      className={`project-card project-card--${project.slug}${project.isNew ? " project-card--new" : ""}`}
-    >
+    <article className={`project-card project-card--${project.slug}`}>
       <div className="project-thumbnail" aria-hidden="true">
-        {project.isNew && (
-          <span className="project-new-pill">
-            <span className="project-new-pill__dot" aria-hidden="true" />
-            {locale === "en" ? "Latest Project" : "Proyek Terbaru"}
-          </span>
-        )}
         <span className="project-thumbnail__orb" />
         <span className="project-thumbnail__grid" />
-        <div className="project-thumbnail__blueprint">
-          <div className="blueprint-header">
-            <span className="blueprint-dot" />
-            <span className="blueprint-dot" />
-            <span className="blueprint-dot" />
-            <span className="blueprint-domain" title={project.domain}>
-              {project.domain}
-            </span>
+        <div className="project-preview-stage">
+          <div className="project-preview-header">
+            <span className="project-preview-domain mono">{project.domain}</span>
+            <span className="project-preview-badge">{project.category[locale]}</span>
           </div>
-          <div className="blueprint-body">
-            <span className="blueprint-badge">{project.category[locale]}</span>
-            <div className="blueprint-bars">
-              <span className="blueprint-bar" style={{ width: "80%" }} />
-              <span className="blueprint-bar" style={{ width: "55%" }} />
-              <span className="blueprint-bar" style={{ width: "70%" }} />
+          <div className="project-preview-meta">
+            <span className="project-preview-name">{displayName}</span>
+            <div className="project-preview-chips">
+              {displayTechnologies.slice(0, 3).map((tech) => (
+                <span key={tech} className="project-preview-chip mono">
+                  {tech}
+                </span>
+              ))}
             </div>
           </div>
         </div>
@@ -53,27 +48,21 @@ export function ProjectCard({
       <div className="project-card__content">
         <div className="project-card__meta">
           <p className="mono">{project.domain}</p>
-          {project.isNew && <span className="project-new-tag">{t.newTag[locale]}</span>}
         </div>
         <Heading>
           {project.caseStudy ? (
             <Link href={`/case-studies/${project.slug}`} className="project-title-link">
-              {project.name}
+              {displayName}
             </Link>
           ) : (
-            project.name
+            displayName
           )}
         </Heading>
-        <p>{project.summary[locale]}</p>
-        <ul className="project-highlights" aria-label={`${project.name} contribution highlights`}>
-          {project.highlights[locale].map((highlight) => (
-            <li key={highlight}>{highlight}</li>
-          ))}
-        </ul>
-        {project.technologies.length > 0 && (
-          <div className="badge-row">
-            {project.technologies.map((technology) => (
-              <Badge key={technology}>{technology}</Badge>
+        <p className="project-card__summary">{displaySummary}</p>
+        {displayTechnologies.length > 0 && (
+          <div className="badge-row" aria-label={`${displayName} technical highlights`}>
+            {displayTechnologies.map((tech) => (
+              <Badge key={tech}>{tech}</Badge>
             ))}
           </div>
         )}
@@ -86,7 +75,7 @@ export function ProjectCard({
             <Link
               href={`/case-studies/${project.slug}`}
               className="text-link"
-              aria-label={`Read ${project.name} system brief`}
+              aria-label={`Read ${displayName} system brief`}
             >
               {t.systemBrief[locale]} <span aria-hidden="true">→</span>
             </Link>
@@ -97,7 +86,7 @@ export function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               className="text-link text-link--code"
-              aria-label={`View ${project.name} source code on GitHub`}
+              aria-label={`View ${displayName} source code on GitHub`}
             >
               {t.viewCode[locale]} <span aria-hidden="true">↗</span>
             </a>
@@ -108,7 +97,7 @@ export function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
               className="text-link text-link--secondary"
-              aria-label={`View ${project.name} live project (opens in a new tab)`}
+              aria-label={`View ${displayName} live project (opens in a new tab)`}
             >
               {t.liveSite[locale]} <span aria-hidden="true">↗</span>
             </a>

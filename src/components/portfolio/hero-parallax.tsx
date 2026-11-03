@@ -82,40 +82,73 @@ export function HeroParallax() {
       <div className="hero-spotlight" aria-hidden="true" />
 
       <div className="container hero-layout">
-        <div className="hero-content">
-          {/* Professional Byline */}
-          <p className="eyebrow hero-byline hero-enter hero-enter--1">
-            <span className="hero-byline-marker" aria-hidden="true" />
-            <span className="hero-byline-name">{t.heroEyebrow[locale]}</span>{" "}
-            <span className="hero-byline-sep" aria-hidden="true">
-              —
-            </span>{" "}
-            <span>{t.heroRole[locale]}</span>
-          </p>
+        <div className="hero-main">
+          <div className="hero-content">
+            {/* Professional Byline with antislop R-02 compliant separator */}
+            <p className="eyebrow hero-byline hero-enter hero-enter--1">
+              <span className="hero-byline-marker" aria-hidden="true" />
+              <span className="hero-byline-name">{t.heroEyebrow[locale]}</span>{" "}
+              <span className="hero-byline-sep" aria-hidden="true">
+                ·
+              </span>{" "}
+              <span>{t.heroRole[locale]}</span>
+            </p>
 
-          {/* Main Headline */}
-          <h1 className="hero-enter hero-enter--2">
-            <span className="hero-title-lead">{t.heroTitlePrefix[locale]}</span>{" "}
-            <em className="hero-title-accent">{t.heroTitleEm[locale]}</em>
-          </h1>
+            {/* Main Headline */}
+            <h1 className="hero-enter hero-enter--2">
+              <span className="hero-title-lead">{t.heroTitlePrefix[locale]}</span>{" "}
+              <em className="hero-title-accent">{t.heroTitleEm[locale]}</em>
+            </h1>
 
-          {/* Supporting Description */}
-          <p className="hero-parallax-copy hero-enter hero-enter--3">{t.heroDescription[locale]}</p>
+            {/* Supporting Description */}
+            <p className="hero-parallax-copy hero-enter hero-enter--3">
+              {t.heroDescription[locale]}
+            </p>
 
-          {/* Action CTAs */}
-          <div className="hero-actions hero-enter hero-enter--4">
-            <ButtonLink href="/projects" className="hero-cta-primary">
-              {t.heroCtaPrimary[locale]}{" "}
-              <span className="hero-cta-arrow" aria-hidden="true">
-                →
-              </span>
-            </ButtonLink>
-            <ButtonLink href="/resume" variant="secondary" className="hero-cta-secondary">
-              {t.heroCtaSecondary[locale]}{" "}
-              <span className="hero-cta-arrow" aria-hidden="true">
-                ↗
-              </span>
-            </ButtonLink>
+            {/* Action CTAs */}
+            <div className="hero-actions hero-enter hero-enter--4">
+              <ButtonLink href="/projects" className="hero-cta-primary">
+                {t.heroCtaPrimary[locale]}{" "}
+                <span className="hero-cta-arrow" aria-hidden="true">
+                  →
+                </span>
+              </ButtonLink>
+              <ButtonLink href="/resume" variant="secondary" className="hero-cta-secondary">
+                {t.heroCtaSecondary[locale]}{" "}
+                <span className="hero-cta-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </ButtonLink>
+            </div>
+          </div>
+
+          {/* Subtle Visual Identity Element: Desktop Backend Architecture Signature */}
+          <div className="hero-signature hero-enter hero-enter--3" aria-hidden="true">
+            <div className="hero-signature__card">
+              <div className="hero-signature__header">
+                <span className="hero-signature__eyebrow mono">
+                  {t.heroSignature.eyebrow[locale]}
+                </span>
+                <span className="hero-signature__status">
+                  <span className="hero-signature__status-dot" />
+                  {t.heroSignature.status[locale]}
+                </span>
+              </div>
+              <div className="hero-signature__body">
+                {t.heroSignature.layers.map((layer) => (
+                  <div key={layer.num} className="hero-signature__row">
+                    <span className="hero-signature__num mono">{layer.num}</span>
+                    <div className="hero-signature__meta">
+                      <strong className="hero-signature__label">{layer.label[locale]}</strong>
+                      <span className="hero-signature__detail">{layer.detail[locale]}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="hero-signature__footer">
+                <span className="mono">{t.heroSignature.footnote[locale]}</span>
+              </div>
+            </div>
           </div>
         </div>
 

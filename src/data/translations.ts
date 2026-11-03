@@ -25,6 +25,37 @@ export const translations = {
     },
     heroCtaPrimary: { en: "Explore projects", id: "Jelajahi proyek" },
     heroCtaSecondary: { en: "Open CV", id: "Buka CV" },
+    heroSignature: {
+      eyebrow: { en: "Core Architecture", id: "Arsitektur Utama" },
+      status: { en: "Available for roles", id: "Terbuka untuk peluang kerja" },
+      layers: [
+        {
+          num: "01",
+          label: { en: "Backend & Systems", id: "Backend & Sistem" },
+          detail: {
+            en: "Hexagonal domain isolation, RBAC, REST APIs",
+            id: "Isolasi domain heksagonal, RBAC, REST API",
+          },
+        },
+        {
+          num: "02",
+          label: { en: "Data & Performance", id: "Data & Performa" },
+          detail: {
+            en: "PostgreSQL, Redis caching, connection pools",
+            id: "PostgreSQL, caching Redis, pool koneksi",
+          },
+        },
+        {
+          num: "03",
+          label: { en: "Cloud Delivery", id: "Distribusi Cloud" },
+          detail: {
+            en: "Go, AWS Lambda Graviton, Docker containers",
+            id: "Go, AWS Lambda Graviton, kontainer Docker",
+          },
+        },
+      ],
+      footnote: { en: "Verified production credentials", id: "Kredensial produksi terverifikasi" },
+    },
     heroFocusLabel: { en: "Core engineering focus", id: "Fokus rekayasa utama" },
     heroFocusItems: [
       {
