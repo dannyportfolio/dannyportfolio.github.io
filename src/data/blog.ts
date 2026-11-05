@@ -1,3 +1,4 @@
+import { buzzerEconomyPost } from "@/data/posts/buzzer-economy";
 import { vibeCodingPost } from "@/data/posts/vibe-coding";
 import { inferenceEngineeringPost } from "@/data/posts/inference-engineering";
 import { cloudComputingPost } from "@/data/posts/cloud-computing";
@@ -25,7 +26,11 @@ export type BlogSection = {
     caption?: { en: string; id: string };
   };
   table?: BlogTable;
-  diagram?: "inference-pipeline" | "inference-architecture" | "complexity-growth";
+  diagram?:
+    | "inference-pipeline"
+    | "inference-architecture"
+    | "complexity-growth"
+    | "buzzer-network-architecture";
   checklist?: { en: string[]; id: string[] };
 };
 
@@ -47,6 +52,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  buzzerEconomyPost,
   bigOComplexityPost,
   dockerKubernetesCloudPost,
   serverlessArchitecturePost,
