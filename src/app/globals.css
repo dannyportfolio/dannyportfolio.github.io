@@ -4809,6 +4809,184 @@ pre code {
   line-height: 1.4;
 }
 
+/* Lawful Interception Interactive Lifecycle Architecture */
+.diagram-stages-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .diagram-stages-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .diagram-stages-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.diagram-stage-node {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 14px;
+  background: var(--surface-nested);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm, 8px);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.diagram-stage-node:hover {
+  border-color: var(--accent-border);
+  background: var(--surface-strong);
+  transform: translateY(-1px);
+}
+
+.diagram-stage-node.is-selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--surface-nested) 85%, var(--accent) 15%);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.stage-node-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.stage-node-step {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stage-node-status {
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.diagram-stage-node.is-selected .stage-node-status {
+  color: var(--accent);
+}
+
+.stage-node-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.stage-node-role {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.diagram-stage-detail {
+  padding: 18px 20px;
+  background: color-mix(in srgb, var(--surface) 95%, var(--accent) 5%);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm, 8px);
+  margin-bottom: 14px;
+}
+
+.stage-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.stage-detail-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.stage-detail-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.stage-detail-description {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.stage-detail-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .stage-detail-meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stage-detail-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line-subtle);
+  border-radius: 6px;
+}
+
+.stage-detail-meta-item.is-gate {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+}
+
+.meta-item-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+}
+
+.meta-item-value {
+  font-size: 0.82rem;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.meta-item-value.highlight-gate {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.diagram-disclaimer {
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.5;
+  border-top: 1px solid var(--line-subtle);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
 /* Certifications Section */
 .certifications-section {
   padding: clamp(90px, 12vw, 150px) 0;

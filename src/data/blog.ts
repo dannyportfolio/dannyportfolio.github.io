@@ -1,3 +1,4 @@
+import { surveillanceSystemsFailPost } from "@/data/posts/surveillance-systems-fail";
 import { buzzerEconomyPost } from "@/data/posts/buzzer-economy";
 import { vibeCodingPost } from "@/data/posts/vibe-coding";
 import { inferenceEngineeringPost } from "@/data/posts/inference-engineering";
@@ -30,7 +31,8 @@ export type BlogSection = {
     | "inference-pipeline"
     | "inference-architecture"
     | "complexity-growth"
-    | "buzzer-network-architecture";
+    | "buzzer-network-architecture"
+    | "lawful-interception-architecture";
   checklist?: { en: string[]; id: string[] };
 };
 
@@ -52,6 +54,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  surveillanceSystemsFailPost,
   buzzerEconomyPost,
   bigOComplexityPost,
   dockerKubernetesCloudPost,

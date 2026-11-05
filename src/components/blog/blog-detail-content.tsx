@@ -9,6 +9,7 @@ import { InferencePipelineDiagram } from "@/components/blog/inference-pipeline-d
 import { InferenceArchitectureDiagram } from "@/components/blog/inference-architecture-diagram";
 import { ComplexityGrowthExplorer } from "@/components/engineering/complexity-growth-explorer";
 import { BuzzerNetworkDiagram } from "@/components/blog/buzzer-network-diagram";
+import { LawfulInterceptionDiagram } from "@/components/blog/lawful-interception-diagram";
 
 function FormattedText({ content }: { content: string }) {
   if (!content) return null;
@@ -169,6 +170,10 @@ export function BlogDetailContent({
 
               {section.diagram === "buzzer-network-architecture" && (
                 <BuzzerNetworkDiagram locale={locale} />
+              )}
+
+              {section.diagram === "lawful-interception-architecture" && (
+                <LawfulInterceptionDiagram locale={locale} />
               )}
 
               {section.table && (
