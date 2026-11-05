@@ -32,6 +32,140 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "lendloop",
+    name: "LendLoop — Neighborhood Tool-Lending Platform",
+    domain: "github.com/dannyportfolio/lendloop",
+    url: "https://github.com/dannyportfolio/lendloop",
+    githubUrl: "https://github.com/dannyportfolio/lendloop",
+    summary: {
+      en: "A neighborhood tool-lending platform built with Next.js, Clerk, Convex, and n8n. LendLoop supports public tool discovery, authenticated borrowing workflows, server-side role-based authorization, and resilient event-driven automation for notifications and overdue reminders.",
+      id: "Platform peminjaman alat berbasis komunitas yang dibangun menggunakan Next.js, Clerk, Convex, dan n8n. LendLoop mendukung penelusuran katalog alat publik, alur peminjaman terautentikasi, otorisasi berbasis peran di server, serta otomasi event-driven yang andal untuk notifikasi dan pengingat keterlambatan.",
+    },
+    category: {
+      en: "Full-Stack Platform & Workflow Automation",
+      id: "Platform Full-Stack & Otomasi Workflow",
+    },
+    highlights: {
+      en: [
+        "Zero-trust server-side RBAC in Convex mutations",
+        "Transactional Outbox pattern preventing dual writes",
+        "Signed HMAC SHA-256 webhooks with replay prevention",
+        "Idempotent overdue reminders via compound keys",
+        "Live automation delivery status for users and admins",
+      ],
+      id: [
+        "RBAC server-side zero-trust pada mutasi Convex",
+        "Pola Transactional Outbox mencegah inkonsistensi dual write",
+        "Webhook bertanda tangan HMAC SHA-256 tahan replay attack",
+        "Pengingat keterlambatan idempoten dengan compound key",
+        "Visibilitas status pengiriman otomasi waktu nyata untuk user dan admin",
+      ],
+    },
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Clerk",
+      "Convex",
+      "n8n",
+      "Docker",
+      "Vitest",
+      "Playwright",
+    ],
+    problem: {
+      en: "Homeowners and makers frequently purchase costly specialty tools that remain idle for long stretches, while neighbors lack affordable access. Existing sharing models suffer from lack of trust, unverified inventory, manual scheduling coordination, and missing accountability for loan returns.",
+      id: "Pemilik rumah dan praktisi kreatif kerap membeli perkakas khusus berbiaya tinggi yang jarang digunakan, sementara tetangga sekitar sulit mengaksesnya secara terjangkau. Model peminjaman konvensional terkendala ketiadaan rasa percaya, inventaris yang belum terverifikasi, koordinasi jadwal manual, dan lemahnya akuntabilitas pengembalian barang.",
+    },
+    challenge: {
+      en: "Enforcing strict zero-trust authorization where client-supplied user identifiers are never accepted, guaranteeing atomic outbox event dispatch without dual-write discrepancies, and securing asynchronous n8n automation pipelines against replay attacks while preserving idempotency across scheduled reminder cron jobs.",
+      id: "Menegakkan otorisasi zero-trust yang tidak pernah mempercayai identifier dari sisi klien, menjamin pencatatan event outbox atomik tanpa ketidaksinkronan dual-write, serta mengamankan alur otomasi n8n dari ancaman replay attack dengan jaminan idempotensi pada penjadwalan cron reminder.",
+    },
+    architecture: {
+      en: "Full-stack reactive architecture coupling Next.js 16 App Router with Convex ACID backend. Client interactions authenticate via Clerk JWTs, Convex server mutations enforce role and ownership checks while persisting business state and outbox events in a single transaction, and containerized n8n engines verify HMAC signatures to orchestrate notifications and idempotent write-backs.",
+      id: "Arsitektur reaktif full-stack yang memadukan Next.js 16 App Router dengan backend ACID Convex. Interaksi klien diautentikasi lewat JWT Clerk, mutasi server Convex menegakkan kontrol akses dan kepemilikan sekaligus menyimpan event outbox dalam satu transaksi, dan n8n memverifikasi tanda tangan HMAC untuk mengeksekusi notifikasi serta callback idempoten.",
+    },
+    contributions: {
+      en: [
+        "Engineered zero-trust server-side RBAC guards in Convex, verifying Clerk identity tokens and enforcing role policies across listings, loans, and admin queries.",
+        "Implemented the Transactional Outbox pattern and HTTP webhooks with canonical HMAC SHA-256 signatures, timestamp tolerances, and stale event recovery.",
+        "Designed automated n8n workflows for borrow request notifications, daily overdue reminders with compound idempotency keys, and real-time activity status logging.",
+      ],
+      id: [
+        "Merancang gerbang RBAC server-side zero-trust di Convex, memvalidasi token identitas Clerk, dan menegakkan aturan kepemilikan pada listing, peminjaman, dan akses admin.",
+        "Mengimplementasikan pola Transactional Outbox dan webhook HTTP dengan tanda tangan kanonikal HMAC SHA-256, toleransi timestamp, dan pemulihan event tertunda.",
+        "Membangun alur otomasi n8n untuk notifikasi permintaan pinjam, cron pengingat harian berbasis compound idempotency key, dan pencatatan status pengiriman real-time.",
+      ],
+    },
+    reliability: {
+      en: "System reliability is enforced through transactional database ACID boundaries, automated stale outbox recovery workers, cryptographic replay-attack mitigation, strict compound idempotency keys preventing duplicate alerts, and automated Vitest unit/integration suites along with Playwright end-to-end browser tests.",
+      id: "Keandalan sistem dijamin melalui batas transaksi ACID database, worker pemulihan event outbox tertunda, mitigasi kriptografis terhadap replay attack, compound key idempoten untuk mencegah notifikasi ganda, serta pengujian otomatis Vitest unit/integrasi dan Playwright end-to-end browser.",
+    },
+    implementation: {
+      en: [
+        "Full-stack Next.js App Router and React 19 interface with public tool directory data minimization withholding private contact details.",
+        "Normalized Convex reactive schema featuring secondary indexes on loan statuses, owner/borrower relations, and outbox delivery states.",
+        "Multi-workflow containerized n8n orchestration including HMAC verification, daily overdue cron triggers, and secure write-back endpoints.",
+      ],
+      id: [
+        "Antarmuka full-stack Next.js App Router dan React 19 dengan minimasi data katalog publik untuk melindungi privasi kontak pemilik perkakas.",
+        "Skema reaktif Convex yang ternormalisasi dengan indeks sekunder pada status pinjaman, relasi pemilik/peminjam, dan status antrean outbox.",
+        "Orkestrasi multi-workflow n8n berbasis kontainer mencakup verifikasi HMAC, pemicu cron harian pengingat, dan endpoint write-back terotentikasi.",
+      ],
+    },
+    caseStudy: true,
+    isNew: true,
+    architectureSteps: [
+      {
+        id: "user-identity-auth",
+        label: { en: "User Identity & Authentication", id: "Identitas Pengguna & Autentikasi" },
+        description: {
+          en: "Clerk identity verification issues cryptographic JWTs; Convex server guards validate session claims without trusting client-side parameters.",
+          id: "Verifikasi identitas Clerk menerbitkan JWT kriptografis; guard Convex memvalidasi klaim sesi tanpa mempercayai parameter dari sisi klien.",
+        },
+      },
+      {
+        id: "public-discovery-catalog",
+        label: { en: "Public Tool Directory", id: "Direktori Alat Publik" },
+        description: {
+          en: "Public catalog exposes tool name and category only, enforcing strict data minimization to protect community member privacy.",
+          id: "Katalog publik hanya mengekspos nama dan kategori alat, menerapkan minimasi data ketat untuk melindungi privasi anggota komunitas.",
+        },
+      },
+      {
+        id: "convex-backend-database",
+        label: { en: "Convex Application Backend", id: "Backend Aplikasi Convex" },
+        description: {
+          en: "ACID queries and mutations execute business logic, prevent overlapping loan reservations, and enforce server-side RBAC across entities.",
+          id: "Kueri dan mutasi ACID mengeksekusi logika bisnis, mencegah konflik reservasi pinjaman, dan menegakkan RBAC di tingkat server.",
+        },
+      },
+      {
+        id: "transactional-outbox-queue",
+        label: { en: "Transactional Outbox Engine", id: "Engine Transactional Outbox" },
+        description: {
+          en: "Records notification and reminder events in the same atomic database commit as state transitions, preventing dual-write inconsistencies.",
+          id: "Mencatat event notifikasi dan pengingat dalam satu commit basis data atomik yang sama dengan perubahan status bisnis.",
+        },
+      },
+      {
+        id: "n8n-automation-worker",
+        label: { en: "n8n Workflow Automation", id: "Otomasi Workflow n8n" },
+        description: {
+          en: "Validates signed HMAC SHA-256 payloads within a 5-minute replay window, dispatching notifications and scheduled overdue reminders.",
+          id: "Memvalidasi payload bertanda tangan HMAC SHA-256 dengan jendela replay 5 menit, mengeksekusi notifikasi dan pengingat berkala.",
+        },
+      },
+      {
+        id: "idempotency-writeback-service",
+        label: { en: "Idempotent Secure Write-Back", id: "Write-Back Aman & Idempoten" },
+        description: {
+          en: "Bearer-authenticated HTTP callback updates outbox state to SUCCEEDED and commits delivery timestamps with compound idempotency locks.",
+          id: "Callback HTTP terotentikasi memperbarui status outbox menjadi SUCCEEDED dan menyimpan riwayat pengiriman dengan kunci idempotensi.",
+        },
+      },
+    ],
+  },
+  {
     slug: "opspilot",
     name: "OpsPilot — Serverless Multi-Tenant Task REST API in Go",
     domain: "github.com/dannyportfolio/OpsPilot",
@@ -103,7 +237,6 @@ export const projects: Project[] = [
       ],
     },
     caseStudy: true,
-    isNew: true,
     architectureSteps: [
       {
         id: "client-ingress",

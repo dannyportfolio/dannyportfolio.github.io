@@ -28,7 +28,7 @@ The system SHALL present an intentional, narrative-driven overview of software e
 #### Scenario: Compact Projects Section Presentation
 
 - **WHEN** a visitor inspects the Projects section on the homepage or catalog
-- **THEN** projects including OpsPilot are displayed as compact cards with clean titles, representative technical preview, focused key highlights (e.g. Go, Serverless Architecture, Multi-tenant REST API, JWT / RBAC), and direct verified repository links, without multi-badge tag clouds, fake browser blueprints, or full-width grid overrides
+- **THEN** projects including LendLoop and OpsPilot are displayed as compact cards with clean titles, representative technical preview, focused key highlights, and direct verified repository links, without multi-badge tag clouds or fake browser blueprints
 
 ### Requirement: Theme Customization
 

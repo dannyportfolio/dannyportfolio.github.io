@@ -2774,6 +2774,35 @@ p {
 }
 
 /* Project-Specific Translucent Themes */
+.project-card--lendloop .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(245, 158, 11, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(59, 130, 246, 0.18), transparent 60%),
+    linear-gradient(145deg, #fdfaf3 0%, #f6f7fb 50%, #eff6ff 100%);
+}
+:root[data-theme="dark"] .project-card--lendloop .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(245, 158, 11, 0.14), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(59, 130, 246, 0.12), transparent 65%),
+    linear-gradient(145deg, #1d1810 0%, #151c24 50%, #0e1622 100%);
+}
+.project-card--lendloop .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(245, 158, 11, 0.35) 0%,
+    rgba(59, 130, 246, 0.15) 50%,
+    transparent 70%
+  );
+}
+:root[data-theme="dark"] .project-card--lendloop .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(245, 158, 11, 0.4) 0%,
+    rgba(59, 130, 246, 0.2) 50%,
+    transparent 70%
+  );
+}
+
 .project-card--opspilot .project-thumbnail {
   background:
     radial-gradient(ellipse 85% 70% at 85% 15%, rgba(16, 185, 129, 0.16), transparent 70%),
