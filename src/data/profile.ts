@@ -12,7 +12,7 @@ export const profile = {
   // Add LinkedIn or phone/WhatsApp here when available from the owner.
   email: "danialfacrudin@gmail.com",
   github: "https://github.com/dannyportfolio",
-  linkedin: "", // Owner configuration point: e.g. "https://linkedin.com/in/username"
+  linkedin: "https://www.linkedin.com/in/danialfachrudin23/",
   portfolioUrl: "https://dannyportfolio.github.io",
   location: "Indonesia",
 
@@ -48,6 +48,12 @@ export const profile = {
       href: "https://github.com/dannyportfolio",
       type: "github",
       detail: "github.com/dannyportfolio",
+    },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/danialfachrudin23/",
+      type: "linkedin",
+      detail: "linkedin.com/in/danialfachrudin23",
     },
   ] as ProfileLink[],
 };

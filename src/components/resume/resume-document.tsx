@@ -69,7 +69,7 @@ export function ResumeDocument({
                 rel="noopener noreferrer"
                 className="resume-contact-link"
               >
-                {profile.linkedin.replace(/^https?:\/\/(www\.)?/, "")}
+                {profile.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
               </a>
             </div>
           )}

@@ -41,12 +41,12 @@ The system SHALL support light and dark color schemes matching system preference
 
 ### Requirement: Focused Professional Contact Channels
 
-The system SHALL expose only verified Email and GitHub channels in the homepage contact section with accessible labels, visible keyboard focus states, and touch-accessible targets.
+The system SHALL expose only verified Email, GitHub, and LinkedIn channels in the homepage contact section with accessible labels, visible keyboard focus states, and touch-accessible targets.
 
 #### Scenario: Inspecting Contact Options
 
 - **WHEN** a visitor navigates to `/#contact`
-- **THEN** the contact section renders only the verified `mailto:` Email link and GitHub profile link without Instagram or empty social slots
+- **THEN** the contact section renders only verified Email (`mailto:`), GitHub, and LinkedIn profile links without empty social slots
 
 ### Requirement: Reduced-Motion Accessibility
 

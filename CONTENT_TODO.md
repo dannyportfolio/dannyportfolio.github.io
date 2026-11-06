@@ -2,7 +2,7 @@
 
 No professional facts are inferred in this project. Replace every `TODO:` value before publishing.
 
-- [ ] Professional email, GitHub URL, LinkedIn URL, and optional location in `src/data/profile.ts`
+- [x] Professional email, GitHub URL, LinkedIn URL, and optional location in `src/data/profile.ts`
 - [ ] Personal professional summary and target-role summaries
 - [ ] Confirm or remove optional skills (ASP.NET and Golang)
 - [ ] Project summaries, problems, constraints, architecture, technologies, contribution, reliability details, verified links in `src/data/projects.ts`

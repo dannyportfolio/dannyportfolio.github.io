@@ -155,6 +155,10 @@ export const translations = {
     contactTitleEm: { en: "reliable, scalable software?", id: "yang andal dan skalabel?" },
     contactEmailSubtitle: { en: "Direct email inquiry", id: "Email langsung" },
     contactGithubSubtitle: { en: "Repositories & source code", id: "Repositori & kode sumber" },
+    contactLinkedinSubtitle: {
+      en: "Professional network & experience",
+      id: "Jaringan profesional & pengalaman",
+    },
     contactEmpty: {
       en: "Direct contact links can be configured in src/data/profile.ts.",
       id: "Tautan kontak langsung dapat dikonfigurasikan di src/data/profile.ts.",
