@@ -122,8 +122,8 @@ export const translations = {
     projectsTitle: { en: "Products built for", id: "Produk yang dibangun untuk" },
     projectsTitleEm: { en: "real-world use.", id: "penggunaan nyata." },
     projectsDescription: {
-      en: "A focused selection of platforms spanning fashion ERP, B2B logistics, local services, advertising, travel, and professional consulting.",
-      id: "Pilihan platform terarah yang mencakup ERP garmen, logistik B2B, layanan jasa lokal, periklanan, perjalanan wisata, dan konsultasi profesional.",
+      en: "A focused selection of platforms spanning interactive editorial AI systems, event-driven community workflows, serverless cloud APIs, fashion ERP, and B2B logistics.",
+      id: "Pilihan platform terarah yang mencakup sistem editorial AI interaktif, alur kerja otomasi komunitas, arsitektur serverless cloud, ERP manufaktur, dan logistik B2B.",
     },
     projectsOverviewLink: { en: "View project overview →", id: "Lihat ringkasan proyek →" },
     caseStudiesEyebrow: { en: "05 / Architecture case studies", id: "05 / Studi kasus arsitektur" },

@@ -32,6 +32,145 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "d23-media",
+    name: "D23 Media: Interactive Editorial & Socratic AI Platform",
+    domain: "insightbydanny.vercel.app",
+    url: "https://insightbydanny.vercel.app",
+    summary: {
+      en: "An interactive personal editorial platform and digital publication built with Next.js 15, MDX, and Tailwind CSS. Features an art-directed reading environment, browser-based voice synthesis, in-article reflective journaling, and a context-aware Socratic AI companion for critical discussions.",
+      id: "Platform editorial personal interaktif dan publikasi digital yang dibangun dengan Next.js 15, MDX, dan Tailwind CSS. Menghadirkan pengalaman membaca terkurasi, sintesis suara di browser, modul refleksi interaktif dalam artikel, dan AI companion beraliran Sokrates untuk telaah kritis.",
+    },
+    category: {
+      en: "Editorial Platform & AI Companion",
+      id: "Platform Editorial & AI Companion",
+    },
+    highlights: {
+      en: [
+        "Next.js 15 App Router with static MDX compilation and Zod frontmatter validation",
+        "Dual audio narration: author voice streaming with Web Speech API synthesis fallback",
+        "Context-aware Socratic AI companion with streaming dialogue grounded in essay texts",
+        "Embedded reflection prompts and decision scenarios with private local persistence",
+        "Art-directed editorial typography with reading progress and dynamic table of contents",
+      ],
+      id: [
+        "Next.js 15 App Router dengan kompilasi MDX statis dan validasi Zod frontmatter",
+        "Narasi audio ganda: streaming suara orisinal dengan fallback sintesis Web Speech API",
+        "AI companion Sokrates kontekstual dengan streaming dialog berbasis konten artikel",
+        "Modul refleksi interaktif dan skenario keputusan dengan penyimpanan privat lokal",
+        "Tipografi editorial terarah dengan indikator baca dan daftar isi dinamis",
+      ],
+    },
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "MDX",
+      "Tailwind CSS",
+      "Zod",
+      "Web Speech API",
+      "Playwright",
+    ],
+    problem: {
+      en: "Contemporary digital publishing is saturated with generic, fragmented content that readers skim without retaining core concepts or engaging critically with ideas.",
+      id: "Publikasi digital modern dipenuhi konten instan yang terfragmentasi, di mana pembaca hanya membaca sekilas tanpa mendalami konsep inti atau berpikir kritis.",
+    },
+    challenge: {
+      en: "Architecting a performant MDX content pipeline with type-safe schema constraints, seamless client-side audio playback state transitions, and context-bounded AI streaming dialogues without hallucination drift.",
+      id: "Merancang pipeline konten MDX berlatensi rendah dengan batasan skema type-safe, transisi pemutar audio yang mulus, dan streaming dialog AI kontekstual yang terikat pada perspektif esai tanpa halusinasi.",
+    },
+    architecture: {
+      en: "Modular publishing architecture coupling Next.js App Router server components with isolated client islands for audio playback, in-article journaling, and streaming AI interactions. Content is stored as static MDX files with deterministic Zod schema validation.",
+      id: "Arsitektur publikasi modular yang memadukan Next.js App Router server components dengan client islands terisolasi untuk pemutaran audio, jurnal refleksi, dan interaksi AI streaming. Konten dikelola sebagai file MDX statis dengan validasi skema Zod deterministik.",
+    },
+    contributions: {
+      en: [
+        "Engineered static MDX processing pipeline with Zod frontmatter validation, reading time calculations, and slug-based routing.",
+        "Built responsive audio player with author voice streaming and client-side Web Speech API text-to-speech fallback.",
+        "Implemented grounded AI chat interface with streaming responses and local storage reflection state management.",
+      ],
+      id: [
+        "Merancang pipeline pemrosesan MDX statis dengan validasi frontmatter Zod, estimasi waktu baca, dan routing berbasis slug.",
+        "Membangun pemutar audio responsif dengan streaming narasi orisinal dan fallback sintesis suara Web Speech API.",
+        "Mengimplementasikan antarmuka chat AI kontekstual dengan respons streaming dan persistensi refleksi lokal.",
+      ],
+    },
+    reliability: {
+      en: "Verified through strict Zod schema validation on all article frontmatter, deterministic SSG build paths, graceful fallbacks for browser speech synthesis, and automated Playwright browser test coverage.",
+      id: "Keandalan dipastikan melalui validasi skema Zod pada seluruh frontmatter artikel, jalur kompilasi SSG deterministik, fallback sintesis suara browser yang andal, dan pengujian Playwright otomatis.",
+    },
+    implementation: {
+      en: [
+        "Next.js App Router with server-rendered editorial spreads and zero client JS for static reading views.",
+        "Client-side interactive islands for audio narration drawer, reflection textareas, and AI conversation drawer.",
+        "Automated Playwright test suite covering navigation, audio playback, reflection persistence, and responsive viewports.",
+      ],
+      id: [
+        "Next.js App Router dengan rendering server untuk artikel editorial dan zero client JS pada tampilan baca statis.",
+        "Interactive client islands untuk laci pemutar audio, textarea refleksi mandiri, dan laci percakapan AI.",
+        "Rangkaian uji Playwright otomatis mencakup navigasi, kontrol audio, persistensi data lokal, dan responsivitas layar.",
+      ],
+    },
+    caseStudy: true,
+    isNew: true,
+    architectureSteps: [
+      {
+        id: "mdx-pipeline",
+        label: {
+          en: "Static MDX Compilation & Zod Validation",
+          id: "Kompilasi MDX Statis & Validasi Zod",
+        },
+        description: {
+          en: "Type-safe article ingestion pipeline validating frontmatter schemas, computing reading time, and parsing Markdown at build time.",
+          id: "Pipeline kompilasi artikel type-safe yang memvalidasi skema frontmatter, menghitung estimasi waktu baca, dan memproses Markdown saat build.",
+        },
+      },
+      {
+        id: "audio-engine",
+        label: {
+          en: "Dual-Engine Voice Narration",
+          id: "Narasi Audio Dual-Engine",
+        },
+        description: {
+          en: "Streams original author voice audio with seamless fallback to browser-native Web Speech API synthesis across desktop and mobile.",
+          id: "Menyediakan streaming rekaman suara orisinal dengan fallback otomatis ke sintesis suara browser Web Speech API di seluruh perangkat.",
+        },
+      },
+      {
+        id: "reflection-store",
+        label: {
+          en: "In-Article Reflective Journaling",
+          id: "Jurnal Refleksi Mandiri In-Article",
+        },
+        description: {
+          en: "Embedded interactive prompts allow readers to document personal realizations, persisted securely in browser local storage.",
+          id: "Modul refleksi interaktif dalam artikel memungkinkan pembaca mencatat pemikiran pribadi yang tersimpan privat di local storage.",
+        },
+      },
+      {
+        id: "socratic-ai",
+        label: {
+          en: "Context-Grounded Socratic AI Companion",
+          id: "AI Companion Sokrates Kontekstual",
+        },
+        description: {
+          en: "Edge streaming chat dialogue conditioned strictly on article context, facilitating Socratic debate rather than generic answers.",
+          id: "Dialog chat streaming berbasis edge yang terikat ketat pada konteks esai untuk merangsang dialektika kritis tanpa halusinasi.",
+        },
+      },
+      {
+        id: "editorial-ui",
+        label: {
+          en: "Responsive Editorial Typography & Reading HUD",
+          id: "Tipografi Editorial Responsif & Reading HUD",
+        },
+        description: {
+          en: "Custom Newsreader and Inter typography scale with reading progress bar, responsive table of contents, and dark/light modes.",
+          id: "Penerapan tipografi Newsreader dan Inter dengan indikator progres baca, daftar isi adaptif, serta tema gelap dan terang yang seimbang.",
+        },
+      },
+    ],
+  },
+  {
     slug: "lendloop",
     name: "LendLoop — Neighborhood Tool-Lending Platform",
     domain: "github.com/dannyportfolio/lendloop",

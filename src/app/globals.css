@@ -2778,6 +2778,35 @@ p {
 }
 
 /* Project-Specific Translucent Themes */
+.project-card--d23-media .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(139, 92, 246, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(245, 158, 11, 0.16), transparent 60%),
+    linear-gradient(145deg, #faf7f5 0%, #f4f3f0 50%, #eeebe5 100%);
+}
+:root[data-theme="dark"] .project-card--d23-media .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(167, 139, 250, 0.14), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(245, 158, 11, 0.1), transparent 65%),
+    linear-gradient(145deg, #181519 0%, #17161b 50%, #111014 100%);
+}
+.project-card--d23-media .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(167, 139, 250, 0.35) 0%,
+    rgba(245, 158, 11, 0.18) 50%,
+    transparent 70%
+  );
+}
+:root[data-theme="dark"] .project-card--d23-media .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(167, 139, 250, 0.38) 0%,
+    rgba(245, 158, 11, 0.2) 50%,
+    transparent 70%
+  );
+}
+
 .project-card--lendloop .project-thumbnail {
   background:
     radial-gradient(ellipse 85% 70% at 85% 15%, rgba(245, 158, 11, 0.16), transparent 70%),
@@ -3034,6 +3063,31 @@ p {
 
 :root[data-theme="dark"] .blueprint-bar {
   background: rgba(255, 255, 255, 0.13);
+}
+
+.blueprint-tech-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.blueprint-tech-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.02em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--surface) 65%, transparent);
+  color: var(--muted);
+  border: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+  line-height: 1.25;
+}
+
+:root[data-theme="dark"] .blueprint-tech-tag {
+  background: rgba(255, 255, 255, 0.05);
+  color: #a1a1aa;
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .project-card__content {

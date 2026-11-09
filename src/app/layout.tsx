@@ -57,7 +57,10 @@ const jsonLd = {
       name: "Danial Fachrudin",
       jobTitle: "Software Engineer",
       url: `${siteUrl}/`,
-      sameAs: ["https://github.com/dannyportfolio"],
+      sameAs: [
+        "https://github.com/dannyportfolio",
+        "https://www.linkedin.com/in/danialfachrudin23/",
+      ],
       knowsAbout: [
         "Backend Architecture",
         "API Design",

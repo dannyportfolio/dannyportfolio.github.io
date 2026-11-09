@@ -41,10 +41,12 @@ export function ProjectCard({
           </div>
           <div className="blueprint-body">
             <span className="blueprint-badge">{project.category[locale]}</span>
-            <div className="blueprint-bars">
-              <span className="blueprint-bar" style={{ width: "80%" }} />
-              <span className="blueprint-bar" style={{ width: "55%" }} />
-              <span className="blueprint-bar" style={{ width: "70%" }} />
+            <div className="blueprint-tech-preview">
+              {project.technologies.slice(0, 3).map((tech) => (
+                <span key={tech} className="blueprint-tech-tag">
+                  {tech}
+                </span>
+              ))}
             </div>
           </div>
         </div>

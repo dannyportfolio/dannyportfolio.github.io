@@ -28,7 +28,8 @@ The system SHALL present an intentional, narrative-driven overview of software e
 #### Scenario: Compact Projects Section Presentation
 
 - **WHEN** a visitor inspects the Projects section on the homepage or catalog
-- **THEN** projects including LendLoop and OpsPilot are displayed as compact cards with clean titles, representative technical preview, focused key highlights, and direct verified repository links, without multi-badge tag clouds or fake browser blueprints
+- **THEN** projects including D23 Media (Insight by Danny), LendLoop, and OpsPilot are displayed as compact cards with clean titles, representative technical preview, focused key highlights, and direct verified repository or live links, without multi-badge tag clouds or placeholder skeleton bars
+- **AND** the excluded legacy project (`masket-ai-asisstant`) is not displayed anywhere in the showcase
 
 ### Requirement: Theme Customization
 
