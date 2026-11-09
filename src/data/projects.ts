@@ -420,6 +420,127 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "idx-trading-assistant",
+    name: "IDX LQ45 Trading Assistant — Quantitative Market Analysis Pipeline",
+    domain: "github.com/dannyportfolio/masket-ai-asisstant",
+    url: "https://github.com/dannyportfolio/masket-ai-asisstant",
+    githubUrl: "https://github.com/dannyportfolio/masket-ai-asisstant",
+    summary: {
+      en: "An audit-ready, batch-oriented quantitative market analysis pipeline for the Indonesian Stock Market (IDX LQ45). Ingests daily OHLCV data through a prioritized multi-provider fallback registry, executes automated data-quality validation, evaluates benchmark IHSG macro regimes, and computes Wyckoff VPA and Chaikin Money Flow indicators to produce verifiable watchlist analytics without fabricated price signals.",
+      id: "Pipeline analisis pasar kuantitatif berbasis batch dan siap audit untuk Bursa Efek Indonesia (IDX LQ45). Mengonsumsi data OHLCV harian melalui registri fallback multi-provider terprioritasi, menjalankan validasi kualitas data otomatis, mengevaluasi rezim makro indeks IHSG, serta menghitung indikator Wyckoff VPA dan Chaikin Money Flow guna menghasilkan analitik watchlist terverifikasi tanpa fabrikasi sinyal harga.",
+    },
+    category: {
+      en: "Financial Technology & Quantitative Analysis",
+      id: "Teknologi Finansial & Analisis Kuantitatif",
+    },
+    highlights: {
+      en: [
+        "Multi-provider data ingestion with fallback (IDX licensed drop → EODHD → Yahoo Finance)",
+        "Automated data-quality gate detecting missing candles, zero volume, and calendar gaps",
+        "IHSG benchmark market-regime circuit breaker to establish macro trade permissions",
+        "Dual technical analytics engine: pinned Fincept technicals with native indicator fallback",
+        "Multi-source financial news aggregation (CNBC Indonesia, IDX, Bloomberg, Yahoo Finance)",
+        "Auditable artifact exports: watchlist CSV, trade plans, and structured AI market context JSON",
+      ],
+      id: [
+        "Ingest data multi-provider dengan fallback (file drop IDX resmi → EODHD → Yahoo Finance)",
+        "Validasi kualitas data otomatis mendeteksi candle hilang, volume nol, dan celah kalender",
+        "Circuit breaker rezim pasar IHSG acuan untuk menentukan izin eksekusi makro",
+        "Engine analitik teknikal ganda: modul Fincept terpin dengan fallback indikator native",
+        "Agregasi berita finansial multi-sumber (CNBC Indonesia, IDX, Bloomberg, Yahoo Finance)",
+        "Ekspor artefak siap audit: watchlist CSV, trade plan terstruktur, dan berkas JSON konteks AI",
+      ],
+    },
+    technologies: ["Python", "pandas", "NumPy", "yfinance", "ta", "Fincept Engine", "pytest"],
+    problem: {
+      en: "Indonesian stock market analysis tools frequently rely on unverified retail indicators and fragile single-provider scrapers that fail silently on data anomalies like zero-volume sessions, split anomalies, or missing candles. Furthermore, retail tools often generate speculative trade signals without evaluating overarching IHSG benchmark regimes or validating multi-source news corroboration.",
+      id: "Alat analisis pasar saham Indonesia kerap bergantung pada indikator ritel yang tidak terverifikasi dan scraping single-provider yang rentan terhadap anomali data seperti volume nol, lonjakan harga palsu, atau candle hilang. Selain itu, sistem ritel sering memicu sinyal spekulatif tanpa mengevaluasi rezim makro IHSG maupun konfirmasi berita finansial multi-sumber.",
+    },
+    challenge: {
+      en: "Architecting a deterministic, offline-capable data pipeline that enforces strict data-quality thresholds before technical processing, integrates external quantitative indicator engines (Fincept) with seamless native fallbacks, and establishes an auditable macro circuit breaker using the IHSG (^JKSE) index to halt speculative setups during volatile market conditions.",
+      id: "Merancang pipeline data offline yang deterministik dengan ambang batas kualitas data ketat sebelum pemrosesan teknikal, mengintegrasikan engine indikator eksternal (Fincept) dengan fallback native yang mulus, serta membangun circuit breaker makro berbasis indeks IHSG (^JKSE) guna membatasi setup spekulatif saat pasar volatil.",
+    },
+    architecture: {
+      en: "Modular batch pipeline composed of four primary layers: (1) ProviderRegistry resolving licensed file drops, EODHD, and Yahoo Finance with exponential backoff and stale-cache fallback; (2) Data Quality Gate flagging data anomalies and enforcing bar thresholds; (3) Dual Technical Analytics Engine utilizing pinned Fincept modules alongside native CMF and Wyckoff VPA calculations; and (4) Context Compiler outputting standardized trade plans, market breadth metrics, and LLM-ready AI market contexts in CSV and JSON.",
+      id: "Pipeline batch modular yang terbagi dalam empat lapisan utama: (1) ProviderRegistry yang menyelesaikan drop file berlisensi, EODHD, dan Yahoo Finance dengan exponential backoff dan fallback cache; (2) Data Quality Gate untuk menandai anomali data dan menegakkan batas minimum bar; (3) Engine Analitik Kuantitatif Ganda menggunakan modul Fincept terpin serta kalkulasi CMF dan Wyckoff VPA native; dan (4) Context Compiler yang mengekspor trade plan terstandarisasi, metrik market breadth, serta konteks AI siap-LLM dalam format CSV dan JSON.",
+    },
+    contributions: {
+      en: [
+        "Engineered ProviderRegistry abstraction supporting prioritized data fallback, exponential retry logic, and stale cache persistence across IDX tickers.",
+        "Developed automated data quality evaluator detecting zero volume, invalid price candles, and missing date sequences without fabricating replacement data.",
+        "Implemented IHSG market regime screener and composite trend scoring to act as a strict macro gate before individual stock evaluation.",
+        "Integrated pinned Fincept technical analysis engine via Git submodule with seamless in-process fallback to native quantitative indicators.",
+        "Constructed selected-universe LQ45 market breadth indicators and multi-source financial RSS sentiment scoring.",
+      ],
+      id: [
+        "Merancang abstraksi ProviderRegistry yang mendukung fallback data terprioritasi, logika retry eksponensial, dan persistensi cache lokal untuk ticker IDX.",
+        "Mengembangkan evaluator kualitas data otomatis yang mendeteksi volume nol, candle harga tidak valid, dan celah tanggal tanpa memalsukan data.",
+        "Mengimplementasikan penyaring rezim pasar IHSG dan skor tren komposit sebagai gerbang makro ketat sebelum evaluasi saham individu.",
+        "Mengintegrasikan engine analisis teknikal Fincept via Git submodule dengan fallback in-process ke indikator kuantitatif native.",
+        "Membangun kalkulator market breadth semesta LQ45 dan pembobotan sentimen berita finansial multi-sumber berbasis RSS.",
+      ],
+    },
+    reliability: {
+      en: "Strict zero-hallucination data policy: data fetch failures produce explicit error flags (DATA_MISSING, DATA_INSUFFICIENT, DATA_ANOMALY, STALE_DATA, FETCH_ERROR) rather than synthetic price estimation. Tested via comprehensive pytest test suite covering CMF calculations, data-quality bounds, engine fallback behavior, market regime scoring, news parser resilience, and trade plan confidence formulas.",
+      id: "Kebijakan data tanpa halusinasi ketat: kegagalan penarikan data menghasilkan status error eksplisit (DATA_MISSING, DATA_INSUFFICIENT, DATA_ANOMALY, STALE_DATA, FETCH_ERROR) tanpa estimasi harga sintetis. Keandalan diuji melalui rangkaian pytest komprehensif yang mencakup kalkulasi CMF, batas kualitas data, perilaku fallback engine, skor rezim pasar, ketahanan parser berita, dan formula keyakinan trade plan.",
+    },
+    implementation: {
+      en: [
+        "Pure Python batch pipeline executable via CLI with customizable tickers, universe scope, and lookback periods.",
+        "Deterministic file-based artifact generation producing auditable CSV and JSON snapshots for each run.",
+        "Automated test coverage across indicators, market data fallback adapters, and trade planning logic with zero network dependencies during testing.",
+      ],
+      id: [
+        "Pipeline batch Python murni yang dapat dijalankan melalui CLI dengan konfigurasi ticker, semesta saham, dan periode data fleksibel.",
+        "Penyimpanan artefak berbasis file deterministik yang menghasilkan snapshot laporan CSV dan JSON terstruktur pada setiap eksekusi.",
+        "Cakupan unit test otomatis untuk indikator, adapter fallback data pasar, dan logika trade plan tanpa ketergantungan jaringan saat pengujian.",
+      ],
+    },
+    caseStudy: true,
+    architectureSteps: [
+      {
+        id: "provider-registry",
+        label: { en: "Multi-Provider Ingestion", id: "Ingest Data Multi-Provider" },
+        description: {
+          en: "Fetches daily OHLCV from licensed vendor drops, EODHD, or Yahoo Finance with retry and stale-cache fallback.",
+          id: "Mengambil data OHLCV harian dari file vendor resmi, EODHD, atau Yahoo Finance dengan retry dan fallback cache.",
+        },
+      },
+      {
+        id: "quality-gate",
+        label: { en: "Data Quality & Validation Gate", id: "Gerbang Validasi & Kualitas Data" },
+        description: {
+          en: "Validates candle anomalies, zero-volume sessions, and date gaps, rejecting corrupted data prior to analysis.",
+          id: "Memvalidasi anomali candle, sesi volume nol, dan celah kalender sebelum data diolah lebih lanjut.",
+        },
+      },
+      {
+        id: "macro-regime",
+        label: { en: "IHSG Market Regime Filter", id: "Penyaring Rezim Pasar IHSG" },
+        description: {
+          en: "Evaluates benchmark IHSG index trend structure and Chaikin Money Flow to grant or restrict macro trading permissions.",
+          id: "Mengevaluasi struktur tren indeks acuan IHSG dan Chaikin Money Flow untuk menentukan izin posisi makro.",
+        },
+      },
+      {
+        id: "analytics-engine",
+        label: { en: "Dual Technical Analytics Engine", id: "Engine Analitik Teknikal Ganda" },
+        description: {
+          en: "Computes Fincept technicals (RSI, MACD, ADX, ATR) with automatic fallback to native CMF and Wyckoff VPA indicators.",
+          id: "Menghitung indikator Fincept (RSI, MACD, ADX, ATR) dengan fallback otomatis ke CMF dan Wyckoff VPA native.",
+        },
+      },
+      {
+        id: "reporting-artifacts",
+        label: { en: "Auditable Reporting & AI Context", id: "Laporan Terverifikasi & Konteks AI" },
+        description: {
+          en: "Generates structured watchlist CSVs, trade plans with risk-reward ratios, and standardized AI market context JSONs.",
+          id: "Menghasilkan watchlist CSV terstruktur, rencana trading berimbang risiko-keuntungan, dan berkas JSON konteks AI.",
+        },
+      },
+    ],
+  },
+  {
     slug: "veloura",
     name: "Veloura ERP — Fashion Manufacturing & Distribution",
     domain: "display-veloura.vercel.app",

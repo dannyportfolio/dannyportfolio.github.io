@@ -28,8 +28,8 @@ The system SHALL present an intentional, narrative-driven overview of software e
 #### Scenario: Compact Projects Section Presentation
 
 - **WHEN** a visitor inspects the Projects section on the homepage or catalog
-- **THEN** projects including D23 Media (Insight by Danny), LendLoop, and OpsPilot are displayed as compact cards with clean titles, representative technical preview, focused key highlights, and direct verified repository or live links, without multi-badge tag clouds or placeholder skeleton bars
-- **AND** the excluded legacy project (`masket-ai-asisstant`) is not displayed anywhere in the showcase
+- **THEN** projects including D23 Media (Insight by Danny), LendLoop, OpsPilot, and IDX LQ45 Trading Assistant are displayed as compact cards with clean titles, representative technical preview, focused key highlights, and direct verified repository or live links, without multi-badge tag clouds or placeholder skeleton bars
+- **AND** the legacy IHSG market analysis project (`masket-ai-asisstant`) is accurately presented with verified data-quality, multi-provider, and market-regime analytics, and a direct repository link to `https://github.com/dannyportfolio/masket-ai-asisstant`
 
 ### Requirement: Theme Customization
 
