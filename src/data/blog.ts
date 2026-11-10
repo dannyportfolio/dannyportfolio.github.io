@@ -1,3 +1,4 @@
+import { vibeCodingRoadmapPost } from "@/data/posts/vibe-coding-roadmap";
 import { surveillanceSystemsFailPost } from "@/data/posts/surveillance-systems-fail";
 import { buzzerEconomyPost } from "@/data/posts/buzzer-economy";
 import { vibeCodingPost } from "@/data/posts/vibe-coding";
@@ -54,6 +55,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  vibeCodingRoadmapPost,
   surveillanceSystemsFailPost,
   buzzerEconomyPost,
   bigOComplexityPost,
