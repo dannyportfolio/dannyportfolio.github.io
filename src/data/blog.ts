@@ -1,3 +1,4 @@
+import { cloudToEdgePosKubernetesPost } from "@/data/posts/cloud-to-edge-pos-kubernetes";
 import { vibeCodingRoadmapPost } from "@/data/posts/vibe-coding-roadmap";
 import { surveillanceSystemsFailPost } from "@/data/posts/surveillance-systems-fail";
 import { buzzerEconomyPost } from "@/data/posts/buzzer-economy";
@@ -55,6 +56,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  cloudToEdgePosKubernetesPost,
   vibeCodingRoadmapPost,
   surveillanceSystemsFailPost,
   buzzerEconomyPost,
