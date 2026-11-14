@@ -2892,48 +2892,6 @@ p {
   background: radial-gradient(circle, rgba(56, 189, 248, 0.35), transparent 68%);
 }
 
-.project-card--reklame-gegarap .project-thumbnail {
-  background:
-    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(245, 158, 11, 0.14), transparent 70%),
-    linear-gradient(145deg, #fcf8f3 0%, #faeee0 50%, #f6e4cf 100%);
-}
-:root[data-theme="dark"] .project-card--reklame-gegarap .project-thumbnail {
-  background:
-    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(245, 158, 11, 0.12), transparent 70%),
-    linear-gradient(145deg, #1e1814 0%, #251e19 50%, #16120f 100%);
-}
-.project-card--reklame-gegarap .project-thumbnail__orb {
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.35), transparent 68%);
-}
-
-.project-card--lelungo .project-thumbnail {
-  background:
-    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(16, 185, 129, 0.14), transparent 70%),
-    linear-gradient(145deg, #f0fdf7 0%, #e0f8ec 50%, #d2f4e1 100%);
-}
-:root[data-theme="dark"] .project-card--lelungo .project-thumbnail {
-  background:
-    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(16, 185, 129, 0.12), transparent 70%),
-    linear-gradient(145deg, #121d18 0%, #17251f 50%, #0f1612 100%);
-}
-.project-card--lelungo .project-thumbnail__orb {
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.35), transparent 68%);
-}
-
-.project-card--arvispro .project-thumbnail {
-  background:
-    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(139, 92, 246, 0.14), transparent 70%),
-    linear-gradient(145deg, #f8f6fc 0%, #efeaf8 50%, #e6def5 100%);
-}
-:root[data-theme="dark"] .project-card--arvispro .project-thumbnail {
-  background:
-    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(167, 139, 250, 0.12), transparent 70%),
-    linear-gradient(145deg, #181522 0%, #1f1b2b 50%, #13111b 100%);
-}
-.project-card--arvispro .project-thumbnail__orb {
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.35), transparent 68%);
-}
-
 /* Glass Panel: Mock Browser Window */
 .project-thumbnail__blueprint {
   position: relative;
