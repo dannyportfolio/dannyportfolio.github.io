@@ -5,7 +5,6 @@ import {
   type ProfileCertification,
   type ProfileEducation,
   type ProfileLanguage,
-  type ProfileOverrides,
   type SkillCategoryId,
 } from "../../data/resume/master-profile.ts";
 import {
@@ -15,16 +14,10 @@ import {
   type RoleId,
 } from "../../data/resume/role-presets.ts";
 import { resumeBaseFilename } from "./filename.ts";
-import { analyzeJobDescription, type JobAnalysis, type JobInput } from "./job-analyzer.ts";
-
-export type ResumeMode = "general" | "role" | "job";
 
 export type ResumeSelection = {
-  mode?: ResumeMode;
   role?: RoleId;
   detailed?: boolean;
-  job?: JobInput;
-  overrides?: ProfileOverrides;
 };
 
 export type ResumeContactItem = {
@@ -59,7 +52,6 @@ export type ResumeProjectItem = {
 };
 
 export type ResumeModel = {
-  mode: ResumeMode;
   role: RoleId;
   detailed: boolean;
   filenameBase: string;
@@ -74,28 +66,18 @@ export type ResumeModel = {
   certifications: ProfileCertification[];
   languages: ProfileLanguage[];
   additional: { label: string; value: string }[];
-  analysis?: JobAnalysis;
 };
 
 function stripUrlScheme(url: string): string {
   return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 }
 
-function buildFocusWeights(role: RoleId, analysis?: JobAnalysis): Map<string, number> {
+function buildFocusWeights(role: RoleId): Map<string, number> {
   const weights = new Map<string, number>();
   const preset = rolePresets[role];
-
   preset.focus.forEach((term, index) => {
     weights.set(term, Math.max(1, preset.focus.length - index));
   });
-
-  if (analysis) {
-    for (const match of analysis.matchedSkills) {
-      const existing = weights.get(match.skill) ?? 0;
-      weights.set(match.skill, existing + match.weight * 4);
-    }
-  }
-
   return weights;
 }
 
@@ -105,17 +87,6 @@ function scoreTags(tags: string[], weights: Map<string, number>): number {
     score += weights.get(tag) ?? 0;
   }
   return score;
-}
-
-function buildHeadline(role: RoleId, mode: ResumeMode, analysis?: JobAnalysis): string {
-  const preset = rolePresets[role];
-  if (mode !== "job" || !analysis || analysis.matchedSkills.length === 0) {
-    return `${preset.label} | ${preset.tagline}`;
-  }
-
-  // Never echo unverified seniority terms (Senior/Staff/Principal/Lead); derive label from role preset.
-  const topMatched = analysis.matchedSkills.slice(0, 4).map((item) => item.skill);
-  return `${preset.label} | ${topMatched.join(", ")}`;
 }
 
 function buildSummary(profile: MasterProfile, weights: Map<string, number>): string {
@@ -153,32 +124,15 @@ function buildSkillCategories(
     grouped.set(skill.category, list);
   }
 
-  const orderedCategories = [...preset.categoryOrder].map((catId, baseIndex) => {
-    const skills = [...(grouped.get(catId) ?? [])].sort((a, b) => {
-      const diff = (weights.get(b) ?? 0) - (weights.get(a) ?? 0);
-      return diff !== 0 ? diff : 0;
-    });
-    const categoryScore = skills.reduce((sum, name) => sum + (weights.get(name) ?? 0), 0);
-    return { catId, skills, categoryScore, baseIndex };
-  });
-
-  if (weights.size > 0) {
-    orderedCategories.sort((a, b) => {
-      // Keep programming languages first unless another category strongly dominates via JD matches.
-      const aBoost = a.catId === "languages" ? 4 : 0;
-      const bBoost = b.catId === "languages" ? 4 : 0;
-      const scoreDiff = b.categoryScore + bBoost - (a.categoryScore + aBoost);
-      return scoreDiff !== 0 ? scoreDiff : a.baseIndex - b.baseIndex;
-    });
-  }
-
-  return orderedCategories
-    .filter((item) => item.skills.length > 0)
-    .map((item) => ({
-      id: item.catId,
-      label: skillCategoryLabels[item.catId],
-      skills: item.skills,
-    }));
+  return preset.categoryOrder
+    .map((catId) => {
+      const skills = [...(grouped.get(catId) ?? [])].sort((a, b) => {
+        const diff = (weights.get(b) ?? 0) - (weights.get(a) ?? 0);
+        return diff !== 0 ? diff : 0;
+      });
+      return { id: catId, label: skillCategoryLabels[catId], skills };
+    })
+    .filter((item) => item.skills.length > 0);
 }
 
 function buildExperience(
@@ -196,15 +150,13 @@ function buildExperience(
       .sort((a, b) => b.score - a.score || a.index - b.index);
 
     const limit = detailed ? rankedBullets.length : entry.id === "freelance" ? 5 : 2;
-    const bullets = rankedBullets.slice(0, limit).map((item) => item.text);
-
     return {
       id: entry.id,
       title: entry.title,
       organization: entry.organization,
       location: entry.location,
       period: `${entry.startYear} - ${entry.endYear}`,
-      bullets,
+      bullets: rankedBullets.slice(0, limit).map((item) => item.text),
     };
   });
 }
@@ -212,34 +164,18 @@ function buildExperience(
 function buildProjects(
   profile: MasterProfile,
   role: RoleId,
-  mode: ResumeMode,
   detailed: boolean,
   weights: Map<string, number>,
 ): ResumeProjectItem[] {
   const preset = rolePresets[role];
   const orderIndex = new Map(preset.projectOrder.map((slug, idx) => [slug, idx]));
 
-  const ranked = profile.projects
-    .map((project) => {
-      const presetRank = orderIndex.get(project.slug) ?? 99;
-      const tagPool = new Set([
-        ...project.stack,
-        ...project.bullets.flatMap((bullet) => bullet.tags),
-      ]);
-      const matchScore = scoreTags([...tagPool], weights);
-      return { project, presetRank, matchScore };
-    })
-    .sort((a, b) => {
-      if (mode === "job") {
-        const diff = b.matchScore - a.matchScore;
-        if (diff !== 0) return diff;
-      }
-      return a.presetRank - b.presetRank;
-    });
+  const ordered = [...profile.projects].sort(
+    (a, b) => (orderIndex.get(a.slug) ?? 99) - (orderIndex.get(b.slug) ?? 99),
+  );
+  const selected = detailed ? ordered.slice(0, 4) : ordered.slice(0, 3);
 
-  const selected = detailed ? ranked.slice(0, 4) : ranked.slice(0, 3);
-
-  return selected.map(({ project }) => {
+  return selected.map((project) => {
     const rankedBullets = project.bullets
       .map((bullet, index) => ({
         text: bullet.text,
@@ -249,7 +185,6 @@ function buildProjects(
       .sort((a, b) => b.score - a.score || a.index - b.index);
 
     const bulletLimit = detailed ? rankedBullets.length : 3;
-
     return {
       slug: project.slug,
       title: project.title,
@@ -266,26 +201,13 @@ export function buildResume(
   profile: MasterProfile = masterProfile,
   selection: ResumeSelection = {},
 ): ResumeModel {
-  const mode: ResumeMode = selection.mode ?? "general";
-  const analysis =
-    mode === "job" && selection.job ? analyzeJobDescription(selection.job, profile) : undefined;
-
-  const requestedRole = selection.role;
-  const role: RoleId = isRoleId(requestedRole)
-    ? requestedRole
-    : analysis
-      ? analysis.suggestedRole
-      : DEFAULT_ROLE;
-
+  const role: RoleId = isRoleId(selection.role) ? selection.role : DEFAULT_ROLE;
   const detailed = Boolean(selection.detailed);
-  const overrides = selection.overrides;
-  const weights = buildFocusWeights(role, analysis);
+  const weights = buildFocusWeights(role);
   const preset = rolePresets[role];
 
-  const location = overrides?.location?.trim() || profile.identity.location;
   const contact: ResumeContactItem[] = [
-    { label: "Location", value: location },
-    ...(overrides?.phone?.trim() ? [{ label: "Phone", value: overrides.phone.trim() }] : []),
+    { label: "Location", value: profile.identity.location },
     {
       label: "Email",
       value: profile.contact.email,
@@ -308,47 +230,28 @@ export function buildResume(
     },
   ];
 
-  const education: ProfileEducation[] = [...profile.education, ...(overrides?.education ?? [])];
-  const languages: ProfileLanguage[] = [...profile.languages, ...(overrides?.languages ?? [])];
-
-  const workArrangement = overrides?.workArrangement?.trim() || profile.preferences.workArrangement;
-  const relocation = overrides?.relocation?.trim() || profile.preferences.relocation;
-
   const additional: { label: string; value: string }[] = [
-    { label: "Work preference", value: workArrangement },
-    { label: "Relocation", value: relocation },
+    { label: "Work preference", value: profile.preferences.workArrangement },
+    { label: "Relocation", value: profile.preferences.relocation },
   ];
 
-  if (languages.length > 0) {
-    additional.push({
-      label: "Languages",
-      value: languages.map((item) => `${item.language} (${item.proficiency})`).join(", "),
-    });
-  }
-  if (overrides?.additionalNotes?.trim()) {
-    additional.push({ label: "Notes", value: overrides.additionalNotes.trim() });
-  }
-
   return {
-    mode,
     role,
     detailed,
     filenameBase: resumeBaseFilename({
       candidateName: profile.identity.name,
       roleLabel: preset.label,
-      company: mode === "job" ? selection.job?.company : undefined,
     }),
     name: profile.identity.name,
-    headline: buildHeadline(role, mode, analysis),
+    headline: `${preset.label} | ${preset.tagline}`,
     contact,
     summary: buildSummary(profile, weights),
     skillCategories: buildSkillCategories(profile, role, weights),
     experience: buildExperience(profile, detailed, weights),
-    projects: buildProjects(profile, role, mode, detailed, weights),
-    education,
+    projects: buildProjects(profile, role, detailed, weights),
+    education: [...profile.education],
     certifications: [...profile.certifications],
-    languages,
+    languages: [...profile.languages],
     additional,
-    analysis,
   };
 }

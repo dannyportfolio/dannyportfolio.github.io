@@ -58,17 +58,17 @@ The visual language follows an Apple-inspired minimalist aesthetic defined in `s
 
 ## 3. Page Routes & Composition
 
-| Route                   | Type                    | Purpose & Composition                                                                                                                   |
-| :---------------------- | :---------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`                     | Client (`"use client"`) | Main story flow: Hero, Profile, Philosophy, Stack, Projects, Case Studies, Experience, Certifications, Principles, Contact.             |
-| `/projects/`            | Static Page             | Detailed grid of business and engineering projects with category tags.                                                                  |
-| `/case-studies/[slug]/` | Dynamic SSG             | Deep-dive architectural briefs (`generateStaticParams`).                                                                                |
-| `/engineering/`         | Static Page             | Engineering notes, system architecture principles, and article library.                                                                 |
-| `/engineering/[slug]/`  | Dynamic SSG             | Focused engineering deep dives with interactive system flow diagrams.                                                                   |
-| `/blog/`                | Client Page             | Engineering blog index with real-time text search and category filtering.                                                               |
-| `/blog/[slug]/`         | Dynamic SSG             | Bilingual technical articles with embedded SVG architecture diagrams.                                                                   |
-| `/resume/`              | Client Page             | Universal ATS resume workspace: role variants, job-description tailoring, local version/profile management, DOCX/plain-text/PDF export. |
-| `/resume/print/`        | Client Page             | Single-column A4 printable CV layout with dynamic filename and high print contrast for browser PDF export.                              |
+| Route                   | Type                    | Purpose & Composition                                                                                                                  |
+| :---------------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                     | Client (`"use client"`) | Main story flow: Hero, Profile, Philosophy, Stack, Projects, Case Studies, Experience, Certifications, Principles, Contact.            |
+| `/projects/`            | Static Page             | Detailed grid of business and engineering projects with category tags.                                                                 |
+| `/case-studies/[slug]/` | Dynamic SSG             | Deep-dive architectural briefs (`generateStaticParams`).                                                                               |
+| `/engineering/`         | Static Page             | Engineering notes, system architecture principles, and article library.                                                                |
+| `/engineering/[slug]/`  | Dynamic SSG             | Focused engineering deep dives with interactive system flow diagrams.                                                                  |
+| `/blog/`                | Client Page             | Engineering blog index with real-time text search and category filtering.                                                              |
+| `/blog/[slug]/`         | Dynamic SSG             | Bilingual technical articles with embedded SVG architecture diagrams.                                                                  |
+| `/resume/`              | Client Page             | Minimalist ATS resume builder: 3 target roles (`Software`, `Backend`, `Full Stack`), Standard/Detailed density, and A4 PDF print flow. |
+| `/resume/print/`        | Client Page             | Single-column A4 printable CV layout with dynamic filename and high print contrast for browser PDF export.                             |
 
 ---
 

@@ -16,10 +16,10 @@ export function ResumeCustomizer({
     <div className="role-selector" aria-label="CV target role selector">
       <div className="role-selector-header">
         <span className="mono role-selector-label">
-          {locale === "en" ? "Role Positioning" : "Fokus Peran"}
+          {locale === "en" ? "Target role" : "Fokus peran"}
         </span>
         <span className="mono role-selector-count">
-          {roleIds.length} {locale === "en" ? "presets" : "opsi"}
+          {roleIds.length} {locale === "en" ? "options" : "opsi"}
         </span>
       </div>
       <div

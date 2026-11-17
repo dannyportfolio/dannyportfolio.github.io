@@ -1,55 +1,17 @@
-# Universal ATS-Friendly Resume System
+# Resume System Architecture
 
-This document describes the architecture, data governance, tailoring behavior, and verification workflow of the `/resume/` and `/resume/print/` system.
+The `/resume/` and `/resume/print/` routes implement a minimalist, ATS-compatible resume generator backed by a single verified source of truth.
 
----
+## Single Source of Truth
 
-## 1. Architecture Overview
+- `src/data/resume/master-profile.ts`: Holds candidate contact details, summary components, career history (`2021 - 2023` Software Engineer and `2023 - Present` Freelance Software Engineer), categorized technical skills, selected projects, verified certifications, languages, work preferences, and `informationGaps` (facts not yet verified).
+- `src/data/resume/role-presets.ts`: Defines the 3 supported target roles (`software` default, `backend`, `fullstack`) and their summary/skill/project priorities.
+- Portfolio modules (`src/data/profile.ts`, `src/data/experience.ts`, `src/data/skills.ts`, `src/data/education.ts`) derive directly from `masterProfile`.
 
-The resume system compiles every preview and export format from one structured profile:
+## Assembly & Print Pipeline
 
-1. **Master Profile (`src/data/resume/master-profile.ts`)**: Single source of truth for identity, contact channels, timeline (`engineeringSince: 2021`, `freelanceSince: 2023`), tagged summary sentences, 9 technical skill categories, chronological experience bullets, verified projects, certifications mapped from `src/data/certifications.ts`, preferences, and explicit `informationGaps`.
-2. **Portfolio Synchronization**: `src/data/profile.ts`, `src/data/experience.ts`, `src/data/skills.ts`, and `src/data/education.ts` derive their shared fields from `masterProfile` so the homepage and resume stay aligned.
-3. **Role Presets (`src/data/resume/role-presets.ts`)**: Eight engineering role presets (`software` default, `backend`, `fullstack`, `frontend`, `api`, `cloud`, `devops`, `platform`) that define skill focus, category order, project order, and job-title matching signals without modifying factual history.
-4. **Skill Taxonomy (`src/data/resume/skill-taxonomy.ts`)**: Canonical pattern and alias definitions for profile skills plus external industry skills used solely to surface requirement gaps honestly.
-5. **Pure Builder & Exports (`src/lib/resume/`)**:
-   - `job-analyzer.ts`: Browser-side deterministic keyword extractor separating required vs preferred qualifications, matching verified evidence, recommending a role preset, and flagging gaps.
-   - `build-resume.ts`: Pure function `(profile, selection) => ResumeModel` adapting headline (without inventing seniority), summary sentences, skill ordering, experience bullet ordering, and project selection (3 projects in `standard`, 4 projects with architecture lines in `detailed`).
-   - `filename.ts`: Builds dynamic ATS-safe filenames (`Danial_Fachrudin_<Role>_Resume` or `Danial_Fachrudin_<Company>_<Role>_Resume`).
-   - `zip.ts` + `export-docx.ts`: Zero-dependency store-only ZIP archive and OOXML `.docx` generator emitting A4 Arial paragraphs with `w:keepNext`, hyperlinks, and zero tables or text boxes.
-   - `export-text.ts`: Linear plain-text ATS extractor matching document reading order.
-   - `version-store.ts`: Browser `localStorage` persistence for saved versions and optional local confirmed overrides, plus URL-hash (`#job=`) serialization for `/resume/print/`.
-
----
-
-## 2. Verification Policy & Editing Guidelines
-
-Every skill, experience entry, project, and certification in `master-profile.ts` tracks:
-
-- `status: "verified" | "user-provided"`
-- `evidence`: referencing a project slug (`opspilot`, `lendloop`, `veloura`, `tragapos`, `griya-properti`, `astraops`, `idx-trading-assistant`), `"portfolio-site"`, or `"experience"`.
-
-Never add unverified degrees, metrics, or unsupported seniority titles. Missing details belong in `masterProfile.informationGaps` and are omitted from published resumes unless confirmed locally via browser overrides or updated in `master-profile.ts`.
-
----
-
-## 3. Routes & Query Compatibility
-
-- `/resume/`: Interactive workspace with Role Variants, Job Tailoring, Profile & Versions management, A4 preview, ATS plain-text preview, DOCX download, and print link.
-- `/resume/print/`: Standalone A4 print view with dynamically synced `document.title` for browser PDF saving.
-- Supported query parameters:
-  - `role`: `software` (default), `backend`, `fullstack`, `frontend`, `api`, `cloud`, `devops`, `platform`
-  - `mode`: `standard` (default) or `detailed`
-- Hash state: `#job=<base64url>` passes job-specific tailoring input client-side to `/resume/print/` without server storage.
-
----
-
-## 4. Verification
-
-```bash
-npm test
-npm run typecheck
-npm run lint
-npm run format:check
-npm run build
-```
+- `src/lib/resume/build-resume.ts`: Pure builder `buildResume(profile, { role, detailed })` that assembles a normalized `ResumeModel` from `masterProfile`. Standard mode renders 3 selected projects; detailed mode renders 4 projects with architecture summaries.
+- `src/lib/resume/filename.ts`: Generates ATS-safe PDF filenames such as `Danial_Fachrudin_Software_Engineer_Resume`.
+- `src/components/resume/resume-document.tsx`: Single-column semantic HTML A4 resume layout with body-embedded contact details, clear section hierarchy, and print-safe spacing.
+- `src/components/resume/resume-page-content.tsx`: Minimalist customizer with 3 target role buttons, Standard/Detailed toggle, `Print / Save PDF` link (`/resume/print/?role=...`), and live A4 preview.
+- `src/components/resume/resume-print-content.tsx`: Standalone A4 print view with a screen-only toolbar (`Back to customizer`, dynamic filename badge, and `PrintButton`) that sets `document.title` before calling `window.print()`.

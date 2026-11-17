@@ -38,12 +38,12 @@ A high-level map of directory ownership and feature mappings. Use this guide to 
     │   ├── motion/          # ScrollReveal, ScrollProgress, Parallax
     │   ├── portfolio/       # CertificationsSection, Hero, Profile, Principles
     │   ├── projects/        # ProjectCard and catalog layout
-    │   ├── resume/          # ResumeDocument, ResumeCustomizer, PrintButton
+    │   ├── resume/          # ResumeDocument, ResumeCustomizer, ResumePageContent, ResumePrintContent, PrintButton
     │   └── ui/              # Primitive Badge, Button, ButtonLink
     ├── context/             # Global React contexts (locale-context.tsx)
     ├── data/                # Single source of truth data modules
     │   ├── posts/           # Blog post content modules
-    │   ├── resume/          # Master profile, role presets, and skill taxonomy
+    │   ├── resume/          # Master profile and 3-role presets
     │   ├── certifications.ts # Verified certificates, links, and thumbnails
     │   ├── education.ts     # Education and resume credential mapping (derived from master-profile)
     │   ├── experience.ts    # Career history derived from master-profile
