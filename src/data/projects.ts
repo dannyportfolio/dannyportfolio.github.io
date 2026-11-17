@@ -613,6 +613,265 @@ export const projects: Project[] = [
       },
     ],
   },
+  {
+    slug: "griya-properti",
+    name: "Griya Properti v3.0: Real Estate Microservices Platform",
+    domain: "github.com/dannyportfolio/property-apps",
+    url: "https://github.com/dannyportfolio/property-apps",
+    githubUrl: "https://github.com/dannyportfolio/property-apps",
+    summary: {
+      en: "A real estate platform built on NestJS 12 microservices over Redis transport with Clean Architecture, shared Zod v4 contracts, and a React 19 + Tailwind CSS v4 frontend.",
+      id: "Platform properti berbasis arsitektur NestJS 12 Microservices dengan transport Redis, Clean Architecture, kontrak Zod v4 bersama, serta frontend React 19 + Tailwind CSS v4.",
+    },
+    category: {
+      en: "Microservices & Full-Stack Architecture",
+      id: "Arsitektur Microservices & Full-Stack",
+    },
+    highlights: {
+      en: [
+        "API Gateway with Helmet, Throttler rate-limiting, and cookie-based JWT auth",
+        "Identity Service with refresh token rotation, reuse detection, and Google OAuth",
+        "Listing Service with ReDoS-safe paginated search and IDOR ownership checks",
+        "Shared Zod v4 DTO contracts and DomainError RPC interceptors across services",
+        "React 19 + Vite 6 client with TanStack Query v5, Redux Toolkit, and Leaflet maps",
+      ],
+      id: [
+        "API Gateway dengan Helmet, rate-limiting Throttler, dan autentikasi JWT berbasis cookie",
+        "Identity Service dengan rotasi refresh token, deteksi reuse, dan Google OAuth",
+        "Listing Service dengan pencarian terpaginasi tahan ReDoS dan pengecekan kepemilikan IDOR",
+        "Kontrak DTO Zod v4 bersama serta DomainError RPC interceptor lintas layanan",
+        "Klien React 19 + Vite 6 dengan TanStack Query v5, Redux Toolkit, dan peta Leaflet",
+      ],
+    },
+    technologies: [
+      "NestJS 12",
+      "TypeScript",
+      "Redis",
+      "MongoDB",
+      "Zod",
+      "React 19",
+      "Tailwind CSS v4",
+      "TanStack Query",
+      "Docker",
+    ],
+    problem: {
+      en: "Monolithic property portals often tightly couple user authentication, listing search, and buyer lead capture, making independent scaling, strict security boundaries, and shared validation across backend and frontend difficult to maintain.",
+      id: "Portal properti monolitik kerap mencampuradukkan autentikasi pengguna, pencarian listing, dan pengelolaan prospek pembeli sehingga menyulitkan skalabilitas independen, isolasi keamanan, dan konsistensi validasi antara backend dan frontend.",
+    },
+    challenge: {
+      en: "Coordinating four decoupled NestJS services over Redis RPC while preserving end-to-end type safety, preventing refresh token replay, defending regex-based search against ReDoS, and enforcing strict IDOR ownership checks on property mutations.",
+      id: "Mengorkestrasi empat layanan NestJS terpisah melalui Redis RPC dengan tetap menjaga type safety ujung-ke-ujung, mencegah replay refresh token, melindungi pencarian regex dari ReDoS, dan menegakkan kontrol kepemilikan IDOR pada mutasi properti.",
+    },
+    architecture: {
+      en: "Monorepo workspace separating an HTTP API Gateway from three Redis-backed microservices (Identity, Listing, and Inquiry), each structured in Clean Architecture layers (domain, application, infrastructure, presentation) and backed by MongoDB 7 and shared Zod contracts.",
+      id: "Monorepo workspace yang memisahkan HTTP API Gateway dari tiga microservice berbasis Redis (Identity, Listing, dan Inquiry), masing-masing disusun dengan lapisan Clean Architecture (domain, application, infrastructure, presentation) di atas MongoDB 7 dan kontrak Zod bersama.",
+    },
+    contributions: {
+      en: [
+        "Built the NestJS 12 API Gateway with Swagger (/api/docs), ZodValidationPipe, ParseObjectIdPipe, Helmet, CORS, and Throttler rate-limiting.",
+        "Implemented Identity, Listing, and Inquiry microservices with refresh token reuse detection, Firebase Admin OAuth verification, lifecycle states (draft, active, under_offer, sold), and SMTP seller notifications.",
+        "Developed the React 19 + Vite 6 frontend with TanStack Query v5, Redux Toolkit, React Router v7, Leaflet maps, and Vitest/Playwright test coverage.",
+      ],
+      id: [
+        "Membangun API Gateway NestJS 12 dengan Swagger (/api/docs), ZodValidationPipe, ParseObjectIdPipe, Helmet, CORS, dan rate-limiting Throttler.",
+        "Mengimplementasikan microservice Identity, Listing, dan Inquiry dengan deteksi reuse refresh token, verifikasi OAuth Firebase Admin, status siklus hidup listing (draft, active, under_offer, sold), dan notifikasi SMTP.",
+        "Mengembangkan frontend React 19 + Vite 6 menggunakan TanStack Query v5, Redux Toolkit, React Router v7, peta Leaflet, serta cakupan uji Vitest dan Playwright.",
+      ],
+    },
+    reliability: {
+      en: "Enforced via shared Zod v4 boundary validation, DomainRpcInterceptor error mapping, ReDoS-safe regex escaping, Vitest unit/integration suites, Supertest gateway E2E tests, and Playwright browser verification.",
+      id: "Dijamin melalui validasi batas Zod v4 bersama, pemetaan error DomainRpcInterceptor, escaping regex tahan ReDoS, rangkaian uji Vitest, uji E2E gateway dengan Supertest, dan verifikasi browser Playwright.",
+    },
+    implementation: {
+      en: [
+        "NPM workspaces monorepo (apps/* and packages/*) with shared tsconfig.base.json and Docker Compose for local MongoDB 7 and Redis 7.",
+        "packages/shared and packages/nest-common centralizing DTO schemas, ObjectId validation, and Redis transport helpers.",
+        "Frontend state split cleanly between server cache (TanStack Query v5) and persisted session state (Redux Toolkit + Redux Persist).",
+      ],
+      id: [
+        "Monorepo NPM workspaces (apps/* dan packages/*) dengan tsconfig.base.json bersama serta Docker Compose untuk MongoDB 7 dan Redis 7 lokal.",
+        "packages/shared dan packages/nest-common memusatkan skema DTO, validasi ObjectId, dan helper transport Redis.",
+        "Pemisahan state frontend yang tegas antara cache server (TanStack Query v5) dan state sesi persisten (Redux Toolkit + Redux Persist).",
+      ],
+    },
+    caseStudy: true,
+    architectureSteps: [
+      {
+        id: "client-spa",
+        label: { en: "React 19 + Vite Client", id: "Klien React 19 + Vite" },
+        description: {
+          en: "Handles property discovery on Leaflet maps, authenticated user dashboards, and optimistic UI queries via TanStack Query v5.",
+          id: "Menangani eksplorasi properti pada peta Leaflet, dashboard pengguna terautentikasi, dan kueri UI melalui TanStack Query v5.",
+        },
+      },
+      {
+        id: "api-gateway",
+        label: { en: "NestJS API Gateway", id: "NestJS API Gateway" },
+        description: {
+          en: "Exposes /api/v1/* REST endpoints with Helmet, Throttler rate limits, cookie JWT extraction, and ZodValidationPipe.",
+          id: "Menyediakan endpoint REST /api/v1/* dengan Helmet, rate limit Throttler, ekstraksi JWT cookie, dan ZodValidationPipe.",
+        },
+      },
+      {
+        id: "redis-rpc-bus",
+        label: {
+          en: "Redis Transport & Shared Contracts",
+          id: "Transport Redis & Kontrak Bersama",
+        },
+        description: {
+          en: "Routes typed microservice commands and maps DomainError exceptions uniformly via @griya/nest-common.",
+          id: "Merutekan perintah microservice bertipe aman dan memetakan eksepsi DomainError secara seragam lewat @griya/nest-common.",
+        },
+      },
+      {
+        id: "domain-services",
+        label: {
+          en: "Identity, Listing & Inquiry Services",
+          id: "Layanan Identity, Listing & Inquiry",
+        },
+        description: {
+          en: "Execute isolated business rules for token rotation, ReDoS-safe listing search, IDOR checks, and SMTP lead notifications.",
+          id: "Menjalankan aturan bisnis terisolasi untuk rotasi token, pencarian listing tahan ReDoS, cek IDOR, dan notifikasi prospek SMTP.",
+        },
+      },
+      {
+        id: "mongodb-persistence",
+        label: { en: "MongoDB 7 Persistence", id: "Persistensi MongoDB 7" },
+        description: {
+          en: "Stores User, RefreshToken, Listing, and Inquiry collections with Mongoose schemas and indexed query paths.",
+          id: "Menyimpan koleksi User, RefreshToken, Listing, dan Inquiry dengan skema Mongoose dan jalur kueri terindeks.",
+        },
+      },
+    ],
+  },
+  {
+    slug: "tragapos",
+    name: "TragaPOS: Headless Multi-Industry POS & Commerce Engine",
+    domain: "github.com/dannyportfolio/TragaPOS",
+    url: "https://github.com/dannyportfolio/TragaPOS",
+    githubUrl: "https://github.com/dannyportfolio/TragaPOS",
+    summary: {
+      en: "A distributed, offline-first commerce engine written in Go 1.24 that compiles from one codebase into CLOUD (Kubernetes + PostgreSQL) and EDGE (SQLite WAL, CGO_ENABLED=0) runtime targets.",
+      id: "Mesin commerce terdistribusi offline-first berbasis Go 1.24 yang dikompilasi dari satu codebase menjadi target runtime CLOUD (Kubernetes + PostgreSQL) dan EDGE (SQLite WAL, CGO_ENABLED=0).",
+    },
+    category: {
+      en: "Distributed Systems & Edge Commerce",
+      id: "Sistem Terdistribusi & Edge Commerce",
+    },
+    highlights: {
+      en: [
+        "Dual-mode Go binary (CLOUD and EDGE) switched via APP_MODE",
+        "100% offline Ed25519 cryptographic QR ticket verification with double-scan prevention",
+        "Polymorphic FulfillmentStrategy across F&B, Retail, Tourism, and Hospitality",
+        "Transactional Outbox pattern with UUIDv7 identity and Physical Reality Wins sync",
+        "Real-time WebSocket Hub for Kitchen Display Systems (KDS) and gate turnstiles",
+      ],
+      id: [
+        "Biner Go dual-mode (CLOUD dan EDGE) yang dikendalikan melalui APP_MODE",
+        "Verifikasi tiket QR kriptografis Ed25519 100% offline dengan pencegahan double-scan",
+        "FulfillmentStrategy polimorfik untuk sektor F&B, Ritel, Wisata, dan Perhotelan",
+        "Pola Transactional Outbox dengan identitas UUIDv7 dan kebijakan sinkronisasi Physical Reality Wins",
+        "WebSocket Hub real-time untuk Kitchen Display System (KDS) dan gerbang turnstile",
+      ],
+    },
+    technologies: [
+      "Go 1.24",
+      "Gin",
+      "PostgreSQL",
+      "SQLite WAL",
+      "Ed25519",
+      "WebSocket",
+      "Kubernetes",
+      "K3s",
+      "Docker",
+    ],
+    problem: {
+      en: "Multi-outlet retail, F&B, tourism parks, and hospitality venues suffer revenue loss when cloud-tethered POS terminals stall during ISP outages, while isolated desktop POS apps create fragmented inventory and ticket fraud.",
+      id: "Gerai ritel, F&B, taman wisata, dan perhotelan kerap mengalami gangguan transaksi saat POS yang bergantung penuh pada cloud terputus dari internet, sementara aplikasi desktop terisolasi memicu fragmentasi stok dan celah duplikasi tiket.",
+    },
+    challenge: {
+      en: "Running a single Clean Architecture Go codebase seamlessly across Cloud PostgreSQL and Edge SQLite WAL without CGO, guaranteeing atomic outbox sync without rejecting paid offline sales, and verifying QR tickets offline without double-redemption.",
+      id: "Menjalankan satu codebase Go Clean Architecture secara mulus di atas PostgreSQL Cloud maupun SQLite WAL Edge tanpa CGO, menjamin sinkronisasi outbox atomik tanpa menolak transaksi offline yang sudah dibayar, serta memvalidasi tiket QR secara offline tanpa penukaran ganda.",
+    },
+    architecture: {
+      en: "Clean Architecture and DDD in Go: Gin HTTP delivery with X-Idempotency-Key middleware and gorilla/websocket Hub, application usecases with strategy hooks, pure Go domain entities, and a unified SQL repository supporting PostgreSQL ($1) and SQLite (?) inside atomic transactions.",
+      id: "Clean Architecture dan DDD di Go: lapisan delivery Gin HTTP dengan middleware X-Idempotency-Key dan gorilla/websocket Hub, usecase aplikasi dengan strategy hook, entitas domain Go murni, serta repositori SQL terpadu yang mendukung PostgreSQL ($1) dan SQLite (?) dalam transaksi atomik.",
+    },
+    contributions: {
+      en: [
+        "Engineered unified checkout, order/folio management, and background sync workers using time-ordered UUIDv7 and the Transactional Outbox pattern.",
+        "Built polymorphic FulfillmentStrategy implementations for F&B BOM recipe deduction, Retail multi-UOM/batch tracking, Tourism Ed25519 QR verification, and Hospitality Open Folio room charges.",
+        "Configured multi-stage Distroless Docker builds (CGO_ENABLED=0) alongside Cloud Kubernetes HPA and Edge K3s PVC deployment manifests.",
+      ],
+      id: [
+        "Merancang unified checkout, manajemen order/folio, dan background sync worker menggunakan UUIDv7 berurutan waktu serta pola Transactional Outbox.",
+        "Membangun implementasi FulfillmentStrategy polimorfik untuk pemotongan resep BOM F&B, multi-UOM/batch Ritel, verifikasi QR Ed25519 Wisata, dan Open Folio tagihan kamar Perhotelan.",
+        "Menyiapkan build Docker Distroless multi-stage (CGO_ENABLED=0) beserta manifes deployment Cloud Kubernetes HPA dan Edge K3s PVC.",
+      ],
+    },
+    reliability: {
+      en: "Ensured through atomic transaction boundaries (WithTransaction), idempotency middleware, atomic redeemed_tickets insertion for offline gate scans, and Physical Reality Wins reconciliation alerting via STOCK_DISCREPANCY_ALERT.",
+      id: "Dijamin melalui batas transaksi atomik (WithTransaction), middleware idempotensi, penyisipan atomik redeemed_tickets untuk pemindaian gerbang offline, serta rekonsiliasi Physical Reality Wins melalui STOCK_DISCREPANCY_ALERT.",
+    },
+    implementation: {
+      en: [
+        "Pure Go static binary using modernc.org/sqlite in WAL mode for Edge Mini PCs and lib/pq PostgreSQL for Central Cloud.",
+        "Ed25519 asymmetric cryptography signing ticket payloads on Cloud and verifying signatures mathematically on offline Edge gates.",
+        "Append-only outbox event pushing (/v1/sync/push) and delta catalog pulling (/v1/sync/pull) with graceful shutdown support.",
+      ],
+      id: [
+        "Biner statis Go murni dengan modernc.org/sqlite mode WAL untuk Mini PC Edge dan lib/pq PostgreSQL untuk Cloud Pusat.",
+        "Kriptografi asimetris Ed25519 untuk penandatanganan payload tiket di Cloud dan verifikasi matematis secara offline di gerbang Edge.",
+        "Push event outbox append-only (/v1/sync/push) dan pull katalog delta (/v1/sync/pull) dengan dukungan graceful shutdown.",
+      ],
+    },
+    caseStudy: true,
+    architectureSteps: [
+      {
+        id: "cloud-hub",
+        label: {
+          en: "Cloud Central Hub (K8s + PostgreSQL)",
+          id: "Hub Pusat Cloud (K8s + PostgreSQL)",
+        },
+        description: {
+          en: "Manages master catalog, multi-tenant coordination, Ed25519 ticket signing, and idempotent sync ingestion.",
+          id: "Mengelola master katalog, koordinasi multi-tenant, penandatanganan tiket Ed25519, dan ingesti sinkronisasi idempoten.",
+        },
+      },
+      {
+        id: "delta-outbox-sync",
+        label: { en: "Delta & Outbox Sync Engine", id: "Mesin Sinkronisasi Delta & Outbox" },
+        description: {
+          en: "Pulls catalog updates (/v1/sync/pull) and pushes append-only outbox events (/v1/sync/push) asynchronously.",
+          id: "Menarik pembaruan katalog (/v1/sync/pull) dan mengirim event outbox append-only (/v1/sync/push) secara asinkron.",
+        },
+      },
+      {
+        id: "edge-checkout",
+        label: { en: "Edge Checkout & Strategy Hooks", id: "Checkout Edge & Strategy Hooks" },
+        description: {
+          en: "Executes F&B, Retail, Tourism, and Hospitality fulfillment strategies inside atomic SQLite WAL transactions.",
+          id: "Mengeksekusi strategi pemenuhan F&B, Ritel, Wisata, dan Perhotelan di dalam transaksi atomik SQLite WAL.",
+        },
+      },
+      {
+        id: "offline-ed25519",
+        label: { en: "Offline Ed25519 Gate Verifier", id: "Verifikator Gerbang Ed25519 Offline" },
+        description: {
+          en: "Validates QR signatures and expiry locally without WAN, recording redemptions atomically to block double-scans.",
+          id: "Memvalidasi tanda tangan QR dan masa berlaku secara lokal tanpa WAN serta mencatat penukaran secara atomik untuk mencegah scan ganda.",
+        },
+      },
+      {
+        id: "ws-kds-hub",
+        label: { en: "WebSocket KDS & Turnstile Hub", id: "Hub WebSocket KDS & Turnstile" },
+        description: {
+          en: "Broadcasts real-time kitchen tickets and gate unlock events over local outlet LAN.",
+          id: "Menyiarkan tiket dapur dan sinyal pembukaan gerbang secara real-time melalui jaringan LAN outlet lokal.",
+        },
+      },
+    ],
+  },
 ];
 
 export function getProject(slug: string) {

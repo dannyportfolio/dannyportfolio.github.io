@@ -9,7 +9,15 @@ describe("E2E Built Site Verification (SSG output)", () => {
   const REMOVED_DOMAINS = ["arvispro.id", "lelungo.com", "gegarap.id", "reklame.gegarap.id"];
   const REMOVED_SLUGS = ["arvispro", "lelungo", "gegarap", "reklame-gegarap"];
 
-  const EXPECTED_SLUGS = ["lendloop", "opspilot", "idx-trading-assistant", "veloura", "astraops"];
+  const EXPECTED_SLUGS = [
+    "lendloop",
+    "opspilot",
+    "idx-trading-assistant",
+    "veloura",
+    "astraops",
+    "griya-properti",
+    "tragapos",
+  ];
 
   it("out directory should exist and have generated static files", () => {
     assert.equal(fs.existsSync(OUT_DIR), true, "out directory must exist");
@@ -18,7 +26,7 @@ describe("E2E Built Site Verification (SSG output)", () => {
     assert.equal(fs.existsSync(path.join(OUT_DIR, "sitemap.xml")), true);
   });
 
-  it("out/index.html should not contain any deleted projects and should contain all 5 active projects", () => {
+  it("out/index.html should not contain any deleted projects and should contain all 7 active projects", () => {
     const html = fs.readFileSync(path.join(OUT_DIR, "index.html"), "utf-8");
 
     // Check removed names, slugs, and domains are NOT present
@@ -50,10 +58,10 @@ describe("E2E Built Site Verification (SSG output)", () => {
     }
 
     // Check project count indicator
-    assert.equal(html.includes("05"), true, "Homepage should display 05 selected projects");
+    assert.equal(html.includes("07"), true, "Homepage should display 07 selected projects");
   });
 
-  it("out/projects/index.html should list only the 5 active projects", () => {
+  it("out/projects/index.html should list only the 7 active projects", () => {
     const html = fs.readFileSync(path.join(OUT_DIR, "projects", "index.html"), "utf-8");
 
     for (const name of REMOVED_NAMES) {

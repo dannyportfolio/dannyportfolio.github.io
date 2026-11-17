@@ -1,3 +1,4 @@
+import { noisytcpCvePost } from "@/data/posts/noisytcp-cve-2026-99288";
 import { cloudToEdgePosKubernetesPost } from "@/data/posts/cloud-to-edge-pos-kubernetes";
 import { vibeCodingRoadmapPost } from "@/data/posts/vibe-coding-roadmap";
 import { surveillanceSystemsFailPost } from "@/data/posts/surveillance-systems-fail";
@@ -56,6 +57,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  noisytcpCvePost,
   cloudToEdgePosKubernetesPost,
   vibeCodingRoadmapPost,
   surveillanceSystemsFailPost,

@@ -2892,6 +2892,48 @@ p {
   background: radial-gradient(circle, rgba(56, 189, 248, 0.35), transparent 68%);
 }
 
+.project-card--griya-properti .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(20, 184, 166, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(59, 130, 246, 0.14), transparent 60%),
+    linear-gradient(145deg, #f2fbf9 0%, #f4f7fb 50%, #eef4ff 100%);
+}
+:root[data-theme="dark"] .project-card--griya-properti .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(20, 184, 166, 0.15), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(59, 130, 246, 0.12), transparent 65%),
+    linear-gradient(145deg, #0d1d1b 0%, #111923 50%, #0e1420 100%);
+}
+.project-card--griya-properti .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(20, 184, 166, 0.35) 0%,
+    rgba(59, 130, 246, 0.15) 50%,
+    transparent 70%
+  );
+}
+
+.project-card--tragapos .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(249, 115, 22, 0.15), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(14, 165, 233, 0.15), transparent 60%),
+    linear-gradient(145deg, #fff8f3 0%, #f7f8fc 50%, #eff7ff 100%);
+}
+:root[data-theme="dark"] .project-card--tragapos .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(249, 115, 22, 0.14), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(14, 165, 233, 0.12), transparent 65%),
+    linear-gradient(145deg, #1f1610 0%, #141a22 50%, #0d1722 100%);
+}
+.project-card--tragapos .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(249, 115, 22, 0.34) 0%,
+    rgba(14, 165, 233, 0.16) 50%,
+    transparent 70%
+  );
+}
+
 /* Glass Panel: Mock Browser Window */
 .project-thumbnail__blueprint {
   position: relative;
