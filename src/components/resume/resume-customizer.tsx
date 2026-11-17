@@ -1,37 +1,34 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { targetRoles, type TargetRole } from "@/data/profile";
 import { useLocale } from "@/context/locale-context";
+import { roleIds, rolePresets, type RoleId } from "@/data/resume/role-presets";
 
-const roleKeys: TargetRole[] = ["backend", "software", "fullstack"];
-
-export function ResumeCustomizer({ current }: { current: TargetRole }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export function ResumeCustomizer({
+  current,
+  onSelect,
+}: {
+  current: RoleId;
+  onSelect: (role: RoleId) => void;
+}) {
   const { locale } = useLocale();
-
-  function select(role: TargetRole) {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("role", role);
-    router.replace(`/resume?${params.toString()}`, { scroll: false });
-  }
 
   return (
     <div className="role-selector" aria-label="CV target role selector">
       <div className="role-selector-header">
         <span className="mono role-selector-label">
-          {locale === "en" ? "Target role" : "Fokus peran"}
+          {locale === "en" ? "Role Positioning" : "Fokus Peran"}
         </span>
-        <span className="mono role-selector-count">{locale === "en" ? "3 options" : "3 opsi"}</span>
+        <span className="mono role-selector-count">
+          {roleIds.length} {locale === "en" ? "presets" : "opsi"}
+        </span>
       </div>
       <div
         className="role-selector-group"
         role="radiogroup"
         aria-label={locale === "en" ? "Target role selection" : "Pemilihan fokus peran"}
       >
-        {roleKeys.map((key) => {
-          const roleData = targetRoles[key];
+        {roleIds.map((key) => {
+          const preset = rolePresets[key];
           const isSelected = current === key;
           return (
             <button
@@ -39,11 +36,11 @@ export function ResumeCustomizer({ current }: { current: TargetRole }) {
               type="button"
               role="radio"
               aria-checked={isSelected}
-              onClick={() => select(key)}
+              onClick={() => onSelect(key)}
               className={`role-button ${isSelected ? "is-selected" : ""}`}
             >
               <span className="role-button-indicator" aria-hidden="true" />
-              <span>{roleData.label[locale]}</span>
+              <span>{preset.label}</span>
             </button>
           );
         })}

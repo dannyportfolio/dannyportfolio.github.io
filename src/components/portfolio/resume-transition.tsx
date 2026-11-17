@@ -42,10 +42,10 @@ export function ResumeTransition() {
         </div>
         <ScrollReveal className="resume-flow">
           <div className="resume-files">
-            <span>profile.ts</span>
-            <span>experience.ts</span>
+            <span>master-profile.ts</span>
+            <span>role-presets.ts</span>
             <span>projects.ts</span>
-            <span>skills.ts</span>
+            <span>certifications.ts</span>
           </div>
           <i>↓</i>
           <div className="resume-builder">Resume Builder</div>

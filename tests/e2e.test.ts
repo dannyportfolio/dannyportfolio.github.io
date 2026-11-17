@@ -140,5 +140,16 @@ describe("E2E Built Site Verification (SSG output)", () => {
         `Sitemap must contain URL for ${slug}`,
       );
     }
+    assert.equal(sitemap.includes("/resume/"), true, "Sitemap must contain /resume/");
+  });
+
+  it("out/resume and out/resume/print should be exported without placeholder leaks", () => {
+    const resumeHtml = fs.readFileSync(path.join(OUT_DIR, "resume", "index.html"), "utf-8");
+    const printHtml = fs.readFileSync(path.join(OUT_DIR, "resume", "print", "index.html"), "utf-8");
+
+    assert.equal(resumeHtml.includes("src/data/education.ts"), false);
+    assert.equal(printHtml.includes("src/data/education.ts"), false);
+    assert.equal(resumeHtml.includes("Software Engineer"), true);
+    assert.equal(resumeHtml.includes("Danial Fachrudin"), true);
   });
 });

@@ -316,6 +316,9 @@ export const translations = {
     standard: { en: "Standard ATS (1-2 pages)", id: "Standar ATS (1-2 halaman)" },
     detailed: { en: "Detailed Engineering Breakdown", id: "Penjelasan Rekayasa Mendalam" },
     printSavePdf: { en: "Print / Save PDF", id: "Cetak / Simpan PDF" },
+    downloadDocx: { en: "Download DOCX", id: "Unduh DOCX" },
+    copyPlainText: { en: "Copy ATS Text", id: "Salin Teks ATS" },
+    copiedPlainText: { en: "Copied", id: "Tersalin" },
     summary: { en: "Professional Summary", id: "Ringkasan Profesional" },
     skills: { en: "Technical Skills", id: "Keahlian Teknis" },
     experience: { en: "Professional Experience", id: "Pengalaman Kerja" },
@@ -326,16 +329,6 @@ export const translations = {
     workPreference: { en: "Work preference:", id: "Preferensi kerja:" },
     relocation: { en: "Relocation:", id: "Relokasi:" },
     architecture: { en: "Architecture:", id: "Arsitektur:" },
-    backendResponsibility: { en: "Backend responsibility:", id: "Tanggung jawab backend:" },
-    reliabilityPerformance: { en: "Reliability & performance:", id: "Keandalan & performa:" },
-    noEducationYet: {
-      en: "Verified degree qualifications can be added in src/data/education.ts.",
-      id: "Kualifikasi pendidikan terverifikasi dapat ditambahkan di src/data/education.ts.",
-    },
-    noCertificationsYet: {
-      en: "Verified technical certifications can be added in src/data/education.ts.",
-      id: "Sertifikasi teknis terverifikasi dapat ditambahkan di src/data/education.ts.",
-    },
   },
   diagrams: {
     requestFlow: { en: "Request flow", id: "Alur request" },

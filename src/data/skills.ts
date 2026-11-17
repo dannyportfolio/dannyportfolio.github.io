@@ -1,42 +1,32 @@
+import { masterProfile, type SkillCategoryId } from "./resume/master-profile.ts";
+import { rolePresets, type RoleId } from "./resume/role-presets.ts";
+
 export type SkillGroup = { title: string; skills: string[] };
 
+function skillsByCategories(categories: SkillCategoryId[]): string[] {
+  const allowed = new Set<SkillCategoryId>(categories);
+  return masterProfile.skills
+    .filter((skill) => allowed.has(skill.category))
+    .map((skill) => skill.name);
+}
+
+/** Homepage showcase groups derived directly from verified & user-stated master profile skills. */
 export const skillGroups: SkillGroup[] = [
-  { title: "Backend", skills: ["Node.js", "TypeScript", "Next.js Server", "NestJS"] },
   {
-    title: "Database",
-    skills: [
-      "PostgreSQL",
-      "Prisma",
-      "Supabase",
-      "Redis",
-      "Database indexing",
-      "Query optimization",
-    ],
+    title: "Languages & Backend",
+    skills: skillsByCategories(["languages", "backend"]).slice(0, 10),
   },
   {
-    title: "Infrastructure",
-    skills: [
-      "Vercel",
-      "Railway",
-      "GitHub Actions",
-      "CI/CD",
-      "Logging",
-      "Monitoring",
-      "Production debugging",
-    ],
+    title: "Databases & Architecture",
+    skills: skillsByCategories(["databases", "architecture"]).slice(0, 10),
   },
   {
-    title: "Engineering",
-    skills: [
-      "API Design",
-      "System Design",
-      "Authentication & Authorization",
-      "Performance Optimization",
-      "Background Jobs",
-      "Caching",
-      "Testing",
-      "Secure Data Handling",
-    ],
+    title: "Cloud, DevOps & Security",
+    skills: skillsByCategories(["cloud", "devops", "security"]).slice(0, 10),
+  },
+  {
+    title: "Frontend & Quality",
+    skills: skillsByCategories(["frontend", "testing"]).slice(0, 10),
   },
 ];
 
@@ -51,43 +41,9 @@ export const principles = [
   "Reliability over cleverness",
 ];
 
-export function skillsForRole(role: "backend" | "software" | "fullstack") {
-  const priority: Record<typeof role, string[]> = {
-    backend: [
-      "API Design",
-      "PostgreSQL",
-      "Query optimization",
-      "Database indexing",
-      "Redis",
-      "Caching",
-      "Node.js",
-      "TypeScript",
-      "System Design",
-      "Performance Optimization",
-    ],
-    software: [
-      "System Design",
-      "Testing",
-      "CI/CD",
-      "Logging",
-      "Monitoring",
-      "TypeScript",
-      "API Design",
-      "Secure Data Handling",
-      "Production debugging",
-    ],
-    fullstack: [
-      "Next.js Server",
-      "TypeScript",
-      "Node.js",
-      "PostgreSQL",
-      "Prisma",
-      "Vercel",
-      "API Design",
-      "CI/CD",
-      "Authentication & Authorization",
-    ],
-  };
-  const allSkills = skillGroups.flatMap((group) => group.skills);
-  return [...priority[role], ...allSkills.filter((skill) => !priority[role].includes(skill))];
+export function skillsForRole(role: RoleId): string[] {
+  const preset = rolePresets[role];
+  const all = masterProfile.skills.map((skill) => skill.name);
+  const prioritized = preset.focus.filter((skill) => all.includes(skill));
+  return [...prioritized, ...all.filter((skill) => !prioritized.includes(skill))];
 }

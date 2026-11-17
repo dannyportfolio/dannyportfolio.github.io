@@ -1,4 +1,4 @@
-import { certificates } from "./certifications";
+import { masterProfile } from "./resume/master-profile.ts";
 
 export type Education = {
   institution: string;
@@ -17,17 +17,18 @@ export type Certification = {
 
 /**
  * Honest, unverified credential policy:
- * No academic institutions, degree titles, or professional certifications are fabricated.
- * Add genuine verified educational backgrounds and certifications here as they are acquired.
+ * Derived directly from masterProfile; unverified academic institutions are never fabricated.
  */
-export const education: Education[] = [];
+export const education: Education[] = masterProfile.education.map((item) => ({
+  institution: item.institution,
+  credential: item.credential,
+  period: item.period,
+  details: item.details,
+}));
 
-/**
- * Verified certifications mapped directly from the single source of truth in `./certifications.ts`
- */
-export const certifications: Certification[] = certificates.map((cert) => ({
-  name: cert.title,
+export const certifications: Certification[] = masterProfile.certifications.map((cert) => ({
+  name: cert.name,
   issuer: cert.issuer,
-  year: cert.year || cert.issueDate,
-  credentialUrl: cert.verificationUrl || cert.filePath,
+  year: cert.year,
+  credentialUrl: cert.url,
 }));

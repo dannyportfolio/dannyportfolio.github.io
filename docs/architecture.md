@@ -31,7 +31,7 @@ The application generates purely static HTML/CSS/JS artifacts into the `out/` di
 All portfolio data, work history, case studies, engineering notes, and credentials live in typed TypeScript files in `src/data/`.
 
 - **Zero Hallucination Policy**: No degrees, certifications, or professional metrics may be invented. Only verified data is included.
-- **Synchronization**: Interactive pages (`/`, `/resume`, `/projects`) consume the same underlying data objects. For example, `src/data/education.ts` maps its certifications directly from `src/data/certifications.ts`.
+- **Synchronization**: Interactive pages (`/`, `/resume`, `/projects`) consume the same underlying verified profile (`src/data/resume/master-profile.ts`), with `profile.ts`, `experience.ts`, `skills.ts`, and `education.ts` deriving shared canonical facts from it. See [`docs/resume-system.md`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/docs/resume-system.md) for the resume engine architecture.
 
 ### 2.3 Bilingual Localization (EN / ID)
 
@@ -58,17 +58,17 @@ The visual language follows an Apple-inspired minimalist aesthetic defined in `s
 
 ## 3. Page Routes & Composition
 
-| Route                   | Type                    | Purpose & Composition                                                                                                       |
-| :---------------------- | :---------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
-| `/`                     | Client (`"use client"`) | Main story flow: Hero, Profile, Philosophy, Stack, Projects, Case Studies, Experience, Certifications, Principles, Contact. |
-| `/projects/`            | Static Page             | Detailed grid of business and engineering projects with category tags.                                                      |
-| `/case-studies/[slug]/` | Dynamic SSG             | Deep-dive architectural briefs (`generateStaticParams`).                                                                    |
-| `/engineering/`         | Static Page             | Engineering notes, system architecture principles, and article library.                                                     |
-| `/engineering/[slug]/`  | Dynamic SSG             | Focused engineering deep dives with interactive system flow diagrams.                                                       |
-| `/blog/`                | Client Page             | Engineering blog index with real-time text search and category filtering.                                                   |
-| `/blog/[slug]/`         | Dynamic SSG             | Bilingual technical articles with embedded SVG architecture diagrams.                                                       |
-| `/resume/`              | Client Page             | ATS-friendly CV customizer with target role switching (Backend, Software, Fullstack).                                       |
-| `/resume/print/`        | Client Page             | Minimalist, unadorned printable CV layout optimized for A4/Letter browser PDF export.                                       |
+| Route                   | Type                    | Purpose & Composition                                                                                                                   |
+| :---------------------- | :---------------------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                     | Client (`"use client"`) | Main story flow: Hero, Profile, Philosophy, Stack, Projects, Case Studies, Experience, Certifications, Principles, Contact.             |
+| `/projects/`            | Static Page             | Detailed grid of business and engineering projects with category tags.                                                                  |
+| `/case-studies/[slug]/` | Dynamic SSG             | Deep-dive architectural briefs (`generateStaticParams`).                                                                                |
+| `/engineering/`         | Static Page             | Engineering notes, system architecture principles, and article library.                                                                 |
+| `/engineering/[slug]/`  | Dynamic SSG             | Focused engineering deep dives with interactive system flow diagrams.                                                                   |
+| `/blog/`                | Client Page             | Engineering blog index with real-time text search and category filtering.                                                               |
+| `/blog/[slug]/`         | Dynamic SSG             | Bilingual technical articles with embedded SVG architecture diagrams.                                                                   |
+| `/resume/`              | Client Page             | Universal ATS resume workspace: role variants, job-description tailoring, local version/profile management, DOCX/plain-text/PDF export. |
+| `/resume/print/`        | Client Page             | Single-column A4 printable CV layout with dynamic filename and high print contrast for browser PDF export.                              |
 
 ---
 

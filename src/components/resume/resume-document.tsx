@@ -1,234 +1,213 @@
-import { education, certifications, type Education } from "@/data/education";
-import { experiences, type Experience } from "@/data/experience";
-import { profile, targetRoles, type TargetRole } from "@/data/profile";
-import { projects, type Project } from "@/data/projects";
-import { skillsForRole } from "@/data/skills";
-import { translations, type Locale } from "@/data/translations";
+import type { ResumeModel } from "@/lib/resume/build-resume";
 
+/**
+ * Single-column, ATS-parseable resume document rendered identically on screen and in print.
+ * Empty optional sections (such as Education when unverified) are omitted rather than printed as placeholders.
+ */
 export function ResumeDocument({
-  role,
-  detailed = false,
-  locale = "en",
+  model,
+  standalone = false,
 }: {
-  role: TargetRole;
-  detailed?: boolean;
-  locale?: Locale;
+  model: ResumeModel;
+  standalone?: boolean;
 }) {
-  const target = targetRoles[role];
-  const t = translations.resume;
-  const lang = locale;
-  const selectedProjects = projects.slice(0, detailed ? projects.length : 3);
+  const NameHeading = standalone ? "h1" : "h2";
+  const SectionHeading = standalone ? "h2" : "h3";
+  const ItemHeading = standalone ? "h3" : "h4";
 
   return (
-    <article className={`resume-document ${detailed ? "resume-detailed" : ""}`}>
+    <article
+      className={`resume-document ${model.detailed ? "resume-detailed" : ""}`}
+      aria-label={`${model.name} Resume`}
+    >
       <header className="resume-header">
-        <div>
-          <h1>{profile.name}</h1>
-          <p className="resume-title">
-            {target.label[lang]} <span>|</span> {target.subtitle[lang]}
-          </p>
-        </div>
+        <NameHeading className="resume-doc-name">{model.name}</NameHeading>
+        <p className="resume-title">{model.headline}</p>
         <address className="resume-contact">
-          {profile.email && (
-            <div>
-              <a href={`mailto:${profile.email}`} className="resume-contact-link">
-                {profile.email}
-              </a>
-            </div>
-          )}
-          {profile.location && <div>{profile.location}</div>}
-          {profile.portfolioUrl && (
-            <div>
-              <a
-                href={profile.portfolioUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="resume-contact-link"
-              >
-                {profile.portfolioUrl.replace(/^https?:\/\//, "")}
-              </a>
-            </div>
-          )}
-          {profile.github && (
-            <div>
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="resume-contact-link"
-              >
-                github.com/{profile.github.replace(/^https?:\/\/github\.com\//, "")}
-              </a>
-            </div>
-          )}
-          {profile.linkedin && (
-            <div>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="resume-contact-link"
-              >
-                {profile.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
-              </a>
-            </div>
-          )}
+          {model.contact.map((item, index) => (
+            <span key={`${item.label}-${item.value}`} className="resume-contact-item">
+              {index > 0 && (
+                <span className="resume-contact-sep" aria-hidden="true">
+                  {" | "}
+                </span>
+              )}
+              {item.href ? (
+                <a
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="resume-contact-link"
+                >
+                  {item.value}
+                </a>
+              ) : (
+                <span>{item.value}</span>
+              )}
+            </span>
+          ))}
         </address>
       </header>
 
-      <ResumeSection title={t.summary[lang]}>
-        <p>{target.summary[lang]}</p>
-      </ResumeSection>
+      <section className="resume-section">
+        <SectionHeading className="resume-section-heading">Professional Summary</SectionHeading>
+        <p className="resume-summary-text">{model.summary}</p>
+      </section>
 
-      <ResumeSection title={t.skills[lang]}>
-        <SkillList skills={skillsForRole(role)} />
-      </ResumeSection>
+      <section className="resume-section">
+        <SectionHeading className="resume-section-heading">Technical Skills</SectionHeading>
+        <ul className="resume-skill-list">
+          {model.skillCategories.map((category) => (
+            <li key={category.id} className="resume-skill-row">
+              <strong>{category.label}: </strong>
+              <span>{category.skills.join(", ")}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      {experiences.length > 0 && (
-        <ResumeSection title={t.experience[lang]}>
+      {model.experience.length > 0 && (
+        <section className="resume-section">
+          <SectionHeading className="resume-section-heading">
+            Professional Experience
+          </SectionHeading>
           <div className="resume-stack">
-            {experiences.map((item) => (
-              <ExperienceItem key={`${item.company}-${item.position}`} item={item} />
+            {model.experience.map((exp) => (
+              <div key={exp.id} className="resume-item resume-experience-item">
+                <div className="resume-item-head">
+                  <div className="resume-item-primary">
+                    <ItemHeading className="resume-item-title-text">{exp.title}</ItemHeading>
+                    <span className="resume-item-org">
+                      {" | "}
+                      {exp.organization} ({exp.location})
+                    </span>
+                  </div>
+                  <span className="resume-item-period">{exp.period}</span>
+                </div>
+                <ul className="resume-bullets">
+                  {exp.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
-        </ResumeSection>
+        </section>
       )}
 
-      <ResumeSection title={t.projects[lang]}>
-        <div className="resume-stack">
-          {selectedProjects.map((project) => (
-            <ProjectItem key={project.slug} project={project} detailed={detailed} locale={lang} />
-          ))}
-        </div>
-      </ResumeSection>
-
-      {education.length > 0 ? (
-        <ResumeSection title={t.education[lang]}>
+      {model.projects.length > 0 && (
+        <section className="resume-section">
+          <SectionHeading className="resume-section-heading">Selected Projects</SectionHeading>
           <div className="resume-stack">
-            {education.map((item) => (
-              <EducationItem key={item.institution} item={item} />
+            {model.projects.map((project) => (
+              <div key={project.slug} className="resume-item resume-project-item">
+                <div className="resume-item-head">
+                  <div className="resume-item-primary">
+                    <ItemHeading className="resume-item-title-text">{project.title}</ItemHeading>
+                    <span className="resume-item-org">
+                      {" - "}
+                      {project.subtitle}
+                    </span>
+                  </div>
+                  {project.link && (
+                    <a
+                      href={project.link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="resume-item-link"
+                    >
+                      {project.link.label}
+                    </a>
+                  )}
+                </div>
+                <p className="resume-project-stack">
+                  <strong>Stack: </strong>
+                  {project.stack.join(", ")}
+                </p>
+                <ul className="resume-bullets">
+                  {project.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+                {project.architecture && (
+                  <p className="resume-project-arch">
+                    <strong>Architecture: </strong>
+                    {project.architecture}
+                  </p>
+                )}
+              </div>
             ))}
           </div>
-        </ResumeSection>
-      ) : (
-        <ResumeSection title={t.education[lang]}>
-          <p className="resume-empty-note">{t.noEducationYet[lang]}</p>
-        </ResumeSection>
+        </section>
       )}
 
-      {certifications.length > 0 ? (
-        <ResumeSection title={t.certifications[lang]}>
-          {certifications.map((item) => (
-            <p key={item.name}>
-              {item.name} · {item.issuer}
-              {item.year ? ` · ${item.year}` : ""}
-            </p>
-          ))}
-        </ResumeSection>
-      ) : (
-        <ResumeSection title={t.certifications[lang]}>
-          <p className="resume-empty-note">{t.noCertificationsYet[lang]}</p>
-        </ResumeSection>
+      {model.education.length > 0 && (
+        <section className="resume-section">
+          <SectionHeading className="resume-section-heading">Education</SectionHeading>
+          <div className="resume-stack">
+            {model.education.map((item) => (
+              <div key={`${item.institution}-${item.credential}`} className="resume-item">
+                <div className="resume-item-head">
+                  <div className="resume-item-primary">
+                    <ItemHeading className="resume-item-title-text">{item.credential}</ItemHeading>
+                    <span className="resume-item-org">
+                      {" | "}
+                      {item.institution}
+                    </span>
+                  </div>
+                  <span className="resume-item-period">{item.period}</span>
+                </div>
+                {item.details && <p className="resume-meta-line">{item.details}</p>}
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
-      <ResumeSection title={t.additional[lang]}>
-        <p>
-          <b>{t.workPreference[lang]}</b> {profile.availability[lang]}
-        </p>
-        <p>
-          <b>{t.relocation[lang]}</b> {profile.relocation[lang]}
-        </p>
-      </ResumeSection>
+      {model.certifications.length > 0 && (
+        <section className="resume-section">
+          <SectionHeading className="resume-section-heading">Certifications</SectionHeading>
+          <div className="resume-stack resume-stack--compact">
+            {model.certifications.map((cert) => (
+              <div key={cert.name} className="resume-item resume-cert-item">
+                <div className="resume-item-head">
+                  <div className="resume-item-primary">
+                    <strong className="resume-cert-name">{cert.name}</strong>
+                    <span className="resume-item-org">
+                      {" | "}
+                      {cert.issuer}
+                      {cert.year ? ` (${cert.year})` : ""}
+                    </span>
+                  </div>
+                  {cert.url && (
+                    <a
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="resume-item-link"
+                    >
+                      {cert.url.replace(/^https?:\/\//, "")}
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {model.additional.length > 0 && (
+        <section className="resume-section">
+          <SectionHeading className="resume-section-heading">Additional Information</SectionHeading>
+          <ul className="resume-additional-list">
+            {model.additional.map((item) => (
+              <li key={item.label}>
+                <strong>{item.label}: </strong>
+                <span>{item.value}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </article>
-  );
-}
-
-function SkillList({ skills }: { skills: string[] }) {
-  return (
-    <div className="resume-skills">
-      {skills.map((skill) => (
-        <span key={skill}>{skill}</span>
-      ))}
-    </div>
-  );
-}
-
-function ExperienceItem({ item }: { item: Experience }) {
-  return (
-    <div className="resume-item">
-      <div className="resume-item-title">
-        <strong>{item.position}</strong>
-        <span>{item.period}</span>
-      </div>
-      <p className="resume-meta">
-        {item.company} · {item.employmentType} · {item.location}
-      </p>
-      <ul>
-        {item.responsibilities.concat(item.contributions).map((point) => (
-          <li key={point}>{point}</li>
-        ))}
-      </ul>
-      <p className="resume-tech">{item.technologies.join(" · ")}</p>
-    </div>
-  );
-}
-
-function ProjectItem({
-  project,
-  detailed,
-  locale = "en",
-}: {
-  project: Project;
-  detailed: boolean;
-  locale?: Locale;
-}) {
-  const t = translations.resume;
-  return (
-    <div className="resume-item">
-      <div className="resume-item-title">
-        <strong>{project.name}</strong>
-        <span>
-          {project.technologies.length > 0 ? project.technologies.join(" · ") : project.domain}
-        </span>
-      </div>
-      <p>{project.summary[locale]}</p>
-      {detailed && (
-        <>
-          <p>
-            <b>{t.architecture[locale]}</b> {project.architecture[locale]}
-          </p>
-          <p>
-            <b>{t.backendResponsibility[locale]}</b> {project.contributions[locale].join(" ")}
-          </p>
-          <p>
-            <b>{t.reliabilityPerformance[locale]}</b> {project.reliability[locale]}
-          </p>
-        </>
-      )}
-    </div>
-  );
-}
-
-function EducationItem({ item }: { item: Education }) {
-  return (
-    <div className="resume-item">
-      <div className="resume-item-title">
-        <strong>{item.credential}</strong>
-        <span>{item.period}</span>
-      </div>
-      <p>
-        {item.institution}
-        {item.details ? ` · ${item.details}` : ""}
-      </p>
-    </div>
-  );
-}
-
-function ResumeSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="resume-section">
-      <h2>{title}</h2>
-      {children}
-    </section>
   );
 }
