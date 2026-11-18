@@ -407,6 +407,85 @@ GROUP BY o.id;`,
       },
     ],
   },
+  {
+    slug: "terraform-state-and-blast-radius",
+    title: {
+      en: "Terraform State Boundaries & Secretless Pipelines",
+      id: "Batasan State Terraform & Pipeline Tanpa Rahasia",
+    },
+    excerpt: {
+      en: "Architectural rules for bounding Terraform blast radius, preventing plaintext state leaks, and separating read-only PR plans from OIDC-authenticated applies.",
+      id: "Aturan arsitektur untuk membatasi blast radius Terraform, mencegah kebocoran rahasia di file state, dan memisahkan plan PR read-only dari apply berbasis OIDC.",
+    },
+    topics: ["Terraform", "Cloud Security", "Infrastructure"],
+    readingTime: { en: "7 min read", id: "7 menit baca" },
+    publishedDate: "2026-11-18",
+    published: true,
+    sections: [
+      {
+        heading: {
+          en: "Bounding Blast Radius by Rate of Change",
+          id: "Membatasi Blast Radius Berdasarkan Laju Perubahan",
+        },
+        paragraphs: {
+          en: [
+            "A single monolithic Terraform state file covering VPCs, IAM roles, databases, and application workloads turns routine service changes into high-risk operations. Every plan must refresh hundreds of unrelated API objects, lock contention blocks parallel deployments across teams, and a misconfigured destroy can impact foundational networking.",
+            "Partition root states along ownership and rate-of-change boundaries: place stable networking and identity foundations in a base layer, shared clusters and databases in a platform layer, and application-specific resources in service-owned states. Pass non-sensitive integration endpoints via AWS SSM Parameter Store or managed config stores rather than coupling IAM permissions with terraform_remote_state.",
+          ],
+          id: [
+            "Satu file state Terraform monolitik yang mencakup VPC, peran IAM, database, dan beban kerja aplikasi mengubah pembaruan rutin menjadi operasi berisiko tinggi. Setiap plan harus me-refresh ratusan objek API yang tidak terkait, antrean lock menghambat deployment paralel antar tim, dan kesalahan destroy dapat menjatuhkan jaringan fondasi.",
+            "Pecah root state berdasarkan kepemilikan tim dan laju perubahan: letakkan jaringan serta identitas di lapisan dasar yang stabil, klaster dan database bersama di lapisan platform, serta resource khusus aplikasi di state milik tim layanan. Teruskan endpoint non-sensitif melalui AWS SSM Parameter Store atau penyimpanan konfigurasi terkelola alih-alih menggabungkan izin IAM lewat terraform_remote_state.",
+          ],
+        },
+      },
+      {
+        heading: {
+          en: "Why sensitive = true Does Not Protect State",
+          id: "Mengapa sensitive = true Tidak Melindungi File State",
+        },
+        paragraphs: {
+          en: [
+            "Marking an input variable or output as sensitive = true only redacts its value from CLI stdout and CI logs. Terraform still serializes the plaintext value inside terraform.tfstate so it can detect future diffs.",
+            "Mitigate state exposure with defense in depth: store state in private, versioned remote backends with KMS encryption and native locking (such as S3 use_lockfile = true in Terraform 1.10+), keep short-lived tokens out of state using ephemeral blocks and write-only arguments (Terraform 1.10/1.11+), or adopt OpenTofu 1.7+ client-side state encryption.",
+          ],
+          id: [
+            "Menandai variabel atau output dengan sensitive = true hanya menyensor nilainya dari stdout CLI dan log CI. Terraform tetap menyimpan nilai teks polos tersebut di dalam terraform.tfstate untuk mendeteksi diff di masa depan.",
+            "Mitigasi kebocoran state dengan pertahanan berlapis: simpan state di remote backend privat berversi dengan enkripsi KMS dan locking atomik (seperti S3 use_lockfile = true di Terraform 1.10+), cegah token berumur pendek masuk ke state memakai blok ephemeral dan argumen write-only (Terraform 1.10/1.11+), atau gunakan enkripsi state sisi klien pada OpenTofu 1.7+.",
+          ],
+        },
+        code: {
+          language: "hcl",
+          snippet: `terraform {
+  required_version = ">= 1.10.0"
+
+  backend "s3" {
+    bucket       = "org-prod-tfstate"
+    key          = "platform/ap-southeast-1/terraform.tfstate"
+    region       = "ap-southeast-1"
+    encrypt      = true
+    use_lockfile = true
+  }
+}`,
+        },
+      },
+      {
+        heading: {
+          en: "Secretless OIDC with Split Plan and Apply Roles",
+          id: "OIDC Tanpa Rahasia dengan Pemisahan Peran Plan dan Apply",
+        },
+        paragraphs: {
+          en: [
+            "Never store static cloud access keys in CI/CD repository secrets. Configure OpenID Connect (OIDC) workload identity federation so runners exchange a short-lived job token for temporary cloud credentials scoped to the repository, branch, and environment.",
+            "Enforce least privilege across pipeline stages by binding pull-request jobs to a read-only IAM role for terraform plan, and restricting the mutating apply role exclusively to protected main-branch runs gated by manual environment approval.",
+          ],
+          id: [
+            "Jangan pernah menyimpan access key cloud statis di secret repositori CI/CD. Konfigurasikan federasi identitas OpenID Connect (OIDC) agar runner menukar token job berumur pendek dengan kredensial cloud sementara yang dibatasi per repositori, branch, dan lingkungan.",
+            "Terapkan prinsip least privilege antar tahap pipeline dengan mengikat job pull request ke peran IAM read-only untuk terraform plan, serta membatasi peran apply yang dapat memodifikasi infrastruktur hanya untuk eksekusi branch main yang dilindungi persetujuan manual.",
+          ],
+        },
+      },
+    ],
+  },
 ];
 
 export const publishedEngineeringArticles: EngineeringArticle[] = engineeringArticles.filter(
