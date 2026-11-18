@@ -1,3 +1,4 @@
+import { stripUrlScheme } from "../lib/utils.ts";
 import { masterProfile } from "./resume/master-profile.ts";
 import { rolePresets, type RoleId } from "./resume/role-presets.ts";
 
@@ -7,10 +8,6 @@ export type ProfileLink = {
   type?: "email" | "github" | "linkedin" | "portfolio" | "custom";
   detail?: string;
 };
-
-function shortLabel(href: string): string {
-  return href.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
-}
 
 export const profile = {
   name: masterProfile.identity.name,
@@ -52,13 +49,13 @@ export const profile = {
       label: "GitHub",
       href: masterProfile.contact.github,
       type: "github",
-      detail: shortLabel(masterProfile.contact.github),
+      detail: stripUrlScheme(masterProfile.contact.github),
     },
     {
       label: "LinkedIn",
       href: masterProfile.contact.linkedin,
       type: "linkedin",
-      detail: shortLabel(masterProfile.contact.linkedin),
+      detail: stripUrlScheme(masterProfile.contact.linkedin),
     },
   ] as ProfileLink[],
 };

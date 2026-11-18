@@ -6,6 +6,12 @@ import { useEffect, useState } from "react";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { useLocale } from "@/context/locale-context";
 import { translations } from "@/data/translations";
+import {
+  isTheme,
+  readStorageItem,
+  THEME_STORAGE_KEY,
+  writeStorageItem,
+} from "@/lib/browser/storage";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -39,9 +45,9 @@ export function SiteHeader() {
   ]);
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
+    const storedTheme = readStorageItem(THEME_STORAGE_KEY);
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const currentTheme = storedTheme ?? (prefersDark ? "dark" : "light");
+    const currentTheme = isTheme(storedTheme) ? storedTheme : prefersDark ? "dark" : "light";
     const isDark = currentTheme === "dark";
     document.documentElement.dataset.theme = currentTheme;
     const frame = window.requestAnimationFrame(() => {
@@ -71,9 +77,10 @@ export function SiteHeader() {
 
   function toggleTheme() {
     const next = !dark;
+    const nextTheme = next ? "dark" : "light";
     setDark(next);
-    document.documentElement.dataset.theme = next ? "dark" : "light";
-    localStorage.setItem("theme", next ? "dark" : "light");
+    document.documentElement.dataset.theme = nextTheme;
+    writeStorageItem(THEME_STORAGE_KEY, nextTheme);
   }
 
   function checkActive(item: (typeof navLinks)[number]) {

@@ -70,6 +70,10 @@ export const blogPosts: BlogPost[] = [
   vibeCodingPost,
 ];
 
+export const publishedBlogPosts: BlogPost[] = blogPosts.filter(
+  (post) => post.status === "published",
+);
+
 export function getBlogPost(slug: string) {
-  return blogPosts.find((post) => post.slug === slug && post.status === "published");
+  return publishedBlogPosts.find((post) => post.slug === slug);
 }

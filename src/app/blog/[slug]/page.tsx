@@ -2,21 +2,16 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SiteShell } from "@/components/layout/site-shell";
 import { BlogDetailContent } from "@/components/blog/blog-detail-content";
-import { blogPosts, getBlogPost } from "@/data/blog";
+import { getBlogPost, publishedBlogPosts } from "@/data/blog";
+import { AUTHOR_NAME, SITE_URL } from "@/lib/config/site";
+import { serializeJsonLd } from "@/lib/utils";
 
 type BlogPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://dannyportfolio.github.io").replace(
-  /\/$/,
-  "",
-);
-
 export function generateStaticParams() {
-  return blogPosts
-    .filter((post) => post.status === "published")
-    .map((post) => ({ slug: post.slug }));
+  return publishedBlogPosts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
@@ -41,7 +36,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
       publishedTime: post.publishedDate,
       authors: [post.author],
       tags: post.tags,
-      url: `${baseUrl}/blog/${slug}/`,
+      url: `${SITE_URL}/blog/${slug}/`,
     },
     twitter: {
       card: "summary_large_image",
@@ -56,9 +51,7 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
   const post = getBlogPost(slug);
   if (!post) notFound();
 
-  const relatedPosts = blogPosts
-    .filter((p) => p.slug !== slug && p.status === "published")
-    .slice(0, 2);
+  const relatedPosts = publishedBlogPosts.filter((p) => p.slug !== slug).slice(0, 2);
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -70,16 +63,16 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
     author: {
       "@type": "Person",
       name: post.author,
-      url: `${baseUrl}/`,
+      url: `${SITE_URL}/`,
     },
     publisher: {
       "@type": "Person",
-      name: "Danial Fachrudin",
-      url: `${baseUrl}/`,
+      name: AUTHOR_NAME,
+      url: `${SITE_URL}/`,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${baseUrl}/blog/${slug}/`,
+      "@id": `${SITE_URL}/blog/${slug}/`,
     },
     keywords: post.tags.join(", "),
   };
@@ -89,7 +82,7 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleJsonLd),
+          __html: serializeJsonLd(articleJsonLd),
         }}
       />
       <BlogDetailContent post={post} relatedPosts={relatedPosts} />

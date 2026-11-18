@@ -13,6 +13,7 @@ import {
   rolePresets,
   type RoleId,
 } from "../../data/resume/role-presets.ts";
+import { stripUrlScheme } from "../utils.ts";
 import { resumeBaseFilename } from "./filename.ts";
 
 export type ResumeSelection = {
@@ -68,10 +69,6 @@ export type ResumeModel = {
   additional: { label: string; value: string }[];
 };
 
-function stripUrlScheme(url: string): string {
-  return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
-}
-
 function buildFocusWeights(role: RoleId): Map<string, number> {
   const weights = new Map<string, number>();
   const preset = rolePresets[role];
@@ -126,10 +123,9 @@ function buildSkillCategories(
 
   return preset.categoryOrder
     .map((catId) => {
-      const skills = [...(grouped.get(catId) ?? [])].sort((a, b) => {
-        const diff = (weights.get(b) ?? 0) - (weights.get(a) ?? 0);
-        return diff !== 0 ? diff : 0;
-      });
+      const skills = [...(grouped.get(catId) ?? [])].sort(
+        (a, b) => (weights.get(b) ?? 0) - (weights.get(a) ?? 0),
+      );
       return { id: catId, label: skillCategoryLabels[catId], skills };
     })
     .filter((item) => item.skills.length > 0);

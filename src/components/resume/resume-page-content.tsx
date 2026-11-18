@@ -3,16 +3,11 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "@/context/locale-context";
-import { masterProfile } from "@/data/resume/master-profile";
-import { DEFAULT_ROLE, isRoleId, rolePresets, type RoleId } from "@/data/resume/role-presets";
+import { resolveRole, rolePresets, type RoleId } from "@/data/resume/role-presets";
 import { buildResume } from "@/lib/resume/build-resume";
 import { translations } from "@/data/translations";
 import { ResumeCustomizer } from "./resume-customizer";
 import { ResumeDocument } from "./resume-document";
-
-function resolveRole(value: string | null): RoleId {
-  return isRoleId(value) ? value : DEFAULT_ROLE;
-}
 
 export function ResumePageContent() {
   const searchParams = useSearchParams();
@@ -36,7 +31,7 @@ export function ResumePageContent() {
   }, []);
 
   const model = useMemo(
-    () => buildResume(masterProfile, { role, detailed: isDetailed }),
+    () => buildResume(undefined, { role, detailed: isDetailed }),
     [role, isDetailed],
   );
 

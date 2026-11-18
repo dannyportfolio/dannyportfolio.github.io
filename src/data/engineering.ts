@@ -409,6 +409,10 @@ GROUP BY o.id;`,
   },
 ];
 
+export const publishedEngineeringArticles: EngineeringArticle[] = engineeringArticles.filter(
+  (article) => article.published,
+);
+
 export function getEngineeringArticle(slug: string) {
-  return engineeringArticles.find((article) => article.slug === slug && article.published);
+  return publishedEngineeringArticles.find((article) => article.slug === slug);
 }

@@ -5,7 +5,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { SectionHeading } from "@/components/portfolio/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { AlgorithmComplexityReference } from "@/components/engineering/algorithm-complexity-reference";
-import { engineeringArticles } from "@/data/engineering";
+import { publishedEngineeringArticles } from "@/data/engineering";
 import { principles } from "@/data/skills";
 import { useLocale } from "@/context/locale-context";
 import { translations } from "@/data/translations";
@@ -52,7 +52,7 @@ export default function EngineeringPage() {
         <div className="container">
           <SectionHeading eyebrow={t.libraryEyebrow[locale]} title={t.libraryTitle[locale]} />
           <div className="article-grid">
-            {engineeringArticles.map((article) => (
+            {publishedEngineeringArticles.map((article) => (
               <Link
                 key={article.slug}
                 href={`/engineering/${article.slug}`}

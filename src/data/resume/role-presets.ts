@@ -22,6 +22,10 @@ export function isRoleId(value: unknown): value is RoleId {
   return typeof value === "string" && (roleIds as readonly string[]).includes(value);
 }
 
+export function resolveRole(value: unknown): RoleId {
+  return isRoleId(value) ? value : DEFAULT_ROLE;
+}
+
 export const rolePresets: Record<RoleId, RolePreset> = {
   software: {
     id: "software",

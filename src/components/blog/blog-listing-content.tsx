@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { BlogCard } from "@/components/blog/blog-card";
 import { BlogTopicFilter, type TopicItem } from "@/components/blog/blog-topic-filter";
-import { blogPosts } from "@/data/blog";
+import { publishedBlogPosts } from "@/data/blog";
 import { useLocale } from "@/context/locale-context";
 import { translations } from "@/data/translations";
 
@@ -16,7 +16,7 @@ export function BlogListingContent() {
   // Derive unique topics dynamically from authentic blog posts
   const topics: TopicItem[] = useMemo(() => {
     const map = new Map<string, { id: string; label: string; count: number }>();
-    for (const post of blogPosts) {
+    for (const post of publishedBlogPosts) {
       const canonicalId = post.category.en;
       const localizedLabel = post.category[locale];
       const existing = map.get(canonicalId);
@@ -33,7 +33,7 @@ export function BlogListingContent() {
     return Array.from(map.values());
   }, [locale]);
 
-  const filteredPosts = blogPosts.filter((post) => {
+  const filteredPosts = publishedBlogPosts.filter((post) => {
     const matchesCategory =
       selectedCategory === "all" ||
       post.category.en === selectedCategory ||
@@ -68,7 +68,7 @@ export function BlogListingContent() {
               topics={topics}
               selectedTopicId={selectedCategory}
               onSelectTopic={setSelectedCategory}
-              totalPosts={blogPosts.length}
+              totalPosts={publishedBlogPosts.length}
             />
 
             <div className="blog-search-box">

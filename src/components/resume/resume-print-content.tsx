@@ -3,15 +3,10 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useLocale } from "@/context/locale-context";
-import { masterProfile } from "@/data/resume/master-profile";
-import { DEFAULT_ROLE, isRoleId, type RoleId } from "@/data/resume/role-presets";
+import { resolveRole } from "@/data/resume/role-presets";
 import { buildResume } from "@/lib/resume/build-resume";
 import { PrintButton } from "./print-button";
 import { ResumeDocument } from "./resume-document";
-
-function resolveRole(value: string | null): RoleId {
-  return isRoleId(value) ? value : DEFAULT_ROLE;
-}
 
 export function ResumePrintContent() {
   const searchParams = useSearchParams();
@@ -19,7 +14,7 @@ export function ResumePrintContent() {
   const isDetailed = searchParams.get("mode") === "detailed";
   const { locale } = useLocale();
 
-  const model = buildResume(masterProfile, { role, detailed: isDetailed });
+  const model = buildResume(undefined, { role, detailed: isDetailed });
 
   useEffect(() => {
     const syncTitle = () => {

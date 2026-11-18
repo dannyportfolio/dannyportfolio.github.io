@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import type { Locale } from "@/data/translations";
+import { LOCALE_STORAGE_KEY, readStorageItem, writeStorageItem } from "@/lib/browser/storage";
 
 type LocaleContextType = {
   locale: Locale;
@@ -9,11 +10,7 @@ type LocaleContextType = {
   toggleLocale: () => void;
 };
 
-const LocaleContext = createContext<LocaleContextType>({
-  locale: "en",
-  setLocale: () => {},
-  toggleLocale: () => {},
-});
+const LocaleContext = createContext<LocaleContextType | null>(null);
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("en");
@@ -26,21 +23,17 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
       if (queryLang === "id" || queryLang === "en") {
         setLocaleState(queryLang);
         document.documentElement.lang = queryLang;
-        try {
-          localStorage.setItem("portfolio_lang", queryLang);
-        } catch {}
+        writeStorageItem(LOCALE_STORAGE_KEY, queryLang);
         return;
       }
 
-      // Check localStorage
-      try {
-        const stored = localStorage.getItem("portfolio_lang");
-        if (stored === "id" || stored === "en") {
-          setLocaleState(stored);
-          document.documentElement.lang = stored;
-          return;
-        }
-      } catch {}
+      // Check persisted browser locale
+      const stored = readStorageItem(LOCALE_STORAGE_KEY);
+      if (stored === "id" || stored === "en") {
+        setLocaleState(stored);
+        document.documentElement.lang = stored;
+        return;
+      }
 
       // Default to 'en'
       document.documentElement.lang = "en";
@@ -52,9 +45,7 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const setLocale = (next: Locale) => {
     setLocaleState(next);
     document.documentElement.lang = next;
-    try {
-      localStorage.setItem("portfolio_lang", next);
-    } catch {}
+    writeStorageItem(LOCALE_STORAGE_KEY, next);
   };
 
   const toggleLocale = () => {
@@ -69,6 +60,10 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useLocale() {
-  return useContext(LocaleContext);
+export function useLocale(): LocaleContextType {
+  const context = useContext(LocaleContext);
+  if (!context) {
+    throw new Error("useLocale must be used within a LocaleProvider");
+  }
+  return context;
 }
