@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { LocaleProvider } from "@/context/locale-context";
+import { SiteChrome } from "@/components/layout/site-chrome";
+import { NavigationTransitionProvider } from "@/components/motion/page-transition";
 import { AUTHOR_NAME, SITE_NAME, SITE_URL } from "@/lib/config/site";
 import { serializeJsonLd } from "@/lib/utils";
 import "./globals.css";
@@ -102,7 +104,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body>
-        <LocaleProvider>{children}</LocaleProvider>
+        <LocaleProvider>
+          <NavigationTransitionProvider>
+            <SiteChrome>{children}</SiteChrome>
+          </NavigationTransitionProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

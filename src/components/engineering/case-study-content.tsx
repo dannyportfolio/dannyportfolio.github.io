@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { CaseStudyJourney } from "@/components/engineering/case-study-journey";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/data/projects";
@@ -55,8 +56,8 @@ export function CaseStudyContent({ project }: { project: Project }) {
           <p className="eyebrow" style={{ margin: 0, marginBottom: "16px" }}>
             {locale === "en" ? "Project system brief" : "Ringkasan sistem proyek"}
           </p>
-          <h1 className="article-title">{project.name}</h1>
-          <p className="article-summary">{project.summary[locale]}</p>
+          <AnimatedWords className="article-title" text={project.name} />
+          <AnimatedIntro className="article-summary">{project.summary[locale]}</AnimatedIntro>
           <div className="article-meta-bar" style={{ marginTop: "24px" }}>
             <div className="article-meta-details">
               <a

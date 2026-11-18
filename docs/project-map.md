@@ -26,6 +26,7 @@ A high-level map of directory ownership and feature mappings. Use this guide to 
     │   ├── blog/            # Blog catalog and [slug] post routes
     │   ├── case-studies/    # Product architecture case study pages
     │   ├── engineering/     # Engineering notes and deep dives
+    │   ├── journey/         # My Journey five-year personal archive and [slug] chapters
     │   ├── projects/        # Project index page
     │   ├── resume/          # Interactive resume builder & print preview
     │   ├── globals.css      # Core design tokens, layers, and styles
@@ -34,8 +35,9 @@ A high-level map of directory ownership and feature mappings. Use this guide to 
     ├── components/          # Reusable UI components by feature domain
     │   ├── blog/            # Blog cards and architecture diagrams
     │   ├── engineering/     # Terminal cards and request flow diagrams
-    │   ├── layout/          # SiteHeader, SiteFooter, SiteShell
-    │   ├── motion/          # ScrollReveal, ScrollProgress, Parallax
+    │   ├── journey/         # JourneyLandingContent and JourneyChapterContent
+    │   ├── layout/          # SiteHeader, SiteFooter, SiteShell, SiteChrome
+    │   ├── motion/          # ScrollReveal, ScrollProgress, Parallax, PageTransition, AnimatedWords
     │   ├── portfolio/       # CertificationsSection, Hero, Profile, Principles
     │   ├── projects/        # ProjectCard and catalog layout
     │   ├── resume/          # ResumeDocument, ResumeCustomizer, ResumePageContent, ResumePrintContent, PrintButton
@@ -47,12 +49,13 @@ A high-level map of directory ownership and feature mappings. Use this guide to 
     │   ├── certifications.ts # Verified certificates, links, and thumbnails
     │   ├── education.ts     # Education and resume credential mapping (derived from master-profile)
     │   ├── experience.ts    # Career history derived from master-profile
+    │   ├── journey.ts       # Five-year personal archive, Chapter 01 narrative, and pillars
     │   ├── profile.ts       # Profile facts and target role metadata derived from master-profile
     │   ├── projects.ts      # Project case studies and metadata
     │   ├── skills.ts        # Categorized skills derived from master-profile and principles
     │   └── translations.ts  # EN / ID bilingual dictionary
     ├── hooks/               # Custom React hooks (useActiveSection, useReducedMotion)
-    └── lib/                 # Utility functions (cn) and resume engine (lib/resume/*)
+    └── lib/                 # Utility functions (cn), motion helpers (lib/motion/*), and resume engine (lib/resume/*)
 ```
 
 ---
@@ -65,6 +68,7 @@ A high-level map of directory ownership and feature mappings. Use this guide to 
 | **Modify career history**               | [`src/data/experience.ts`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/data/experience.ts)                                                                                                                                                                                                                                                                                                                                                                                                 |
 | **Add / edit projects or case studies** | [`src/data/projects.ts`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/data/projects.ts), [`src/app/case-studies/[slug]/page.tsx`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/app/case-studies/[slug]/page.tsx)                                                                                                                                                                                                                                                           |
 | **Publish or edit blog articles**       | [`src/data/blog.ts`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/data/blog.ts), [`src/data/posts/`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/data/posts)                                                                                                                                                                                                                                                                                                              |
+| **Update My Journey chapters**          | [`src/data/journey.ts`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/data/journey.ts), [`src/components/journey/`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/components/journey)                                                                                                                                                                                                                                                                                        |
 | **Update translations (EN / ID)**       | [`src/data/translations.ts`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/data/translations.ts)                                                                                                                                                                                                                                                                                                                                                                                             |
 | **Design system, colors, spacing**      | [`src/app/globals.css`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/app/globals.css)                                                                                                                                                                                                                                                                                                                                                                                                       |
 | **Navigation bar or footer links**      | [`src/components/layout/site-header.tsx`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/components/layout/site-header.tsx), [`site-footer.tsx`](file:///C:/Users/Lenovo%20X13/Documents/Danny%20Fachrudin/src/components/layout/site-footer.tsx)                                                                                                                                                                                                                                             |

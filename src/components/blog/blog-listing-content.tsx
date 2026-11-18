@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { BlogCard } from "@/components/blog/blog-card";
 import { BlogTopicFilter, type TopicItem } from "@/components/blog/blog-topic-filter";
 import { publishedBlogPosts } from "@/data/blog";
@@ -52,12 +53,13 @@ export function BlogListingContent() {
       <section className="page-hero">
         <div className="container">
           <p className="eyebrow">{t.eyebrow[locale]}</p>
-          <h1>
-            {t.titlePrefix[locale]}
-            <br />
-            <em>{t.titleEm[locale]}</em>
-          </h1>
-          <p>{t.description[locale]}</p>
+          <AnimatedWords
+            segments={[
+              { text: t.titlePrefix[locale] },
+              { text: t.titleEm[locale], accent: true, breakBefore: true },
+            ]}
+          />
+          <AnimatedIntro>{t.description[locale]}</AnimatedIntro>
         </div>
       </section>
 

@@ -141,6 +141,31 @@ describe("E2E Built Site Verification (SSG output)", () => {
       );
     }
     assert.equal(sitemap.includes("/resume/"), true, "Sitemap must contain /resume/");
+    assert.equal(sitemap.includes("/journey/"), true, "Sitemap must contain /journey/");
+    assert.equal(
+      sitemap.includes("/journey/chapter-01/"),
+      true,
+      "Sitemap must contain /journey/chapter-01/",
+    );
+  });
+
+  it("out/journey and out/journey/chapter-01 should be exported with chapter structure", () => {
+    const journeyIndex = path.join(OUT_DIR, "journey", "index.html");
+    const chapterOneIndex = path.join(OUT_DIR, "journey", "chapter-01", "index.html");
+    assert.equal(fs.existsSync(journeyIndex), true, "out/journey/index.html must exist");
+    assert.equal(
+      fs.existsSync(chapterOneIndex),
+      true,
+      "out/journey/chapter-01/index.html must exist",
+    );
+
+    const journeyHtml = fs.readFileSync(journeyIndex, "utf-8");
+    const chapterHtml = fs.readFileSync(chapterOneIndex, "utf-8");
+    assert.equal(journeyHtml.includes("The Foundation"), true);
+    assert.equal(journeyHtml.includes("The Expansion"), true);
+    assert.equal(journeyHtml.includes("The Contribution"), true);
+    assert.equal(chapterHtml.includes("The Beginning"), true);
+    assert.equal(chapterHtml.includes("The Direction"), true);
   });
 
   it("out/resume and out/resume/print should be exported without placeholder leaks", () => {

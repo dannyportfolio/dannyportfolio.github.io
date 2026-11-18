@@ -67,6 +67,8 @@ The visual language follows an Apple-inspired minimalist aesthetic defined in `s
 | `/engineering/[slug]/`  | Dynamic SSG             | Focused engineering deep dives with interactive system flow diagrams.                                                                  |
 | `/blog/`                | Client Page             | Engineering blog index with real-time text search and category filtering.                                                              |
 | `/blog/[slug]/`         | Dynamic SSG             | Bilingual technical articles with embedded SVG architecture diagrams.                                                                  |
+| `/journey/`             | Static Page             | My Journey five-year personal archive landing page, core philosophy, timeline, and closing statement.                                  |
+| `/journey/[slug]/`      | Dynamic SSG             | Long-form editorial chapter reading experience (`generateStaticParams`, starting with `chapter-01`).                                   |
 | `/resume/`              | Client Page             | Minimalist ATS resume builder: 3 target roles (`Software`, `Backend`, `Full Stack`), Standard/Detailed density, and A4 PDF print flow. |
 | `/resume/print/`        | Client Page             | Single-column A4 printable CV layout with dynamic filename and high print contrast for browser PDF export.                             |
 

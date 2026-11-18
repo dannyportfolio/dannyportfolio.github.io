@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { Badge } from "@/components/ui/badge";
 import type { BlogPost } from "@/data/blog";
 import { useLocale } from "@/context/locale-context";
@@ -106,9 +107,9 @@ export function BlogDetailContent({
             </div>
           </div>
 
-          <h1 className="article-title">{post.title[locale]}</h1>
+          <AnimatedWords className="article-title" text={post.title[locale]} />
 
-          <p className="article-summary">{post.summary[locale]}</p>
+          <AnimatedIntro className="article-summary">{post.summary[locale]}</AnimatedIntro>
 
           <div className="article-meta-bar">
             <div className="article-meta-details">

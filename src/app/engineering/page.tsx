@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { SiteShell } from "@/components/layout/site-shell";
+import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { SectionHeading } from "@/components/portfolio/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { AlgorithmComplexityReference } from "@/components/engineering/algorithm-complexity-reference";
@@ -20,9 +21,13 @@ export default function EngineeringPage() {
       <section className="page-hero engineering-hero">
         <div className="container">
           <p className="eyebrow">{t.complexityEyebrow[locale]}</p>
-          <h1 className="engineering-hero__title">{t.complexityTitle[locale]}</h1>
-          <p className="engineering-hero__subtitle">{t.complexitySubtitle[locale]}</p>
-          <p className="engineering-hero__description">{t.complexityIntro[locale]}</p>
+          <AnimatedWords className="engineering-hero__title" text={t.complexityTitle[locale]} />
+          <AnimatedIntro className="engineering-hero__subtitle" delay={140}>
+            {t.complexitySubtitle[locale]}
+          </AnimatedIntro>
+          <AnimatedIntro className="engineering-hero__description" delay={190}>
+            {t.complexityIntro[locale]}
+          </AnimatedIntro>
         </div>
       </section>
 

@@ -1,13 +1,16 @@
+"use client";
+
 import type { ReactNode } from "react";
-import { SiteFooter } from "./site-footer";
-import { SiteHeader } from "./site-header";
+import { usePathname } from "next/navigation";
+import { useNavigationTransition } from "@/components/motion/page-transition";
 
 export function SiteShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const { isExiting } = useNavigationTransition();
+
   return (
-    <>
-      <SiteHeader />
-      <main>{children}</main>
-      <SiteFooter />
-    </>
+    <main key={pathname} className={`page-transition-stage ${isExiting ? "is-exiting" : ""}`}>
+      {children}
+    </main>
   );
 }

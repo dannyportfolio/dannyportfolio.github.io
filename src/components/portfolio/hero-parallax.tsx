@@ -3,6 +3,7 @@
 import type { KeyboardEvent, PointerEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { ButtonLink } from "@/components/ui/button";
+import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { useLocale } from "@/context/locale-context";
 import { translations } from "@/data/translations";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -95,15 +96,17 @@ export function HeroParallax() {
             </p>
 
             {/* Main Headline */}
-            <h1 className="hero-enter hero-enter--2">
-              <span className="hero-title-lead">{t.heroTitlePrefix[locale]}</span>{" "}
-              <em className="hero-title-accent">{t.heroTitleEm[locale]}</em>
-            </h1>
+            <AnimatedWords
+              segments={[
+                { text: t.heroTitlePrefix[locale], className: "hero-title-lead" },
+                { text: t.heroTitleEm[locale], accent: true, className: "hero-title-accent" },
+              ]}
+            />
 
             {/* Supporting Description */}
-            <p className="hero-parallax-copy hero-enter hero-enter--3">
+            <AnimatedIntro className="hero-parallax-copy" delay={150}>
               {t.heroDescription[locale]}
-            </p>
+            </AnimatedIntro>
 
             {/* Action CTAs */}
             <div className="hero-actions hero-enter hero-enter--4">

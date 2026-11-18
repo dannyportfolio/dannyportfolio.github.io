@@ -42,6 +42,7 @@ export function SiteFooter() {
             <Link href="/projects">{t.projects[locale]}</Link>
             <Link href="/engineering">{t.engineering[locale]}</Link>
             <Link href="/blog">{t.blog[locale]}</Link>
+            <Link href="/journey">{t.journey[locale]}</Link>
             {pathname === "/" ? (
               <a href="#certifications">{t.certifications[locale]}</a>
             ) : (

@@ -56,6 +56,7 @@ test("buildResume prioritizes role-specific skills and projects and supports det
   assert.equal(fullstackDetailed.filenameBase, "Danial_Fachrudin_Full_Stack_Engineer_Resume");
   assert.equal(fullstackDetailed.projects.length, 4);
   assert.ok(fullstackDetailed.projects.some((project) => Boolean(project.architecture)));
+  assert.ok(fullstackDetailed.summary.length > backendStandard.summary.length);
 });
 
 test("resumeBaseFilename formats ATS-safe filenames", () => {

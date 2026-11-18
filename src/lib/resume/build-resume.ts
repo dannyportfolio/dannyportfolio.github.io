@@ -86,7 +86,11 @@ function scoreTags(tags: string[], weights: Map<string, number>): number {
   return score;
 }
 
-function buildSummary(profile: MasterProfile, weights: Map<string, number>): string {
+function buildSummary(
+  profile: MasterProfile,
+  weights: Map<string, number>,
+  detailed: boolean,
+): string {
   const ranked = profile.summary.sentences
     .map((sentence, index) => ({
       sentence,
@@ -95,8 +99,9 @@ function buildSummary(profile: MasterProfile, weights: Map<string, number>): str
     }))
     .sort((a, b) => b.score - a.score || a.index - b.index);
 
+  const sentenceCount = detailed ? 4 : 2;
   const selected = ranked
-    .slice(0, 2)
+    .slice(0, sentenceCount)
     .sort((a, b) => a.index - b.index)
     .map((item) => item.sentence.text);
 
@@ -241,7 +246,7 @@ export function buildResume(
     name: profile.identity.name,
     headline: `${preset.label} | ${preset.tagline}`,
     contact,
-    summary: buildSummary(profile, weights),
+    summary: buildSummary(profile, weights, detailed),
     skillCategories: buildSkillCategories(profile, role, weights),
     experience: buildExperience(profile, detailed, weights),
     projects: buildProjects(profile, role, detailed, weights),

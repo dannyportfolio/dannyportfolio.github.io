@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { Badge } from "@/components/ui/badge";
 import type { EngineeringArticle } from "@/data/engineering";
 import { useLocale } from "@/context/locale-context";
@@ -54,8 +55,8 @@ export function EngineeringDetailContent({
             </div>
           </div>
 
-          <h1 className="article-title">{article.title[locale]}</h1>
-          <p className="article-summary">{article.excerpt[locale]}</p>
+          <AnimatedWords className="article-title" text={article.title[locale]} />
+          <AnimatedIntro className="article-summary">{article.excerpt[locale]}</AnimatedIntro>
 
           <div className="article-meta-bar">
             <div className="article-meta-details">

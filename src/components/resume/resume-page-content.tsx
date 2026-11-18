@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { useLocale } from "@/context/locale-context";
 import { resolveRole, rolePresets, type RoleId } from "@/data/resume/role-presets";
 import { buildResume } from "@/lib/resume/build-resume";
@@ -61,26 +62,32 @@ export function ResumePageContent() {
               <p className="eyebrow">
                 {locale === "en" ? "ATS-Friendly CV Generator" : "Generator CV Standar ATS"}
               </p>
-              <h1>
-                {locale === "en" ? (
-                  <>
-                    One source of truth.
-                    <br />
-                    <em>Focused engineering resumes.</em>
-                  </>
-                ) : (
-                  <>
-                    Satu sumber data.
-                    <br />
-                    <em>Resume rekayasa terfokus.</em>
-                  </>
-                )}
-              </h1>
-              <p className="resume-hero-description">
+              <AnimatedWords
+                segments={
+                  locale === "en"
+                    ? [
+                        { text: "One source of truth." },
+                        {
+                          text: "Focused engineering resumes.",
+                          accent: true,
+                          breakBefore: true,
+                        },
+                      ]
+                    : [
+                        { text: "Satu sumber data." },
+                        {
+                          text: "Resume rekayasa terfokus.",
+                          accent: true,
+                          breakBefore: true,
+                        },
+                      ]
+                }
+              />
+              <AnimatedIntro className="resume-hero-description">
                 {locale === "en"
                   ? "Choose a target role to prioritize the summary, skill categories, and projects. Single-column A4 layout formatted for ATS parsing and browser PDF export."
                   : "Pilih fokus peran untuk menyesuaikan ringkasan, kategori keahlian, dan proyek. Tata letak A4 satu kolom yang ramah parser ATS dan ekspor PDF browser."}
-              </p>
+              </AnimatedIntro>
             </div>
 
             <div className="resume-hero-panel">
@@ -113,6 +120,22 @@ export function ResumePageContent() {
                     {locale === "en" ? "Detailed" : "Lengkap"}
                   </button>
                 </div>
+              </div>
+
+              <div className="role-focus-pill" aria-live="polite">
+                <span className="role-focus-tag mono">
+                  {isDetailed
+                    ? locale === "en"
+                      ? "Detailed"
+                      : "Lengkap"
+                    : locale === "en"
+                      ? "Standard"
+                      : "Standar"}
+                  :
+                </span>
+                <span className="role-focus-text">
+                  {isDetailed ? t.formatDetailedSummary[locale] : t.formatStandardSummary[locale]}
+                </span>
               </div>
 
               <div className="resume-actions">
