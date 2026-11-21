@@ -172,7 +172,19 @@ function ExperienceSection() {
                 <span className="mono">{experience.period}</span>
                 <h3>{experience.position}</h3>
                 <p>
-                  {experience.company} · {experience.location}
+                  {experience.companyUrl ? (
+                    <a
+                      href={experience.companyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-link"
+                    >
+                      {experience.company}
+                    </a>
+                  ) : (
+                    experience.company
+                  )}{" "}
+                  · {experience.location}
                 </p>
                 <p>{experience.contributions[0]}</p>
                 <div className="badge-row">

@@ -8,8 +8,10 @@ import { resumeBaseFilename } from "../src/lib/resume/filename.ts";
 
 test("masterProfile preserves accurate career timeline and verified gaps", () => {
   assert.equal(masterProfile.experience.length, 2);
-  const periods = masterProfile.experience.map((item) => `${item.startYear} - ${item.endYear}`);
-  assert.deepEqual(periods, ["2023 - Present", "2021 - 2023"]);
+  const periods = masterProfile.experience.map(
+    (item) => item.periodLabel ?? `${item.startYear} - ${item.endYear}`,
+  );
+  assert.deepEqual(periods, ["2023 - Present", "April 2026 - November 2026"]);
   assert.equal(masterProfile.education.length, 0);
   assert.equal(education.length, 0);
   assert.ok(masterProfile.informationGaps.length > 0);

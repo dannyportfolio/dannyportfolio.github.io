@@ -42,9 +42,11 @@ export type ProfileExperience = {
   id: string;
   title: string;
   organization: string;
+  organizationUrl?: string;
   location: string;
   startYear: number;
   endYear: number | "Present";
+  periodLabel?: string;
   status: FactStatus;
   bullets: ExperienceBullet[];
 };
@@ -436,21 +438,23 @@ export const masterProfile = {
       ],
     },
     {
-      id: "early-career",
-      title: "Software Engineer",
-      organization: "Independent Software Projects",
-      location: "Indonesia",
-      startYear: 2021,
-      endYear: 2023,
+      id: "80and-company",
+      title: "Backend Engineer",
+      organization: "80&Company",
+      organizationUrl: "https://80and.co/en",
+      location: "Remote · Seasonal Contract",
+      startYear: 2026,
+      endYear: 2026,
+      periodLabel: "April 2026 - November 2026",
       status: "user-provided",
       bullets: [
         {
-          text: "Built web applications and backend features in JavaScript and TypeScript, working with relational databases and REST APIs.",
-          tags: ["JavaScript", "TypeScript", "REST APIs", "PostgreSQL", "MySQL"],
+          text: "Worked remotely with 80&Company under a seasonal contract in an international professional environment across the TypeScript, Node.js, NestJS, and Go ecosystems.",
+          tags: ["TypeScript", "Node.js", "NestJS", "Go"],
         },
         {
-          text: "Designed SQL data models and API endpoints for database-driven applications and handled their deployment.",
-          tags: ["API Design", "SQL", "Data Modeling"],
+          text: "Strengthened backend engineering capabilities, adaptability, and remote collaboration within an international technology environment.",
+          tags: ["TypeScript", "Node.js", "NestJS", "Go"],
         },
       ],
     },

@@ -3448,9 +3448,10 @@ p {
 
 .project-card__content {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: 13px;
-  padding: clamp(20px, 3vw, 26px) clamp(20px, 3.2vw, 26px) 14px;
+  gap: 12px;
+  padding: clamp(20px, 3vw, 26px) clamp(20px, 3.2vw, 26px) 16px;
 }
 
 .project-card__content h2,
@@ -3484,33 +3485,42 @@ p {
 }
 
 .project-highlights {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 6px;
-  padding: 0;
+  padding: 2px 0 0;
   margin: 2px 0 0;
   list-style: none;
 }
 
 .project-highlights li {
-  padding: 4px 8px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
+  position: relative;
+  padding-left: 14px;
   color: var(--muted);
-  font: 500 0.66rem var(--font-mono);
-  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.project-highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 68%, var(--muted));
 }
 
 :root[data-theme="dark"] .project-highlights li {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
 }
 
 .project-card .badge-row {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: auto;
+  padding-top: 8px;
 }
 
 .project-card .card-footer {
@@ -3518,7 +3528,7 @@ p {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 16px clamp(20px, 3.2vw, 26px) 20px;
+  padding: 12px clamp(20px, 3.2vw, 26px) 14px;
   margin-top: auto;
   border-top: 1px solid var(--line);
   color: var(--muted);
@@ -4620,6 +4630,10 @@ section[id] {
   }
   .project-card--new .project-card__content > p {
     max-width: 78ch;
+  }
+  .project-card--new .project-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 24px;
   }
 }
 

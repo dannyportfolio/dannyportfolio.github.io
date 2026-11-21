@@ -142,8 +142,8 @@ export const translations = {
     experienceTitle: { en: "A career shaped", id: "Karier yang ditempa" },
     experienceTitleEm: { en: "by shipping.", id: "dengan membangun produk." },
     experienceDescription: {
-      en: "Building professionally since 2021, with an independent freelance focus since 2023.",
-      id: "Membangun software secara profesional sejak 2021, dengan fokus freelance independen sejak 2023.",
+      en: "Building professionally since 2021, including independent freelance delivery since 2023 and international remote contract work.",
+      id: "Membangun software secara profesional sejak 2021, termasuk praktik freelance independen sejak 2023 dan kontrak remote internasional.",
     },
     certificationsEyebrow: { en: "07 / Certifications", id: "07 / Sertifikasi" },
     certificationsTitle: { en: "Verified technical", id: "Kredensial teknis" },

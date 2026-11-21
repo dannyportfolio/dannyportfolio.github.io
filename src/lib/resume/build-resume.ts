@@ -156,7 +156,7 @@ function buildExperience(
       title: entry.title,
       organization: entry.organization,
       location: entry.location,
-      period: `${entry.startYear} - ${entry.endYear}`,
+      period: entry.periodLabel ?? `${entry.startYear} - ${entry.endYear}`,
       bullets: rankedBullets.slice(0, limit).map((item) => item.text),
     };
   });
