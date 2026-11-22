@@ -1,4 +1,6 @@
 import {
+  formatSummaryOpening,
+  getEngineeringYears,
   masterProfile,
   skillCategoryLabels,
   type MasterProfile,
@@ -19,6 +21,7 @@ import { resumeBaseFilename } from "./filename.ts";
 export type ResumeSelection = {
   role?: RoleId;
   detailed?: boolean;
+  referenceDate?: Date;
 };
 
 export type ResumeContactItem = {
@@ -38,6 +41,7 @@ export type ResumeExperienceItem = {
   title: string;
   organization: string;
   location: string;
+  employmentType: string;
   period: string;
   bullets: string[];
 };
@@ -46,6 +50,7 @@ export type ResumeProjectItem = {
   slug: string;
   title: string;
   subtitle: string;
+  context?: string;
   link?: { label: string; href: string };
   stack: string[];
   bullets: string[];
@@ -55,6 +60,7 @@ export type ResumeProjectItem = {
 export type ResumeModel = {
   role: RoleId;
   detailed: boolean;
+  experienceYears: number;
   filenameBase: string;
   name: string;
   headline: string;
@@ -90,6 +96,7 @@ function buildSummary(
   profile: MasterProfile,
   weights: Map<string, number>,
   detailed: boolean,
+  referenceDate?: Date,
 ): string {
   const ranked = profile.summary.sentences
     .map((sentence, index) => ({
@@ -105,7 +112,8 @@ function buildSummary(
     .sort((a, b) => a.index - b.index)
     .map((item) => item.sentence.text);
 
-  return [profile.summary.opening, ...selected, profile.summary.closing].join(" ");
+  const opening = formatSummaryOpening(profile.timeline.engineeringSince, referenceDate);
+  return [opening, ...selected, profile.summary.closing].join(" ");
 }
 
 function buildSkillCategories(
@@ -150,12 +158,13 @@ function buildExperience(
       }))
       .sort((a, b) => b.score - a.score || a.index - b.index);
 
-    const limit = detailed ? rankedBullets.length : entry.id === "freelance" ? 5 : 2;
+    const limit = detailed ? rankedBullets.length : (entry.defaultBulletLimit ?? 3);
     return {
       id: entry.id,
       title: entry.title,
       organization: entry.organization,
       location: entry.location,
+      employmentType: entry.employmentType,
       period: entry.periodLabel ?? `${entry.startYear} - ${entry.endYear}`,
       bullets: rankedBullets.slice(0, limit).map((item) => item.text),
     };
@@ -190,6 +199,7 @@ function buildProjects(
       slug: project.slug,
       title: project.title,
       subtitle: project.subtitle,
+      context: project.context,
       link: project.link,
       stack: project.stack,
       bullets: rankedBullets.slice(0, bulletLimit).map((item) => item.text),
@@ -239,6 +249,10 @@ export function buildResume(
   return {
     role,
     detailed,
+    experienceYears: getEngineeringYears(
+      profile.timeline.engineeringSince,
+      selection.referenceDate,
+    ),
     filenameBase: resumeBaseFilename({
       candidateName: profile.identity.name,
       roleLabel: preset.label,
@@ -246,7 +260,7 @@ export function buildResume(
     name: profile.identity.name,
     headline: `${preset.label} | ${preset.tagline}`,
     contact,
-    summary: buildSummary(profile, weights, detailed),
+    summary: buildSummary(profile, weights, detailed, selection.referenceDate),
     skillCategories: buildSkillCategories(profile, role, weights),
     experience: buildExperience(profile, detailed, weights),
     projects: buildProjects(profile, role, detailed, weights),

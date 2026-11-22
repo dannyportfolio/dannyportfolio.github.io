@@ -4,8 +4,8 @@ The `/resume/` and `/resume/print/` routes implement a minimalist, ATS-compatibl
 
 ## Single Source of Truth
 
-- `src/data/resume/master-profile.ts`: Holds candidate contact details, summary components, career history (`2021 - 2023` Software Engineer and `2023 - Present` Freelance Software Engineer), categorized technical skills, selected projects, verified certifications, languages, work preferences, and `informationGaps` (facts not yet verified).
-- `src/data/resume/role-presets.ts`: Defines the 3 supported target roles (`software` default, `backend`, `fullstack`) and their summary/skill/project priorities.
+- `src/data/resume/master-profile.ts`: Holds candidate contact details, summary components, dynamic `getEngineeringYears` calculation (incrementing every January from 2021), career history (`April 2026 - November 2026` Backend Engineer at `80&Company`, `2023 - Present` Independent Software Engineer & Founder, and `2021 - 2023` Software Engineer), categorized technical skills, selected projects with context labels, verified certifications, languages, work preferences, and `informationGaps` (facts not yet verified).
+- `src/data/resume/role-presets.ts`: Defines the 4 supported target roles (`software` default, `backend`, `fullstack`, `systems`) and their summary/skill/project priorities.
 - Portfolio modules (`src/data/profile.ts`, `src/data/experience.ts`, `src/data/skills.ts`, `src/data/education.ts`) derive directly from `masterProfile`.
 
 ## Assembly & Print Pipeline

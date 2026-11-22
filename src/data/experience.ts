@@ -13,6 +13,7 @@ export type Experience = {
 };
 
 const roleTechnologies: Record<string, string[]> = {
+  "80and-company": ["TypeScript", "Node.js", "NestJS", "Go (Golang)"],
   freelance: [
     "TypeScript",
     "Next.js",
@@ -22,21 +23,31 @@ const roleTechnologies: Record<string, string[]> = {
     "Docker",
     "AWS Lambda",
   ],
-  "80and-company": ["TypeScript", "Node.js", "NestJS", "Go (Golang)"],
+  "foundational-engineering": [
+    "TypeScript",
+    "JavaScript",
+    "Node.js",
+    "Go",
+    "Python",
+    "SQL",
+    "Docker",
+  ],
 };
 
 const roleSummaries: Record<string, string> = {
-  freelance:
-    "Independent freelance practice delivering full-stack web applications, REST APIs, relational data models, authentication/RBAC, and cloud deployments from requirements to production.",
   "80and-company":
-    "Worked remotely with 80&Company under a seasonal contract in an international professional environment across the TypeScript, Node.js, NestJS, and Go ecosystems, strengthening backend engineering capabilities, adaptability, and remote collaboration.",
+    "Contributed remotely as a Backend Engineer under a seasonal international contract across TypeScript, Node.js, NestJS, and Go services.",
+  freelance:
+    "Launched independent software engineering practice in 2023, acquiring clients directly and delivering production web platforms, REST APIs, relational data models, and cloud deployments.",
+  "foundational-engineering":
+    "Started software engineering in 2021, building core backend, database, web application, and cloud fundamentals prior to launching independent client services in 2023.",
 };
 
 export const experiences: Experience[] = masterProfile.experience.map((entry) => ({
   company: entry.organization,
   companyUrl: entry.organizationUrl,
   position: entry.title,
-  employmentType: entry.id === "80and-company" ? "Seasonal Contract" : "Freelance",
+  employmentType: entry.employmentType,
   period: entry.periodLabel ?? `${entry.startYear} - ${entry.endYear}`,
   location: entry.location === "Remote" ? "Remote · Available internationally" : entry.location,
   responsibilities: entry.bullets.map((bullet) => bullet.text),

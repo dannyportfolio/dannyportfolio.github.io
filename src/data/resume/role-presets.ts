@@ -12,7 +12,7 @@ export type RolePreset = {
   projectOrder: string[];
 };
 
-export const roleIds = ["software", "backend", "fullstack"] as const;
+export const roleIds = ["software", "backend", "fullstack", "systems"] as const;
 
 export type RoleId = (typeof roleIds)[number];
 
@@ -146,6 +146,48 @@ export const rolePresets: Record<RoleId, RolePreset> = {
       "griya-properti",
       "astraops",
       "tragapos",
+      "idx-trading-assistant",
+    ],
+  },
+  systems: {
+    id: "systems",
+    label: "Systems & Cloud Engineer",
+    tagline: "Go, AWS Lambda, Kubernetes, Docker, PostgreSQL",
+    focus: [
+      "Go",
+      "Hexagonal Architecture",
+      "Clean Architecture",
+      "AWS Lambda",
+      "API Gateway",
+      "AWS SAM",
+      "Serverless",
+      "Docker",
+      "Docker Compose",
+      "Kubernetes (K3s)",
+      "PostgreSQL",
+      "Transactional Outbox",
+      "Idempotency",
+      "CI/CD",
+      "Structured Logging",
+    ],
+    categoryOrder: [
+      "languages",
+      "cloud",
+      "devops",
+      "architecture",
+      "backend",
+      "databases",
+      "security",
+      "testing",
+      "frontend",
+    ],
+    projectOrder: [
+      "opspilot",
+      "tragapos",
+      "griya-properti",
+      "lendloop",
+      "veloura",
+      "astraops",
       "idx-trading-assistant",
     ],
   },

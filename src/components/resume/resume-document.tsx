@@ -120,6 +120,13 @@ export function ResumeDocument({
                   )}
                 </div>
                 <p className="resume-project-stack">
+                  {project.context && (
+                    <>
+                      <strong>Context: </strong>
+                      {project.context}
+                      {" | "}
+                    </>
+                  )}
                   <strong>Stack: </strong>
                   {project.stack.join(", ")}
                 </p>

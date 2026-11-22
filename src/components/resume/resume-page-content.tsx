@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatedIntro, AnimatedWords } from "@/components/motion/animated-text";
 import { useLocale } from "@/context/locale-context";
 import { resolveRole, rolePresets, type RoleId } from "@/data/resume/role-presets";
+import { useClientReferenceDate } from "@/hooks/use-reference-date";
 import { buildResume } from "@/lib/resume/build-resume";
 import { translations } from "@/data/translations";
 import { ResumeCustomizer } from "./resume-customizer";
@@ -20,6 +21,7 @@ export function ResumePageContent() {
 
   const [role, setRole] = useState<RoleId>(() => resolveRole(urlRoleParam));
   const [isDetailed, setIsDetailed] = useState(urlDetailed);
+  const referenceDate = useClientReferenceDate();
 
   useEffect(() => {
     const syncFromUrl = () => {
@@ -32,8 +34,8 @@ export function ResumePageContent() {
   }, []);
 
   const model = useMemo(
-    () => buildResume(undefined, { role, detailed: isDetailed }),
-    [role, isDetailed],
+    () => buildResume(undefined, { role, detailed: isDetailed, referenceDate }),
+    [role, isDetailed, referenceDate],
   );
 
   function updateQuery(nextRole: RoleId, detailed: boolean) {

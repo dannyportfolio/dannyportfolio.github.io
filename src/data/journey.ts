@@ -341,13 +341,13 @@ export const journeyChapters: JourneyChapter[] = [
         paragraphs: {
           en: [
             "Your potential means nothing if you never put it to work.",
-            "Across five years as an independent software engineer, I moved well beyond writing standalone code. Real delivery taught me to own the entire engineering arc: clarifying what problem actually matters, shaping system architecture, building responsive interfaces with TypeScript, React, and Next.js, engineering backend APIs and databases, handling cloud and DevOps workflows, testing, shipping, and maintaining systems after launch.",
+            "Since starting software engineering in 2021 and launching independent client services in 2023, my work moved well beyond writing standalone code. Real delivery taught me to own the entire engineering arc: clarifying what problem actually matters, shaping system architecture, building responsive interfaces with TypeScript, React, and Next.js, engineering backend APIs and databases, handling cloud and DevOps workflows, testing, shipping, and maintaining systems after launch.",
             "Don't just collect skills. Learn how to use them to solve real problems. Working directly with clients makes that clear immediately. People don't remember how impressive your tech stack sounded on paper; they remember whether you communicated straight, respected their time, made smart trade-offs, and delivered software they could depend on.",
             "These projects in my portfolio show that ownership in practice:",
           ],
           id: [
             "Potensi tidak berarti apa-apa jika tidak pernah digerakkan menjadi karya.",
-            "Selama lima tahun menjadi software engineer independen, kerja saya berkembang jauh melampaui sekadar menulis potongan kode. Pengalaman nyata melatih saya memegang seluruh siklus rekayasa: menggali masalah inti, menyusun arsitektur sistem, membangun antarmuka dengan TypeScript, React, dan Next.js, merancang backend API serta basis data, menyiapkan alur cloud dan DevOps, menguji, merilis, hingga merawat sistem setelah berjalan.",
+            "Sejak memulai software engineering pada 2021 dan meluncurkan layanan klien independen pada 2023, kerja saya berkembang jauh melampaui sekadar menulis potongan kode. Pengalaman nyata melatih saya memegang seluruh siklus rekayasa: menggali masalah inti, menyusun arsitektur sistem, membangun antarmuka dengan TypeScript, React, dan Next.js, merancang backend API serta basis data, menyiapkan alur cloud dan DevOps, menguji, merilis, hingga merawat sistem setelah berjalan.",
             "Jangan hanya mengoleksi daftar teknologi. Pelajari cara memakainya untuk menyelesaikan masalah nyata. Bekerja langsung bersama klien membuat prinsip itu langsung terasa. Orang tidak mengingat seberapa keren istilah teknis yang kamu sebut; mereka mengingat kejujuran komunikasimu, ketepatan keputusanmu, dan keandalan sistem yang kamu serahkan.",
             "Beberapa karya dalam portofolio ini menunjukkan tanggung jawab tersebut dalam praktik nyata:",
           ],

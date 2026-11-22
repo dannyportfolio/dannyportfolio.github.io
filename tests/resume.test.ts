@@ -1,28 +1,48 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { masterProfile } from "../src/data/resume/master-profile.ts";
+import { getEngineeringYears, masterProfile } from "../src/data/resume/master-profile.ts";
 import { roleIds, rolePresets } from "../src/data/resume/role-presets.ts";
 import { education } from "../src/data/education.ts";
 import { buildResume } from "../src/lib/resume/build-resume.ts";
 import { resumeBaseFilename } from "../src/lib/resume/filename.ts";
 
 test("masterProfile preserves accurate career timeline and verified gaps", () => {
-  assert.equal(masterProfile.experience.length, 2);
+  assert.equal(masterProfile.experience.length, 3);
   const periods = masterProfile.experience.map(
     (item) => item.periodLabel ?? `${item.startYear} - ${item.endYear}`,
   );
-  assert.deepEqual(periods, ["2023 - Present", "April 2026 - November 2026"]);
+  assert.deepEqual(periods, ["April 2026 - November 2026", "2023 - Present", "2021 - 2023"]);
   assert.equal(masterProfile.education.length, 0);
   assert.equal(education.length, 0);
   assert.ok(masterProfile.informationGaps.length > 0);
   assert.ok(masterProfile.certifications.some((cert) => cert.status === "verified"));
 });
 
-test("rolePresets supports only the 3 core minimalist roles", () => {
-  assert.deepEqual(roleIds, ["software", "backend", "fullstack"]);
+test("getEngineeringYears increments automatically every January from 2021", () => {
+  assert.equal(getEngineeringYears(2021, new Date(2026, 10, 22)), 5);
+  assert.equal(getEngineeringYears(2021, new Date(2026, 11, 31, 23, 59, 59)), 5);
+  assert.equal(getEngineeringYears(2021, new Date(2027, 0, 1, 0, 0, 0)), 6);
+  assert.equal(getEngineeringYears(2021, new Date(2028, 0, 1, 0, 0, 0)), 7);
+
+  const resume2026 = buildResume(masterProfile, {
+    referenceDate: new Date(2026, 10, 22),
+  });
+  assert.equal(resume2026.experienceYears, 5);
+  assert.ok(resume2026.summary.includes("5+ years"));
+
+  const resume2027 = buildResume(masterProfile, {
+    referenceDate: new Date(2027, 0, 1),
+  });
+  assert.equal(resume2027.experienceYears, 6);
+  assert.ok(resume2027.summary.includes("6+ years"));
+});
+
+test("rolePresets supports the 4 engineering roles", () => {
+  assert.deepEqual(roleIds, ["software", "backend", "fullstack", "systems"]);
   assert.equal(rolePresets.software.label, "Software Engineer");
   assert.equal(rolePresets.backend.label, "Backend Engineer");
   assert.equal(rolePresets.fullstack.label, "Full Stack Engineer");
+  assert.equal(rolePresets.systems.label, "Systems & Cloud Engineer");
 });
 
 test("buildResume defaults to Software Engineer standard mode with no unverified claims or em dashes", () => {

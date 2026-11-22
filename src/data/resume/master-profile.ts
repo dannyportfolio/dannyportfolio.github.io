@@ -44,9 +44,11 @@ export type ProfileExperience = {
   organization: string;
   organizationUrl?: string;
   location: string;
+  employmentType: string;
   startYear: number;
   endYear: number | "Present";
   periodLabel?: string;
+  defaultBulletLimit?: number;
   status: FactStatus;
   bullets: ExperienceBullet[];
 };
@@ -56,6 +58,7 @@ export type ProfileProject = {
   /** Short resume title; the long portfolio name stays in projects.ts. */
   title: string;
   subtitle: string;
+  context?: string;
   status: FactStatus;
   link?: { label: string; href: string };
   stack: string[];
@@ -132,6 +135,28 @@ function projectLink(slug: string) {
 
 const aws = certificates.find((cert) => cert.id === "aws-academy-cloud-foundations");
 
+export const ENGINEERING_START_YEAR = 2021;
+export const FREELANCE_START_YEAR = 2023;
+
+/**
+ * Computes completed calendar years of software engineering experience from 2021.
+ * Automatically increments by 1 every January (e.g., 5 in 2026, 6 in January 2027).
+ */
+export function getEngineeringYears(
+  startYear: number = ENGINEERING_START_YEAR,
+  referenceDate: Date = new Date(),
+): number {
+  return Math.max(0, referenceDate.getFullYear() - startYear);
+}
+
+export function formatSummaryOpening(
+  startYear: number = ENGINEERING_START_YEAR,
+  referenceDate: Date = new Date(),
+): string {
+  const years = getEngineeringYears(startYear, referenceDate);
+  return `Software engineer with ${years}+ years of hands-on experience (since ${startYear}) building backend services, REST APIs, relational data models, and full-stack web applications, with independent client delivery and freelance business operations since ${FREELANCE_START_YEAR}.`;
+}
+
 export const masterProfile = {
   identity: {
     name: "Danial Fachrudin",
@@ -146,35 +171,50 @@ export const masterProfile = {
     linkedin: "https://www.linkedin.com/in/danialfachrudin23/",
   },
   /** Overall software engineering start vs. independent freelance start. */
-  timeline: { engineeringSince: 2021, freelanceSince: 2023 },
+  timeline: { engineeringSince: ENGINEERING_START_YEAR, freelanceSince: FREELANCE_START_YEAR },
 
   summary: {
-    opening:
-      "Software engineer building production web applications and backend services since 2021, working as an independent freelance engineer since 2023.",
+    opening: formatSummaryOpening(ENGINEERING_START_YEAR),
     sentences: [
       {
         text: "Designs REST APIs and relational data models in PostgreSQL and MySQL, with authentication, role-based access control, and multi-tenant isolation enforced on the server.",
         tags: ["REST APIs", "PostgreSQL", "MySQL", "RBAC", "API Design", "Multi-tenancy"],
       },
       {
-        text: "Builds backend services in TypeScript/Node.js and Go, including a Go REST API that runs as both a standalone HTTP server and an AWS Lambda function behind API Gateway.",
-        tags: ["Go", "Node.js", "TypeScript", "AWS Lambda", "API Gateway", "Serverless"],
+        text: "Builds backend services in TypeScript/Node.js and Go using hexagonal and clean architecture, including a Go REST API that runs as both a standalone HTTP server and an AWS Lambda function behind API Gateway.",
+        tags: [
+          "Go",
+          "Node.js",
+          "TypeScript",
+          "AWS Lambda",
+          "API Gateway",
+          "Serverless",
+          "Hexagonal Architecture",
+        ],
       },
       {
-        text: "Ships full-stack products with Next.js and React, from data model and API to responsive, accessible interfaces.",
+        text: "Ships full-stack products with Next.js and React, from data model and API contract to responsive, accessible interfaces.",
         tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Accessibility"],
       },
       {
-        text: "Handles delivery end to end: Docker-based environments, CI/CD pipelines, database migrations, deployment, and production debugging.",
-        tags: ["Docker", "CI/CD", "GitHub Actions", "Database Migrations", "Production Debugging"],
+        text: "Operates Docker, Docker Compose, Kubernetes (K3s), AWS SAM, and GitHub Actions CI/CD pipelines, handling schema migrations, automated testing, and production debugging.",
+        tags: [
+          "Docker",
+          "Kubernetes (K3s)",
+          "AWS SAM",
+          "CI/CD",
+          "GitHub Actions",
+          "Database Migrations",
+          "Production Debugging",
+        ],
       },
       {
-        text: "Works with event-driven patterns such as the transactional outbox, signed webhooks, and idempotent background jobs to keep integrations reliable.",
+        text: "Applies event-driven patterns such as the transactional outbox, signed webhooks, and idempotent background jobs to keep distributed integrations reliable.",
         tags: ["Event-Driven Architecture", "Webhooks", "Idempotency", "n8n", "Background Jobs"],
       },
     ] as SummarySentence[],
     closing:
-      "Takes projects from requirements gathering through architecture, implementation, testing, and deployment as the sole engineer.",
+      "Combines technical ownership across architecture, implementation, and operations with direct client acquisition, requirements scoping, and remote international contract delivery.",
   },
 
   skills: [
@@ -403,58 +443,96 @@ export const masterProfile = {
 
   experience: [
     {
-      id: "freelance",
-      title: "Freelance Software Engineer",
-      organization: "Independent Practice",
-      location: "Remote",
-      startYear: 2023,
-      endYear: "Present",
-      status: "user-provided",
-      bullets: [
-        {
-          text: "Design and build web applications, backend services, REST APIs, and database-driven systems for freelance clients and independent software products.",
-          tags: ["REST APIs", "Node.js", "TypeScript", "Next.js", "API Design"],
-        },
-        {
-          text: "Gather requirements directly with clients and translate business workflows into technical plans, data models, and delivery milestones.",
-          tags: ["Requirements Gathering", "Data Modeling", "System Design"],
-        },
-        {
-          text: "Implement authentication, role-based access control, third-party integrations, payment workflows, and administrative dashboards.",
-          tags: ["RBAC", "JWT", "OAuth 2.0", "Webhooks", "React"],
-        },
-        {
-          text: "Design and maintain relational schemas in PostgreSQL or MySQL, including indexing, migrations, and transactional business logic.",
-          tags: ["PostgreSQL", "MySQL", "Database Migrations", "Data Modeling", "SQL"],
-        },
-        {
-          text: "Containerize services with Docker and run deployments through CI/CD pipelines to managed hosting and serverless platforms.",
-          tags: ["Docker", "CI/CD", "GitHub Actions", "Vercel", "Serverless", "AWS Lambda"],
-        },
-        {
-          text: "Investigate and resolve production issues, including API errors, failed deployments, integration faults, and security weaknesses.",
-          tags: ["Production Debugging", "Structured Logging", "Security"],
-        },
-      ],
-    },
-    {
       id: "80and-company",
       title: "Backend Engineer",
       organization: "80&Company",
       organizationUrl: "https://80and.co/en",
       location: "Remote · Seasonal Contract",
+      employmentType: "Seasonal Contract",
       startYear: 2026,
       endYear: 2026,
       periodLabel: "April 2026 - November 2026",
+      defaultBulletLimit: 2,
       status: "user-provided",
       bullets: [
         {
-          text: "Worked remotely with 80&Company under a seasonal contract in an international professional environment across the TypeScript, Node.js, NestJS, and Go ecosystems.",
+          text: "Contributed remotely as a Backend Engineer under a seasonal contract in an international engineering environment across TypeScript, Node.js, NestJS, and Go.",
           tags: ["TypeScript", "Node.js", "NestJS", "Go"],
         },
         {
-          text: "Strengthened backend engineering capabilities, adaptability, and remote collaboration within an international technology environment.",
-          tags: ["TypeScript", "Node.js", "NestJS", "Go"],
+          text: "Delivered backend engineering tasks across distributed remote workflows, maintaining code quality, API reliability, and cross-team collaboration.",
+          tags: ["TypeScript", "Node.js", "NestJS", "Go", "API Design"],
+        },
+      ],
+    },
+    {
+      id: "freelance",
+      title: "Independent Software Engineer & Founder",
+      organization: "Independent Practice",
+      location: "Remote",
+      employmentType: "Freelance / Independent Practice",
+      startYear: 2023,
+      endYear: "Present",
+      defaultBulletLimit: 5,
+      status: "user-provided",
+      bullets: [
+        {
+          text: "Launched an independent software engineering practice in 2023, directly acquiring clients, scoping business workflows, defining architecture, and managing end-to-end delivery.",
+          tags: ["Requirements Gathering", "Data Modeling", "System Design", "API Design"],
+        },
+        {
+          text: "Engineered and delivered commercial client systems including AstraOps (B2B freight quoting and waybill tracking for PT Trukindo Logistik Prima) and Veloura ERP (garment manufacturing and multi-warehouse inventory ledger for PT Veloura Yogyakarta).",
+          tags: ["Next.js", "TypeScript", "PostgreSQL", "REST APIs", "System Design"],
+        },
+        {
+          text: "Designed relational schemas and transactional workflows in PostgreSQL and MySQL (indexing, migrations, append-only ledgers, and state machines), enforcing server-side RBAC, JWT, and OAuth 2.0.",
+          tags: [
+            "PostgreSQL",
+            "MySQL",
+            "Database Migrations",
+            "Data Modeling",
+            "SQL",
+            "RBAC",
+            "JWT",
+            "OAuth 2.0",
+          ],
+        },
+        {
+          text: "Built REST APIs and full-stack web applications in TypeScript, Node.js, Go, Next.js, and React, integrating third-party services, signed webhooks, and administrative dashboards.",
+          tags: ["REST APIs", "Node.js", "TypeScript", "Go", "Next.js", "React", "Webhooks"],
+        },
+        {
+          text: "Containerized services with Docker and automated deployments via CI/CD pipelines to managed hosting and serverless platforms.",
+          tags: ["Docker", "CI/CD", "GitHub Actions", "Vercel", "Serverless", "AWS Lambda"],
+        },
+        {
+          text: "Investigated and resolved production issues across APIs, failed deployments, third-party integrations, and security boundaries after handoff.",
+          tags: ["Production Debugging", "Structured Logging", "Security"],
+        },
+      ],
+    },
+    {
+      id: "foundational-engineering",
+      title: "Software Engineer",
+      organization: "Independent Engineering & Software Projects",
+      location: "Indonesia",
+      employmentType: "Foundational Engineering",
+      startYear: 2021,
+      endYear: 2023,
+      defaultBulletLimit: 3,
+      status: "user-provided",
+      bullets: [
+        {
+          text: "Started software engineering in 2021 following vocational Software Engineering (Rekayasa Perangkat Lunak) training, building core competence in backend services, relational databases, and web applications.",
+          tags: ["Data Modeling", "REST APIs", "TypeScript", "JavaScript", "SQL"],
+        },
+        {
+          text: "Designed and implemented early software systems across TypeScript/JavaScript, Node.js, Go, Python, and SQL, establishing practical habits in API design, schema modeling, and Git workflows.",
+          tags: ["Node.js", "Go", "Python", "SQL", "Git", "API Design"],
+        },
+        {
+          text: "Built cloud and containerization fundamentals across Docker, Linux workflows, and AWS Academy Cloud Foundations (completed October 2023) prior to launching independent client services.",
+          tags: ["Docker", "CI/CD", "Serverless"],
         },
       ],
     },
@@ -465,6 +543,7 @@ export const masterProfile = {
       slug: "opspilot",
       title: "OpsPilot",
       subtitle: "Serverless multi-tenant task REST API in Go",
+      context: "Architecture & Systems Build",
       status: "verified",
       link: projectLink("opspilot"),
       stack: ["Go", "AWS Lambda", "API Gateway", "PostgreSQL", "JWT", "RBAC", "AWS SAM", "Docker"],
@@ -493,6 +572,7 @@ export const masterProfile = {
       slug: "lendloop",
       title: "LendLoop",
       subtitle: "Neighborhood tool-lending platform",
+      context: "Technical Assessment",
       status: "verified",
       link: projectLink("lendloop"),
       stack: [
@@ -537,6 +617,7 @@ export const masterProfile = {
       slug: "veloura",
       title: "Veloura ERP",
       subtitle: "Fashion manufacturing and distribution ERP",
+      context: "Client Production System (PT Veloura Yogyakarta)",
       status: "verified",
       link: projectLink("veloura"),
       stack: ["Next.js", "TypeScript", "PostgreSQL", "Docker", "Tailwind CSS"],
@@ -565,6 +646,7 @@ export const masterProfile = {
       slug: "tragapos",
       title: "TragaPOS",
       subtitle: "Offline-first commerce engine in Go",
+      context: "Architecture & Systems Build",
       status: "verified",
       link: projectLink("tragapos"),
       stack: ["Go", "Gin", "PostgreSQL", "SQLite", "WebSockets", "Kubernetes (K3s)", "Docker"],
@@ -585,6 +667,7 @@ export const masterProfile = {
       slug: "griya-properti",
       title: "Griya Properti",
       subtitle: "Real estate platform on NestJS microservices",
+      context: "Architecture & Systems Build",
       status: "verified",
       link: projectLink("griya-properti"),
       stack: [
@@ -614,6 +697,7 @@ export const masterProfile = {
       slug: "astraops",
       title: "AstraOps",
       subtitle: "B2B freight quoting and waybill tracking platform",
+      context: "Client Production System (PT Trukindo Logistik Prima)",
       status: "verified",
       link: projectLink("astraops"),
       stack: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
@@ -634,6 +718,7 @@ export const masterProfile = {
       slug: "idx-trading-assistant",
       title: "IDX LQ45 Trading Assistant",
       subtitle: "Quantitative market analysis pipeline",
+      context: "Architecture & Systems Build",
       status: "verified",
       link: projectLink("idx-trading-assistant"),
       stack: ["Python", "pandas", "NumPy", "yfinance", "pytest"],
@@ -679,8 +764,9 @@ export const masterProfile = {
 
   /** Facts the owner must confirm before they can appear on a resume. */
   informationGaps: [
-    "Employer, title, and location for 2021 to 2023 (currently shown as independent software projects).",
-    "Start and end months for each role (ATS systems compute tenure from dates; years only are shown now).",
+    "Employer, internship, or studio name and exact months for 2021 to 2023 (currently shown as Foundational Engineering & Software Projects).",
+    "Specific deliverables or systems at 80&Company (April 2026 - November 2026) beyond the verified contract summary.",
+    "Start and end months for each role (ATS systems compute tenure from dates; years only are shown for 2021-2023 and 2023-Present).",
     "Client names or industries that may be listed for freelance work.",
     "Measurable outcomes (users, latency, cost, delivery time) that can be stated with evidence.",
     "Education: institution, degree or program, and dates.",

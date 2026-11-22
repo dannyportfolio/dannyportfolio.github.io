@@ -1,5 +1,5 @@
 import { stripUrlScheme } from "../lib/utils.ts";
-import { masterProfile } from "./resume/master-profile.ts";
+import { getEngineeringYears, masterProfile } from "./resume/master-profile.ts";
 import { rolePresets, type RoleId } from "./resume/role-presets.ts";
 
 export type ProfileLink = {
@@ -36,7 +36,7 @@ export const profile = {
   },
   summary: {
     en: `${masterProfile.summary.opening} ${masterProfile.summary.sentences[0].text}`,
-    id: "Software engineer sejak 2021 dan praktisi freelance independen sejak 2023 yang membangun sistem backend andal, rancangan API terarah, arsitektur basis data, dan deployment siap produksi.",
+    id: `Software engineer dengan pengalaman ${getEngineeringYears()}+ tahun (sejak 2021) dan praktik freelance independen sejak 2023 yang membangun sistem backend andal, rancangan API terarah, arsitektur basis data, dan deployment siap produksi.`,
   },
   contactLinks: [
     {
@@ -74,8 +74,8 @@ export const targetRoles: Record<
     label: { en: rolePresets.software.label, id: rolePresets.software.label },
     subtitle: { en: rolePresets.software.tagline, id: "Backend, Full-Stack, Infrastruktur Cloud" },
     summary: {
-      en: "Software engineer building production web applications and backend services since 2021, with independent freelance delivery since 2023.",
-      id: "Software engineer yang membangun aplikasi web dan layanan backend sejak 2021, dengan praktik freelance independen sejak 2023.",
+      en: `Software engineer with ${getEngineeringYears()}+ years of hands-on experience (since 2021) building production web applications and backend services, with independent client delivery since 2023.`,
+      id: `Software engineer berpengalaman ${getEngineeringYears()}+ tahun (sejak 2021) yang membangun aplikasi web dan layanan backend, dengan praktik freelance independen sejak 2023.`,
     },
   },
   backend: {
@@ -92,6 +92,17 @@ export const targetRoles: Record<
     summary: {
       en: "Full stack engineer connecting Next.js and React interfaces with dependable backend services, relational databases, and automated testing.",
       id: "Full stack engineer yang menghubungkan antarmuka Next.js dan React dengan layanan backend, basis data relasional, dan pengujian otomatis.",
+    },
+  },
+  systems: {
+    label: { en: rolePresets.systems.label, id: rolePresets.systems.label },
+    subtitle: {
+      en: rolePresets.systems.tagline,
+      id: "Go, AWS Lambda, Kubernetes, Docker, PostgreSQL",
+    },
+    summary: {
+      en: "Systems and cloud-oriented engineer building Go services, serverless AWS Lambda workloads, containerized Kubernetes deployments, and transactional outbox pipelines.",
+      id: "Systems dan cloud engineer yang membangun layanan Go, workload serverless AWS Lambda, deployment kontainer Kubernetes, dan pipeline transactional outbox.",
     },
   },
 };
