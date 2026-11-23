@@ -407,6 +407,7 @@ export function SystemArchitecture({
                 onMouseEnter={() => setHoveredNode(id)}
                 onMouseLeave={() => setHoveredNode(null)}
                 onClick={() => onNodeClick?.(id)}
+                onKeyDown={(e) => handleKeyDown(e, id)}
                 role="button"
                 tabIndex={0}
                 aria-label={`${labelText} (${type})`}

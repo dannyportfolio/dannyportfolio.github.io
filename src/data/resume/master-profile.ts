@@ -133,8 +133,6 @@ function projectLink(slug: string) {
   return { label: linkLabel(href), href };
 }
 
-const aws = certificates.find((cert) => cert.id === "aws-academy-cloud-foundations");
-
 export const ENGINEERING_START_YEAR = 2021;
 export const FREELANCE_START_YEAR = 2023;
 
@@ -739,17 +737,13 @@ export const masterProfile = {
 
   education: [] as ProfileEducation[],
 
-  certifications: aws
-    ? [
-        {
-          name: aws.title,
-          issuer: aws.issuer,
-          year: aws.year ?? "",
-          url: aws.verificationUrl,
-          status: "verified" as FactStatus,
-        },
-      ]
-    : ([] as ProfileCertification[]),
+  certifications: certificates.map((cert) => ({
+    name: cert.title,
+    issuer: cert.issuer,
+    year: cert.year ?? "",
+    url: cert.verificationUrl,
+    status: "verified" as FactStatus,
+  })) satisfies ProfileCertification[] as ProfileCertification[],
 
   achievements: [] as ProfileAchievement[],
 
