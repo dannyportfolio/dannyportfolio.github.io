@@ -1,3 +1,5 @@
+import { dragosCanaryAiInferencePost } from "@/data/posts/dragos-canary-tokens-ai-inference-supply-chain";
+import { cve2026123890VcenterPost } from "@/data/posts/cve-2026-123890-vcenter-auth-bypass";
 import { terraformRoadmapPost } from "@/data/posts/terraform-roadmap";
 import { noisytcpCvePost } from "@/data/posts/noisytcp-cve-2026-99288";
 import { cloudToEdgePosKubernetesPost } from "@/data/posts/cloud-to-edge-pos-kubernetes";
@@ -58,6 +60,8 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  dragosCanaryAiInferencePost,
+  cve2026123890VcenterPost,
   terraformRoadmapPost,
   noisytcpCvePost,
   cloudToEdgePosKubernetesPost,
