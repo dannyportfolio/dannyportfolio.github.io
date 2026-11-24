@@ -79,6 +79,21 @@ test("buildResume prioritizes role-specific skills and projects and supports det
   assert.equal(fullstackDetailed.projects.length, 4);
   assert.ok(fullstackDetailed.projects.some((project) => Boolean(project.architecture)));
   assert.ok(fullstackDetailed.summary.length > backendStandard.summary.length);
+  assert.ok(
+    backendStandard.skillCategories.every((category) => category.skills.length <= 4),
+    "Standard mode should cap skills per category to keep the resume concise",
+  );
+  assert.ok(
+    fullstackDetailed.skillCategories.some((category) => category.skills.length > 4),
+    "Detailed mode should include the full verified skill matrix",
+  );
+  assert.ok(
+    backendStandard.certifications.length < fullstackDetailed.certifications.length,
+    "Standard mode should curate certifications to English-language credentials",
+  );
+  assert.ok(
+    backendStandard.certifications.every((cert) => !/\bpemula\b|\buntuk\b/i.test(cert.name)),
+  );
 });
 
 test("resumeBaseFilename formats ATS-safe filenames", () => {

@@ -106,7 +106,7 @@ function buildSummary(
     }))
     .sort((a, b) => b.score - a.score || a.index - b.index);
 
-  const sentenceCount = detailed ? 4 : 2;
+  const sentenceCount = detailed ? 3 : 1;
   const selected = ranked
     .slice(0, sentenceCount)
     .sort((a, b) => a.index - b.index)
@@ -119,6 +119,7 @@ function buildSummary(
 function buildSkillCategories(
   profile: MasterProfile,
   role: RoleId,
+  detailed: boolean,
   weights: Map<string, number>,
 ): ResumeSkillCategory[] {
   const preset = rolePresets[role];
@@ -134,14 +135,25 @@ function buildSkillCategories(
     grouped.set(skill.category, list);
   }
 
+  const maxSkillsPerCategory = detailed ? Infinity : 4;
+
   return preset.categoryOrder
     .map((catId) => {
-      const skills = [...(grouped.get(catId) ?? [])].sort(
-        (a, b) => (weights.get(b) ?? 0) - (weights.get(a) ?? 0),
-      );
+      const skills = [...(grouped.get(catId) ?? [])]
+        .sort((a, b) => (weights.get(b) ?? 0) - (weights.get(a) ?? 0))
+        .slice(0, maxSkillsPerCategory);
       return { id: catId, label: skillCategoryLabels[catId], skills };
     })
     .filter((item) => item.skills.length > 0);
+}
+
+const NON_ENGLISH_CERT_PATTERN = /\b(untuk|pemula|sampai|mahir|pemrograman)\b/i;
+
+function buildCertifications(profile: MasterProfile, detailed: boolean): ProfileCertification[] {
+  if (detailed) {
+    return [...profile.certifications];
+  }
+  return profile.certifications.filter((cert) => !NON_ENGLISH_CERT_PATTERN.test(cert.name));
 }
 
 function buildExperience(
@@ -218,7 +230,7 @@ export function buildResume(
   const preset = rolePresets[role];
 
   const contact: ResumeContactItem[] = [
-    { label: "Location", value: profile.identity.location },
+    { label: "Location", value: `${profile.identity.location} (Open to Remote & Relocation)` },
     {
       label: "Email",
       value: profile.contact.email,
@@ -261,11 +273,11 @@ export function buildResume(
     headline: `${preset.label} | ${preset.tagline}`,
     contact,
     summary: buildSummary(profile, weights, detailed, selection.referenceDate),
-    skillCategories: buildSkillCategories(profile, role, weights),
+    skillCategories: buildSkillCategories(profile, role, detailed, weights),
     experience: buildExperience(profile, detailed, weights),
     projects: buildProjects(profile, role, detailed, weights),
     education: [...profile.education],
-    certifications: [...profile.certifications],
+    certifications: buildCertifications(profile, detailed),
     languages: [...profile.languages],
     additional,
   };

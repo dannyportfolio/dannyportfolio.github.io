@@ -445,8 +445,8 @@ export const masterProfile = {
       title: "Backend Engineer",
       organization: "80&Company",
       organizationUrl: "https://80and.co/en",
-      location: "Remote · Seasonal Contract",
-      employmentType: "Seasonal Contract",
+      location: "Remote · Contract",
+      employmentType: "Contract",
       startYear: 2026,
       endYear: 2026,
       periodLabel: "April 2026 - November 2026",
@@ -454,7 +454,7 @@ export const masterProfile = {
       status: "user-provided",
       bullets: [
         {
-          text: "Contributed remotely as a Backend Engineer under a seasonal contract in an international engineering environment across TypeScript, Node.js, NestJS, and Go.",
+          text: "Contributed remotely as a Backend Engineer under a fixed-term contract in an international engineering environment across TypeScript, Node.js, NestJS, and Go.",
           tags: ["TypeScript", "Node.js", "NestJS", "Go"],
         },
         {
@@ -570,7 +570,7 @@ export const masterProfile = {
       slug: "lendloop",
       title: "LendLoop",
       subtitle: "Neighborhood tool-lending platform",
-      context: "Technical Assessment",
+      context: "Full-Stack Systems Build",
       status: "verified",
       link: projectLink("lendloop"),
       stack: [

@@ -202,6 +202,20 @@ export function ResumeDocument({
         </section>
       )}
 
+      {model.languages.length > 0 && (
+        <section className="resume-section">
+          <SectionHeading className="resume-section-heading">Languages</SectionHeading>
+          <ul className="resume-additional-list">
+            {model.languages.map((item) => (
+              <li key={item.language}>
+                <strong>{item.language}: </strong>
+                <span>{item.proficiency}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {model.additional.length > 0 && (
         <section className="resume-section">
           <SectionHeading className="resume-section-heading">Additional Information</SectionHeading>
