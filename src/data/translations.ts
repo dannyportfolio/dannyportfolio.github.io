@@ -126,8 +126,8 @@ export const translations = {
     projectsTitle: { en: "Products built for", id: "Produk yang dibangun untuk" },
     projectsTitleEm: { en: "real-world use.", id: "penggunaan nyata." },
     projectsDescription: {
-      en: "A focused selection of platforms spanning event-driven community workflows, serverless cloud APIs, quantitative financial data pipelines, fashion ERP, and B2B logistics.",
-      id: "Pilihan platform terarah yang mencakup alur kerja otomasi komunitas, arsitektur serverless cloud, pipeline data finansial kuantitatif, ERP manufaktur, dan logistik B2B.",
+      en: "A focused selection of platforms spanning distributed blockchain orchestration, event-driven community workflows, serverless cloud APIs, quantitative financial data pipelines, fashion ERP, and B2B logistics.",
+      id: "Pilihan platform terarah yang mencakup orkestrasi transaksi blockchain terdistribusi, alur kerja otomasi komunitas, arsitektur serverless cloud, pipeline data finansial kuantitatif, ERP manufaktur, dan logistik B2B.",
     },
     projectsOverviewLink: { en: "View project overview →", id: "Lihat ringkasan proyek →" },
     caseStudiesEyebrow: { en: "05 / Architecture case studies", id: "05 / Studi kasus arsitektur" },

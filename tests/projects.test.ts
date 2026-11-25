@@ -5,6 +5,7 @@ import { projects, getProject } from "../src/data/projects.ts";
 describe("Projects Dataset Verification", () => {
   const REMOVED_SLUGS = ["arvispro", "lelungo", "gegarap", "reklame-gegarap"];
   const EXPECTED_SLUGS = [
+    "chainflow",
     "lendloop",
     "opspilot",
     "idx-trading-assistant",
@@ -14,8 +15,8 @@ describe("Projects Dataset Verification", () => {
     "tragapos",
   ];
 
-  it("should contain exactly 7 verified projects", () => {
-    assert.equal(projects.length, 7);
+  it("should contain exactly 8 verified projects", () => {
+    assert.equal(projects.length, 8);
   });
 
   it("should match the expected active project slugs in order", () => {

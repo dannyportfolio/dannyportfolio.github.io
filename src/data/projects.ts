@@ -32,6 +32,146 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "chainflow",
+    name: "ChainFlow: Distributed EVM Transaction Orchestration Engine",
+    domain: "github.com/dannyportfolio/Chainflow-Blockchain-Engine",
+    url: "https://github.com/dannyportfolio/Chainflow-Blockchain-Engine",
+    githubUrl: "https://github.com/dannyportfolio/Chainflow-Blockchain-Engine",
+    summary: {
+      en: "A fault-tolerant, event-driven Go 1.27 orchestration engine for accepting, scheduling, signing, broadcasting, retrying, and reconciling EVM blockchain transactions with durable PostgreSQL 17 state, NATS JetStream work queues, and multi-provider RPC failover.",
+      id: "Engine orkestrasi transaksi blockchain EVM berbasis Go 1.27 yang fault-tolerant dan event-driven untuk menerima, menjadwalkan, menandatangani, menyiarkan, mencoba ulang, serta merekonsiliasi transaksi dengan persistensi PostgreSQL 17, antrean NATS JetStream, dan failover RPC multi-provider.",
+    },
+    category: {
+      en: "Distributed Systems & Blockchain Infrastructure",
+      id: "Sistem Terdistribusi & Infrastruktur Blockchain",
+    },
+    highlights: {
+      en: [
+        "Two-level IntentStatus & ExecutionStatus state machines with fencing leases",
+        "Transactional Outbox in PostgreSQL 17 relayed to NATS JetStream work queues",
+        "DB-coordinated nonce allocation preventing gaps and duplicate broadcasts",
+        "EIP-1559 isolated signing, 15% RBF fee bumping, and timeout reconciliation",
+        "Multi-provider RPC circuit-breaker failover and chain reorg verification",
+      ],
+      id: [
+        "State machine dua tingkat IntentStatus & ExecutionStatus dengan fencing lease",
+        "Transactional Outbox di PostgreSQL 17 menuju work queue NATS JetStream",
+        "Alokasi nonce terkoordinasi DB untuk mencegah celah nonce dan siaran ganda",
+        "Isolasi penandatanganan EIP-1559, RBF fee bump 15%, dan rekonsiliasi timeout",
+        "Failover RPC multi-provider dengan circuit breaker serta verifikasi chain reorg",
+      ],
+    },
+    technologies: [
+      "Go 1.27",
+      "go-ethereum",
+      "PostgreSQL 17",
+      "NATS JetStream",
+      "EIP-1559",
+      "Prometheus",
+      "OpenTelemetry",
+      "Docker",
+    ],
+    problem: {
+      en: "Broadcasting EVM blockchain transactions at production scale fails when services rely on in-memory nonce mutexes, fire-and-forget RPC calls, or flat status enums. Worker crashes mid-broadcast, ambiguous RPC timeouts, underpriced mempool stalls, and chain reorganizations easily cause stuck nonces, duplicate transactions, or lost auditability.",
+      id: "Penyiaran transaksi blockchain EVM pada skala produksi rentan bermasalah jika hanya mengandalkan mutex nonce di memori, pemanggilan RPC tanpa rekonsiliasi, atau enum status tunggal. Crash worker saat broadcast, timeout RPC yang ambigu, transaksi macet di mempool, dan chain reorganization dapat memicu celah nonce, transaksi ganda, atau hilangnya jejak audit.",
+    },
+    challenge: {
+      en: "Coordinating strict per-wallet sequential nonces across distributed worker replicas without holding database locks during network RPC calls, recovering safely from ambiguous broadcast timeouts without allocating duplicate nonces, and detecting chain reorgs or external nonce consumption before declaring finality.",
+      id: "Mengorkestrasi nonce sekuensial per wallet di banyak replika worker tanpa menahan kunci database selama panggilan RPC jaringan, memulihkan timeout broadcast ambigu tanpa mengalokasikan nonce baru, serta mendeteksi chain reorg atau pemakaian nonce eksternal sebelum menetapkan finalitas.",
+    },
+    architecture: {
+      en: "Clean-boundary Go workspace split into four role binaries (api, orchestrator, tx-worker, confirmation-worker) with zero infrastructure imports inside internal/domain. The HTTP ingress persists transaction_intents and outbox_events atomically in PostgreSQL 17; the Outbox Relay publishes to NATS JetStream; bounded worker pools acquire 30-second fencing leases, reserve nonces, sign EIP-1559 payloads via an isolated Signer, persist raw signed transactions in PREPARED state before broadcast, and rely on a stateless DB-driven Confirmation Monitor for finality and reorg checks.",
+      id: "Workspace Go berbatas arsitektur bersih yang terbagi menjadi empat biner peran (api, orchestrator, tx-worker, confirmation-worker) tanpa dependensi infrastruktur di dalam internal/domain. Ingress HTTP menyimpan transaction_intents dan outbox_events secara atomik di PostgreSQL 17; Outbox Relay menerbitkan pesan ke NATS JetStream; worker pool berbatas mengambil fencing lease 30 detik, mereservasi nonce, menandatangani payload EIP-1559 lewat Signer terisolasi, menyimpan transaksi bertanda tangan pada status PREPARED sebelum broadcast, serta mengandalkan Confirmation Monitor berbasis DB untuk finalitas dan deteksi reorg.",
+    },
+    contributions: {
+      en: [
+        "Engineered two-level IntentStatus and ExecutionStatus state machines with optimistic version fencing, immutable transaction_state_events logs, and numeric(78,0) uint256 PostgreSQL storage.",
+        "Built the Transactional Outbox relay, NATS JetStream pull-based worker pool, expired-lease sweeper, and TxProcessor supporting 15% Replace-By-Fee (RBF) bumping on the original nonce.",
+        "Implemented a priority-ordered EVM RPC Router with per-provider ProviderGuard circuit breakers, cross-provider block hash verification against reorgs, and an isolated DevSigner enforcing fee caps and mainnet chain-ID guards.",
+      ],
+      id: [
+        "Merancang state machine dua tingkat IntentStatus dan ExecutionStatus dengan optimistic version fencing, log audit transaction_state_events yang immutable, dan penyimpanan uint256 numeric(78,0) di PostgreSQL.",
+        "Membangun relay Transactional Outbox, worker pool berbasis pull NATS JetStream, lease sweeper, dan TxProcessor yang mendukung Replace-By-Fee (RBF) 15% pada nonce yang sama.",
+        "Mengimplementasikan EVM RPC Router terprioritas dengan circuit breaker ProviderGuard per provider, verifikasi silang block hash terhadap reorg, serta DevSigner terisolasi dengan batas biaya gas dan proteksi mainnet.",
+      ],
+    },
+    reliability: {
+      en: "Verified through unit and race-tested integration suites across domain state transitions, PostgreSQL repositories, JetStream messaging, RPC failover, and isolated signing, alongside simulated EVM (go-ethereum/ethclient/simulated) confirmation E2E tests, chaos fault-injection tests, and burst load tests with Prometheus, Loki, and Grafana observability.",
+      id: "Terverifikasi melalui unit test dan uji integrasi dengan race detector pada transisi state domain, repositori PostgreSQL, messaging JetStream, failover RPC, dan signer terisolasi, dilengkapi uji E2E konfirmasi pada EVM tersimulasi (go-ethereum/ethclient/simulated), uji chaos fault-injection, dan uji beban burst dengan observabilitas Prometheus, Loki, serta Grafana.",
+    },
+    implementation: {
+      en: [
+        "HTTP API with strict JSON decoding (64 KB cap), mandatory Idempotency-Key headers, per-tenant API key and sender-address authorization, and token-bucket rate limiting.",
+        "PostgreSQL 17 schema using partial indexes for unpublished outbox rows, active leases, retries, and active confirmation scans.",
+        "Pre-broadcast PREPARED checkpoint persisting tx_hash and raw_signed_tx so crash recovery reconciles on-chain status before re-broadcasting.",
+      ],
+      id: [
+        "HTTP API dengan decoding JSON ketat (batas 64 KB), header wajib Idempotency-Key, otorisasi API key serta alamat pengirim per tenant, dan rate limiting.",
+        "Skema PostgreSQL 17 dengan partial index untuk baris outbox yang belum terbit, lease aktif, antrean retry, dan pemindaian konfirmasi aktif.",
+        "Checkpoint PREPARED sebelum broadcast yang menyimpan tx_hash dan raw_signed_tx agar pemulihan crash merekonsiliasi status on-chain sebelum mengirim ulang.",
+      ],
+    },
+    caseStudy: true,
+    isNew: true,
+    architectureSteps: [
+      {
+        id: "api-idempotency-ingress",
+        label: {
+          en: "Idempotent API Ingress",
+          id: "Ingress API Idempoten",
+        },
+        description: {
+          en: "Validates API keys, sender permissions, rate limits, and Idempotency-Key headers, then commits intent and outbox_event atomically in PostgreSQL 17.",
+          id: "Memvalidasi API key, izin pengirim, rate limit, dan header Idempotency-Key, lalu menyimpan intent dan outbox_event secara atomik di PostgreSQL 17.",
+        },
+      },
+      {
+        id: "outbox-jetstream-relay",
+        label: {
+          en: "Transactional Outbox & JetStream",
+          id: "Transactional Outbox & JetStream",
+        },
+        description: {
+          en: "Polls unpublished outbox rows and dispatches deduplicated tx.dispatch events into NATS JetStream work queues while a sweeper reclaims expired leases.",
+          id: "Mengambil baris outbox yang belum terbit dan mengirim event tx.dispatch terdeduplikasi ke NATS JetStream sementara sweeper memulihkan lease kedaluwarsa.",
+        },
+      },
+      {
+        id: "nonce-isolated-signer",
+        label: {
+          en: "Nonce Reservation & Isolated Signer",
+          id: "Reservasi Nonce & Signer Terisolasi",
+        },
+        description: {
+          en: "TxProcessor acquires a fencing lease, reserves sequential wallet nonces in PostgreSQL, signs EIP-1559 payloads within fee caps, and persists PREPARED raw_signed_tx.",
+          id: "TxProcessor mengambil fencing lease, mereservasi nonce wallet sekuensial di PostgreSQL, menandatangani payload EIP-1559 sesuai batas biaya, dan menyimpan raw_signed_tx pada status PREPARED.",
+        },
+      },
+      {
+        id: "rpc-failover-router",
+        label: {
+          en: "Multi-Provider RPC Router",
+          id: "Router RPC Multi-Provider",
+        },
+        description: {
+          en: "Broadcasts signed transactions through ProviderGuard circuit breakers and reconciles ambiguous timeouts via TransactionByHash before any retry.",
+          id: "Menyiarkan transaksi bertanda tangan melalui circuit breaker ProviderGuard dan merekonsiliasi timeout ambigu lewat TransactionByHash sebelum mencoba ulang.",
+        },
+      },
+      {
+        id: "confirmation-reorg-monitor",
+        label: {
+          en: "Confirmation & Reorg Monitor",
+          id: "Monitor Konfirmasi & Reorg",
+        },
+        description: {
+          en: "Polls BROADCASTED and CONFIRMING executions, cross-checks block hashes against reorgs, triggers 15% RBF retries when stale, and finalizes settled intents.",
+          id: "Memantau eksekusi BROADCASTED dan CONFIRMING, memeriksa silang block hash terhadap reorg, memicu retry RBF 15% saat macet, dan memfinalisasi intent.",
+        },
+      },
+    ],
+  },
+  {
     slug: "lendloop",
     name: "LendLoop — Neighborhood Tool-Lending Platform",
     domain: "github.com/dannyportfolio/lendloop",
@@ -113,7 +253,6 @@ export const projects: Project[] = [
       ],
     },
     caseStudy: true,
-    isNew: true,
     architectureSteps: [
       {
         id: "user-identity-auth",

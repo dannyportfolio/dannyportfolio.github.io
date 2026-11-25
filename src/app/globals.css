@@ -3134,6 +3134,35 @@ p {
 }
 
 /* Project-Specific Translucent Themes */
+.project-card--chainflow .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(99, 102, 241, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(14, 165, 233, 0.16), transparent 60%),
+    linear-gradient(145deg, #f5f6ff 0%, #f2f7fd 50%, #eef9ff 100%);
+}
+:root[data-theme="dark"] .project-card--chainflow .project-thumbnail {
+  background:
+    radial-gradient(ellipse 85% 70% at 85% 15%, rgba(99, 102, 241, 0.18), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 15% 85%, rgba(14, 165, 233, 0.14), transparent 65%),
+    linear-gradient(145deg, #131526 0%, #111b29 50%, #0d1722 100%);
+}
+.project-card--chainflow .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.36) 0%,
+    rgba(14, 165, 233, 0.18) 50%,
+    transparent 70%
+  );
+}
+:root[data-theme="dark"] .project-card--chainflow .project-thumbnail__orb {
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.44) 0%,
+    rgba(14, 165, 233, 0.22) 50%,
+    transparent 70%
+  );
+}
+
 .project-card--lendloop .project-thumbnail {
   background:
     radial-gradient(ellipse 85% 70% at 85% 15%, rgba(245, 158, 11, 0.16), transparent 70%),
